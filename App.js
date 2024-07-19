@@ -5,24 +5,17 @@
  * @format
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  useColorScheme,
-} from 'react-native';
-
-import {
-  Colors,
-
-} from 'react-native/Libraries/NewAppScreen';
-
+import React, {useEffect} from 'react';
+import {Platform, SafeAreaView} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 function App() {
-
-  return (
-    <SafeAreaView>
-    </SafeAreaView>
-  );
+  useEffect(() => {
+    if (Platform.OS === 'android' || Platform.OS === 'ios') {
+      SplashScreen.hide();
+    }
+  }, []);
+  return <SafeAreaView style={{flex: 1}}></SafeAreaView>;
 }
 
 export default App;
