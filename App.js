@@ -6,8 +6,13 @@
  */
 
 import React, {useEffect} from 'react';
-import {Platform, SafeAreaView} from 'react-native';
+import {Platform} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import {NavigationContainer} from '@react-navigation/native';
+
+import './src/localization/i18n';
+import 'react-native-gesture-handler';
+import MyStack from './src/navigation/stack/StackNavigator';
 
 function App() {
   useEffect(() => {
@@ -15,7 +20,11 @@ function App() {
       SplashScreen.hide();
     }
   }, []);
-  return <SafeAreaView style={{flex: 1}}></SafeAreaView>;
+  return (
+    <NavigationContainer>
+      <MyStack />
+    </NavigationContainer>
+  );
 }
 
 export default App;

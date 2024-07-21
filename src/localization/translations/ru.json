@@ -1,0 +1,50 @@
+{
+    "language": "Russian",
+    "screens": {
+        "first": {
+            "design": "Дизайн",
+            "systeam": "Система",
+            "text": "Полностью закодированные компоненты React Native."
+        },
+        "onBoarding": {
+            "item1": {
+                "title": "Lorem Ipsum - это просто фиктивный текст полиграфической и наборной индустрии. Lorem Ipsum был стандартным фиктивным текстом отрасли с 1500-х годов"
+            },
+            "item2": {
+                "title": "Lorem Ipsum - это просто фиктивный текст полиграфической и наборной индустрии."
+            },
+            "item3": {
+                "title": "Lorem Ipsum - это просто фиктивный текст полиграфической и наборной индустрии. Lorem Ipsum был стандартным фиктивным текстом отрасли с 1500-х годов"
+            },
+            "getStarted": "Начать",
+            "close": "Закрыть"
+        },
+        "signIn": {
+            "title": "Войти",
+            "text": {
+                "signIn": "Войти",
+                "email": "Эл. почта",
+                "password": "Пароль",
+                "signInWith": "Войти с",
+                "orSignInWithCredentials": "Или войдите с учетными данными",
+                "invalidEmailOrPassword": "Неправильный адрес электронной почты или пароль"
+            }
+        },
+        "home": {
+            "title": "Главная",
+            "text": {
+                "whatAreYouLookingFor": "Что вы ищете?",
+                "viewArticle": "Посмотреть статью"
+            }
+        },
+        "profile": {
+            "title": "Профиль",
+            "text": {}
+        },
+        "settings": {
+            "title": "Настройки",
+            "text": {
+            }
+        }
+    }
+}

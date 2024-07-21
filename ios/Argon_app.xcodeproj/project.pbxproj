@@ -15,6 +15,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B9C955AA1F3F5C51C2B63935 /* libPods-Argon_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F69B87C4F4ADBC9C481FDB /* libPods-Argon_app.a */; };
 		EB2799926B68F7BBA3947465 /* libPods-Argon_app-Argon_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A34FD00647EF4A11192D7F /* libPods-Argon_app-Argon_appTests.a */; };
+		EE4E58852DF2426DA0416124 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61BDF1B6B98145FF827B91E3 /* OpenSans-VariableFont_wdth,wght.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		16A34FD00647EF4A11192D7F /* libPods-Argon_app-Argon_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Argon_app-Argon_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BEA70EFAC5B832E07FFA08A /* Pods-Argon_app-Argon_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Argon_app-Argon_appTests.release.xcconfig"; path = "Target Support Files/Pods-Argon_app-Argon_appTests/Pods-Argon_app-Argon_appTests.release.xcconfig"; sourceTree = "<group>"; };
 		491D0DC505B2DC37F742C91D /* Pods-Argon_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Argon_app.debug.xcconfig"; path = "Target Support Files/Pods-Argon_app/Pods-Argon_app.debug.xcconfig"; sourceTree = "<group>"; };
+		61BDF1B6B98145FF827B91E3 /* OpenSans-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-VariableFont_wdth,wght.ttf"; path = "../src/assets/fonts/OpenSans-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Argon_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA36A0622014F0A64FC014CB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Argon_app/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B234622206C038B37B178312 /* Pods-Argon_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Argon_app.release.xcconfig"; path = "Target Support Files/Pods-Argon_app/Pods-Argon_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		80E7D3BE1F254D968AEB353E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				61BDF1B6B98145FF827B91E3 /* OpenSans-VariableFont_wdth,wght.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +137,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				80E7D3BE1F254D968AEB353E /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -249,6 +260,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				53A8FFD734F316672B696B4F /* PrivacyInfo.xcprivacy in Resources */,
+				EE4E58852DF2426DA0416124 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

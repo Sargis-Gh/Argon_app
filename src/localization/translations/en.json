@@ -1,0 +1,51 @@
+{
+    "language": "English",
+    "screens": {
+        "first": {
+            "design": "Design",
+            "systeam": "Systeam",
+            "text": "Fully coded React Native components."
+        },
+        "onBoarding": {
+            "item1": {
+                "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+            },
+            "item2": {
+                "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+            },
+            "item3": {
+                "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"
+            },
+            "getStarted": "Get Started",
+            "close": "Close"
+        },
+        "signIn": {
+            "title": "Sign in",
+            "text": {
+                "signIn": "Sign In",
+                "email": "Email",
+                "password": "Password",
+                "signInWith": "Sign in with",
+                "orSignInWithCredentials": "Or sign in with credentials",
+                "invalidEmailOrPassword": "Invalid email or password"
+            }
+        },
+        "home": {
+            "title": "Home",
+            "text": {
+                "whatAreYouLookingFor": "What are you looking for?",
+                "viewArticle": "View article"
+            }
+        },
+        "profile": {
+            "title": "Profile",
+            "text": {
+            }
+        },
+        "settings": {
+            "title": "Settings",
+            "text": {
+            }
+        }
+    }
+}
