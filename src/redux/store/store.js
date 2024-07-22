@@ -1,12 +1,19 @@
-import { createStore, combineReducers } from 'redux';
-import appReducer from '../reducer/authReducer';
-import navigationReducer from '../reducer/navigationReducer';
 
-const rootReducer = combineReducers({
-    navigation: navigationReducer,
-    appReducer: appReducer
-});
+import * as reduxModule from "redux";
 
-const store = createStore(rootReducer);
+import thunk from "redux-thunk";
+import reducers from "../reducer/index";
+import { applyMiddleware, compose, createStore } from "redux";
 
-export default store;
+reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = "@@redux/INIT";
+
+const composeEnhancers =
+    process.env.NODE_ENV !== "production" &&
+        typeof window === 'object' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+        : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+export default createStore(reducers, enhancer);

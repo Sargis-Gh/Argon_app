@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { Image } from 'react-native'
 
 export const Cards = {

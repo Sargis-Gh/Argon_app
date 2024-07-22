@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 import styles from './style'
+import { t } from '../../../../localization/i18n'
 
 class OnboardingButtons extends React.Component {
     handleButtonClick = async () => {
@@ -14,7 +15,7 @@ class OnboardingButtons extends React.Component {
         } catch (e) {}
     }
     render() {
-        const {t, navigation} = this.props
+        const { navigation} = this.props
         return (
             <View style={styles.background}>
                 <TouchableOpacity

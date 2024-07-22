@@ -7,13 +7,26 @@ import Tabs from '../tabs/tabs'
 
 const Drawer = createDrawerNavigator()
 
+// class DrawerNavigator extends React.Component {
+//     render() {
+//         return (
+//             <Drawer.Navigator
+//                 screenOptions={{ headerShown: false }}
+//                 initialRouteName={PageName.tabs}>
+//                 <Drawer.Screen name={PageName.tabs} component={Tabs} />
+//                 <Drawer.Screen name={PageName.settings} component={SettingsScreen} />
+//             </Drawer.Navigator>
+//         )
+//     }
+// }
+
 class DrawerNavigator extends React.Component {
     render() {
         return (
             <Drawer.Navigator
                 screenOptions={{ headerShown: false }}
                 initialRouteName={PageName.tabs}>
-                <Drawer.Screen name={PageName.tabs} component={Tabs} />
+                <Drawer.Screen name={PageName.home} component={HomeScreen} />
                 <Drawer.Screen name={PageName.settings} component={SettingsScreen} />
             </Drawer.Navigator>
         )

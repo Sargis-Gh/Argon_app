@@ -11,12 +11,15 @@ import SplashScreen from 'react-native-splash-screen'
 import { Provider } from 'react-redux'
 import store from './src/redux/store/store'
 
-import './src/localization/i18n'
+
 import 'react-native-gesture-handler'
 import AppNavigator from './src/navigation/navigator'
+import { detectAndInitializeLanguage } from './src/localization/i18n'
 
 function App() {
+
     useEffect(() => {
+        detectAndInitializeLanguage();
         if (Platform.OS === 'android' || Platform.OS === 'ios') {
             SplashScreen.hide()
         }

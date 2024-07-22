@@ -6,9 +6,9 @@ import { navigateToHome } from '../../../../redux/action/navigate'
 import SingInButton from '../signInButton/SignInButton'
 import CustomTextInput from '../../../../components/textInput/TextInput'
 import { AppWords, Icons, PageName } from '../../../../constants/constants'
-import { withTranslation } from 'react-i18next'
 import styles from './style'
 import Error from '../error/Error'
+import { t } from '../../../../localization/i18n'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -40,7 +40,6 @@ class LoginForm extends React.Component {
 
     render() {
         const { email, password, error } = this.state
-        const { t } = this.props
 
         return (
             <View style={styles.loginForm}>
@@ -58,7 +57,7 @@ class LoginForm extends React.Component {
                     onChangeText={(text) => this.setState({ password: text })}
                 />
                 {error ? <Error error={error} /> : null}
-                <SingInButton onPress={this.handleSignIn} t={t} />
+                <SingInButton onPress={this.handleSignIn} />
             </View>
         )
     }
@@ -74,4 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
     signInFailure,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(LoginForm))
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

@@ -1,52 +1,38 @@
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { en, ru } from './translations/index'
+import i18next from 'i18next'
 
-const STORE_LANGUAGE_KEY = 'settings.lang'
-
-const languageDetectorPlugin = {
-    type: 'languageDetector',
-    async: true,
-    init: () => {},
-    detect: async function (callback) {
-        try {
-            // get stored language from Async storage
-            // put your own language detection logic here
-            await AsyncStorage.getItem(STORE_LANGUAGE_KEY).then((language) =>
-                callback(language || 'en'),
-            )
-        } catch (error) {
-            console.log('Error reading language', error)
-        }
-    },
-    cacheUserLanguage: async function (language) {
-        try {
-            // save a user's language choice in Async storage
-            await AsyncStorage.setItem(STORE_LANGUAGE_KEY, language)
-        } catch (error) {}
-    },
-}
+import { EnLanguageResources } from './translations/en'
+import { RuLanguageResources } from './translations/ru'
 
 const resources = {
-    en: {
-        translation: en,
-    },
-    ru: {
-        translation: ru,
-    },
+    'en-US': EnLanguageResources,
+    'ru-RU': RuLanguageResources,
 }
 
-i18n.use(initReactI18next)
-    .use(languageDetectorPlugin)
-    .init({
-        resources,
+const setI18nConfig = (currentLocale = 'ru-RU') => {
+    i18n.init({
         compatibilityJSON: 'v3',
-        // fallback language is set to english
-        fallbackLng: 'en',
-        interpolation: {
-            escapeValue: false,
-        },
+        fallbackLng: 'en-US',
+        lng: currentLocale,
+        debug: true,
+        resources,
+        returnObjects: true,
     })
+}
+
+export const detectAndInitializeLanguage = () => {
+    // If App local language is missing we need to detect device language and set it as default
+    // If App local language already initialized we need use it
+    // setI18nConfig(localLanguage || detectedLanguage);
+    setI18nConfig()
+}
+
+export const changeLanguage = (currentLocale = 'en') => {
+    i18next.t(currentLocale)
+}
+
+export function t(name, key = 'ns', params = {}) {
+    return i18next.t(name, { ...params, ns: key })
+}
 
 export default i18n

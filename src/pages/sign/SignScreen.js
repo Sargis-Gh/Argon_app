@@ -1,5 +1,4 @@
 import React from 'react'
-import { withTranslation } from 'react-i18next'
 // import { useSelector, useDispatch } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import { Text, View, SafeAreaView } from 'react-native'
@@ -18,6 +17,7 @@ import { connect } from 'react-redux'
 import { signInSuccess, signInFailure } from '../../redux/action/auth'
 import { navigateToHome } from '../../redux/action/navigate'
 import LoginForm from './components/loginForm/LoginForm'
+import { t } from '../../localization/i18n'
 
 class SignScreen extends React.Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class SignScreen extends React.Component {
     }
 
     render() {
-        const { t, navigation } = this.props
+        const { navigation } = this.props
         return (
             <LinearGradient
                 colors={['rgba(23, 43, 77, 1)', 'rgba(26, 23, 77, 1)']}
@@ -35,7 +35,7 @@ class SignScreen extends React.Component {
                 <SafeAreaView>
                     <View style={styles.background}>
                         <AppBar text={t(AppWords.signIn)} pageName={PageName.drawer} />
-                        <Body t={t} />
+                        <Body />
                     </View>
                 </SafeAreaView>
             </LinearGradient>
@@ -48,11 +48,11 @@ class Body extends React.Component {
     }
 
     render() {
-        const { t, navigation } = this.props
+        const { navigation } = this.props
         return (
             <View style={styles.body}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.signUpWith}>{t(AppWords.signInWith)}</Text>
+                    <Text style={styles.signUpWith}>{t(AppWords.signInWith, 'global')}</Text>
                     <View style={styles.buttons}>
                         <SignWithButton text={AppWords.gitHub} Icon={<Icons.gitHub />} />
                         <SignWithButton text={AppWords.google} Icon={<Icons.google />} />
@@ -60,11 +60,11 @@ class Body extends React.Component {
                 </View>
                 <View style={styles.bottomContainer}>
                     <Text style={styles.signUpWith}>{t(AppWords.orSignInWithCredentials)}</Text>
-                    <LoginForm t={t} />
+                    {/* <LoginForm/> */}
                 </View>
             </View>
         )
     }
 }
 
-export default (withTranslation()(SignScreen))
+export default SignScreen;
