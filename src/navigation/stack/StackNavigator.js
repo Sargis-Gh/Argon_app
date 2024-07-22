@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
-// import {useDispatch, useSelector} from 'react-redux';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { PageName } from '../../constants/constants'
-import SignScreen from '../../pages/sign/SignScreen'
+import SignScreen from '../../pages/signIn/SignScreen'
 
-import { Text, SafeAreaView, View } from 'react-native'
 // import Tabs from '../tabs/tabs'
 import DrawerNavigator from '../drawer/Drawer'
-import IntroSlider from '../../pages/onboarding/components/OnboardingScreen'
+import OnBoarding from '../../pages/onboarding/OnboardingScreen'
 import BottomTabAuthNavigator from '../tabs/tabs'
 
 const Stack = createStackNavigator()
@@ -38,14 +35,38 @@ const StackNavigation = () => {
             screenOptions={{
                 headerShown: false,
             }}
-            initialRouteName={PageName.home}>
-            <Stack.Screen name={PageName.intro} component={IntroSlider} />
-            <Stack.Screen name={PageName.sign} component={SignScreen} />
-            {/* <Stack.Screen name={PageName.drawer} component={DrawerNavigator} /> */}
+            initialRouteName={PageName.onBoarding}>
             <Stack.Screen
-                name={'Home'}
+                name={PageName.onBoarding}
+                component={OnBoarding}
+                options={({ navigation }) => ({
+                    onBoardingScreenProps: { navigation },
+                })}
+            />
+            <Stack.Screen
+                name={PageName.sign}
+                component={SignScreen}
+                options={({ navigation }) => ({
+                    signScreenProps: { navigation },
+                    gestureEnabled: false,
+                })}
+            />
+            {/* <Stack.Screen
+                name={PageName.drawer}
+                component={DrawerNavigator}
+                options={({ navigation }) => ({
+                    DrawerScreenProps: { navigation },
+                    gestureEnabled: false,
+                })}
+            /> */}
+            <Stack.Screen
+                name={PageName.tabs}
                 component={BottomTabAuthNavigator}
                 // options={{ animation: Animations.none }}
+                options={({ navigation }) => ({
+                    DrawerScreenProps: { navigation },
+                    gestureEnabled: false,
+                })}
             />
             {/* <Stack.Screen name={PageName.loading} component={LoadingScreen} /> */}
         </Stack.Navigator>

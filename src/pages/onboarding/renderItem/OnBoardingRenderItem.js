@@ -4,7 +4,7 @@ import { Text, View, Image } from 'react-native'
 
 class OnBoardingRenderItem extends React.Component {
     render() {
-        const {item} = this.props
+        const { item } = this.props
         return (
             <View style={styles.slide}>
                 <Image source={item.image} style={{ width: '100%' }} />
@@ -15,4 +15,4 @@ class OnBoardingRenderItem extends React.Component {
     }
 }
 
-export default OnBoardingRenderItem;
+export default OnBoardingRenderItem

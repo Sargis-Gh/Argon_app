@@ -4,26 +4,15 @@ import LinearGradient from 'react-native-linear-gradient'
 import { Text, View, SafeAreaView } from 'react-native'
 
 import styles from './style'
-import Error from './components/error/Error'
 import AppBar from '../../components/appBar/AppBar'
-import SingInButton from './components/signInButton/SignInButton'
-import CustomTextInput from '../../components/textInput/TextInput'
 import { AppWords, Icons, PageName } from '../../constants/constants'
 import SignWithButton from './components/signWithButton/SignWithButton'
 // import { setEmail, setPassword, setError, clearError } from '../../redux/sore'
 // import { googleAnalytics } from '../../utils/analytics'
-
-import { connect } from 'react-redux'
-import { signInSuccess, signInFailure } from '../../redux/action/auth'
-import { navigateToHome } from '../../redux/action/navigate'
-import LoginForm from './components/loginForm/LoginForm'
 import { t } from '../../localization/i18n'
+import LoginForm from './components/loginForm/LoginForm'
 
 class SignScreen extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const { navigation } = this.props
         return (
@@ -34,8 +23,12 @@ class SignScreen extends React.Component {
             >
                 <SafeAreaView>
                     <View style={styles.background}>
-                        <AppBar text={t(AppWords.signIn)} pageName={PageName.drawer} />
-                        <Body />
+                        {/* <AppBar
+                            text={t(AppWords.signIn, 'global')}
+                            pageName={PageName.tabs}
+                            navigation={navigation}
+                        /> */}
+                        <Body navigation={navigation}/>
                     </View>
                 </SafeAreaView>
             </LinearGradient>
@@ -43,10 +36,6 @@ class SignScreen extends React.Component {
     }
 }
 class Body extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const { navigation } = this.props
         return (
@@ -59,12 +48,14 @@ class Body extends React.Component {
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
-                    <Text style={styles.signUpWith}>{t(AppWords.orSignInWithCredentials)}</Text>
-                    {/* <LoginForm/> */}
+                    <Text style={styles.signUpWith}>
+                        {t(AppWords.orSignInWithCredentials, 'global')}
+                    </Text>
+                    <LoginForm navigation={navigation}/>
                 </View>
             </View>
         )
     }
 }
 
-export default SignScreen;
+export default SignScreen

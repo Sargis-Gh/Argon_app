@@ -23,7 +23,7 @@ export const PageName = {
     loading: 'Loading',
     profile: 'Profile',
     first: 'First Page',
-    sign: 'Sign Screen',
+    sign: 'Sign In',
     settings: 'Settings',
     favorites: 'favorites',
     onBoarding: 'OnBoarding',

@@ -5,13 +5,6 @@ import { connect } from "react-redux";
 import { activeTabName } from "../../redux/action/activeTabName";
 
 class FavoritesScreen extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount(){
-        this.props.setActiveTabName('Favorites')
-    }
     render() {
         return (
             <View style={styles.background}>

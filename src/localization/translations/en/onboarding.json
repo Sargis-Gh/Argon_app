@@ -1,12 +1,12 @@
 {
     "item1": {
-        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        "title": "Page 1"
     },
     "item2": {
-        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        "title": "Page 2"
     },
     "item3": {
-        "title": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy"
+        "title": "Page 3"
     },
     "getStarted": "Get Started",
     "close": "Close"

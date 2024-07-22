@@ -5,16 +5,7 @@ import { connect } from 'react-redux'
 import { activeTabName } from '../../redux/action/activeTabName'
 
 class HomeScreen extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-    componentDidUpdate(){
-        const {activeTabName} = this.props;
-        console.log('HomeScreen', 'componentDidMount=',activeTabName);
-    }
     render() {
-        const {activeTabName} = this.props;
-        console.log('HomeScreen', '111activeTabName=',activeTabName);
         return (
             <View style={styles.background}>
                 <Text>Home</Text>

@@ -4,8 +4,10 @@ import { AppColors, Fonts, Position } from '../../constants/constants';
 const styles = StyleSheet.create({
   background: {
     rowGap: 70,
-    padding: 30,
+    padding: 20,
     height: Position.fullSize,
+    alignItems: Position.center,
+    justifyContent: Position.center,
   },
   body: {
     borderRadius: 5,

@@ -1,18 +1,17 @@
 import React from 'react'
 import AppIntroSlider from 'react-native-app-intro-slider'
-import { Text, TouchableOpacity, View, Image } from 'react-native'
-import { introData } from '../../../data/data'
-import styles from '../renderItem/style'
-import OnBoardingRenderItem from '../renderItem/OnBoardingRenderItem'
-import OnboardingButtons from './Buttons/OnBoardingButtons'
-import { t } from '../../../localization/i18n'
+import { View } from 'react-native'
+import { introData } from '../../data/data'
+import OnBoardingRenderItem from './renderItem/OnBoardingRenderItem'
+import OnboardingButtons from './components/Buttons/OnBoardingButtons'
+import { t } from '../../localization/i18n'
 
 class IntroSlider extends React.Component {
     _renderItem = ({ item }) => <OnBoardingRenderItem item={item} />
     render() {
         const OnBoardingData = introData.map((item) => ({
             ...item,
-            title: t(item.title),
+            title: t(item.title, 'onboarding'),
         }))
         return (
             <AppIntroSlider
@@ -27,14 +26,15 @@ class IntroSlider extends React.Component {
     }
 }
 
-class Slider extends React.Component {
+class OnBoarding extends React.Component {
     render() {
+        const { navigation } = this.props
         return (
             <View style={{ flex: 1 }}>
                 <IntroSlider />
-                <OnboardingButtons />
+                <OnboardingButtons navigation={navigation} />
             </View>
         )
     }
 }
-export default Slider
+export default OnBoarding

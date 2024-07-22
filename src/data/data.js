@@ -27,19 +27,19 @@ export const Cards = {
 export const introData = [
     {
         key: 'one',
-        title: 'screens.onBoarding.item1.title',
+        title: 'item1.title',
         text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         image: require('../assets/images/onBoarding/img_1.jpg'),
     },
     {
         key: 'two',
-        title: 'screens.onBoarding.item2.title',
+        title: 'item2.title',
         text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         image: require('../assets/images/onBoarding/img_2.jpg'),
     },
     {
         key: 'tree',
-        title: 'screens.onBoarding.item3.title',
+        title: 'item3.title',
         text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         image: require('../assets/images/onBoarding/img_3.jpg'),
     },
