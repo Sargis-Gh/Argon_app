@@ -12,8 +12,8 @@ class DrawerNavigator extends React.Component {
         return (
             <Drawer.Navigator
                 screenOptions={{ headerShown: false }}
-                initialRouteName={PageName.home}>
-                <Drawer.Screen name={PageName.home} component={Tabs} />
+                initialRouteName={PageName.tabs}>
+                <Drawer.Screen name={PageName.tabs} component={Tabs} />
                 <Drawer.Screen name={PageName.settings} component={SettingsScreen} />
             </Drawer.Navigator>
         )

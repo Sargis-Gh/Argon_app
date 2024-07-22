@@ -25,37 +25,26 @@ export const Cards = {
     ],
 }
 
-export const OnBoardingData = () => {
-    const { t } = useTranslation()
-    return [
-        {
-            // _id: '1',
-            // backgroundColor: '#fff',
-            // image: (
-            //     <Image
-            //         source={require('../assets/images/onBoarding/img_1.jpg')}
-            //         style={{ width: 300, height: 300 }}
-            //     />
-            // ),
-            title: t('screens.onBoarding.item1.title'),
-            subtitle:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-            imageUri: Image.resolveAssetSource(require('../assets/images/onBoarding/img_1.jpg')).uri,
-        },
-        // {
-        //     _id: '2',
-        //     title: t('screens.onBoarding.item2.title'),
-        //     description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        //     image: require('../assets/images/onBoarding/img_2.jpg'),
-        // },
-        // {
-        //     _id: '3',
-        //     title: t('screens.onBoarding.item3.title'),
-        //     image: require('../assets/images/onBoarding/img_3.jpg'),
-        //     description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        // },
-    ]
-}
+export const introData = [
+    {
+        key: 'one',
+        title: 'screens.onBoarding.item1.title',
+        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        image: require('../assets/images/onBoarding/img_1.jpg'),
+    },
+    {
+        key: 'two',
+        title: 'screens.onBoarding.item2.title',
+        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        image: require('../assets/images/onBoarding/img_2.jpg'),
+    },
+    {
+        key: 'tree',
+        title: 'screens.onBoarding.item3.title',
+        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        image: require('../assets/images/onBoarding/img_3.jpg'),
+    },
+]
 
 export const guestUser = {
     name: 'Guest',

@@ -18,6 +18,7 @@ export const PageName = {
     qr: 'QR',
     tabs: 'Tabs',
     home: 'Home',
+    intro: 'Intro',
     drawer: 'Drawer',
     loading: 'Loading',
     profile: 'Profile',

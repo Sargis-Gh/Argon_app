@@ -7,7 +7,6 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import FavoritesScreen from '../../pages/favorites/FavoritesScreen'
 import QRScreen from '../../pages/QR/QRScreen'
 import React from 'react'
-import DrawerNavigator from '../drawer/Drawer'
 
 const Tab = createBottomTabNavigator()
 
@@ -20,9 +19,9 @@ class Tabs extends React.Component {
                     tabBarStyle: {
                         backgroundColor: AppColors.white,
                     },
-                    tabBarBackground: () => {
-                        ;<View style={{ backgroundColor: AppColors.white }}></View>
-                    },
+                    tabBarBackground: () => (
+                        <View style={{ backgroundColor: AppColors.white }}></View>
+                    ),
                 }}>
                 <Tab.Screen
                     name={PageName.home}

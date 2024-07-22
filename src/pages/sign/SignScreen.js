@@ -1,7 +1,6 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 // import { useSelector, useDispatch } from 'react-redux'
-import { NavigationContext } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { Text, View, SafeAreaView } from 'react-native'
 
@@ -15,13 +14,18 @@ import SignWithButton from './components/signWithButton/SignWithButton'
 // import { setEmail, setPassword, setError, clearError } from '../../redux/sore'
 // import { googleAnalytics } from '../../utils/analytics'
 
+import { connect } from 'react-redux'
+import { signInSuccess, signInFailure } from '../../redux/action/auth'
+import { navigateToHome } from '../../redux/action/navigate'
+import LoginForm from './components/loginForm/LoginForm'
+
 class SignScreen extends React.Component {
     constructor(props) {
         super(props)
     }
 
     render() {
-        const { t } = this.props
+        const { t, navigation } = this.props
         return (
             <LinearGradient
                 colors={['rgba(23, 43, 77, 1)', 'rgba(26, 23, 77, 1)']}
@@ -44,7 +48,7 @@ class Body extends React.Component {
     }
 
     render() {
-        const { t } = this.props
+        const { t, navigation } = this.props
         return (
             <View style={styles.body}>
                 <View style={styles.headerContainer}>
@@ -63,49 +67,4 @@ class Body extends React.Component {
     }
 }
 
-class LoginForm extends React.Component {
-    static contextType = NavigationContext
-
-    constructor(props) {
-        super(props)
-        this.handleLogin = this.handleLogin.bind(this)
-    }
-
-    handleLogin() {
-        const { email, password, dispatch, t } = this.props
-        const navigation = this.context
-
-        if (email === 'test@example.com' && password === 'password') {
-            dispatch(clearError())
-            navigation.navigate(PageName.loading)
-        } else {
-            dispatch(setError(t(AppWords.invalidEmailOrPassword)))
-        }
-    }
-
-    render() {
-        const { email, password, error, t, dispatch } = this.props
-
-        return (
-            <View style={styles.loginForm}>
-                <CustomTextInput
-                    Icon={<Icons.mail />}
-                    value={email}
-                    placeholderText={t(AppWords.email)}
-                    onChangeText={(text) => dispatch(setEmail(text))}
-                />
-                <CustomTextInput
-                    Icon={<Icons.password />}
-                    value={password}
-                    secureTextEntry={true}
-                    placeholderText={t(AppWords.password)}
-                    onChangeText={(text) => dispatch(setPassword(text))}
-                />
-                {error ? <Error error={error} /> : null}
-                <SingInButton onPress={this.handleLogin} t={t} />
-            </View>
-        )
-    }
-}
-
-export default withTranslation()(SignScreen)
+export default (withTranslation()(SignScreen))
