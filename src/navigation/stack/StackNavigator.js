@@ -8,6 +8,9 @@ import OnBoarding from '../../pages/onboarding/OnboardingScreen'
 
 const Stack = createStackNavigator()
 
+/*
+ * Add loading screen
+ */
 const StackNavigation = () => {
     return (
         <Stack.Navigator
