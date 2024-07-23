@@ -1,0 +1,11 @@
+{
+    "title": "Sign in",
+    "text": {
+        "signIn": "Sign In",
+        "email": "Email",
+        "password": "Password",
+        "signInWith": "Sign in with",
+        "orSignInWithCredentials": "Or sign in with credentials",
+        "invalidEmailOrPassword": "Invalid email or password"
+    }
+}
