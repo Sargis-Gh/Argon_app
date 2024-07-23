@@ -4,19 +4,20 @@ import { NativeModules, Platform } from 'react-native';
 
 import { EnLanguageResources } from './translations/en';
 import { RuLanguageResources } from './translations/ru';
+import { LanguageLocalizationKey, PlatformName } from '../constants/constants';
 
 const resources = {
-  'en-US': EnLanguageResources,
-  'ru-RU': RuLanguageResources,
+    [LanguageLocalizationKey.en_US]: EnLanguageResources,
+    [LanguageLocalizationKey.ru_RU]: RuLanguageResources,
 };
 
-const setI18nConfig = (currentLocale = 'en-US') => {
+const setI18nConfig = (currentLocale = LanguageLocalizationKey.en_US) => {
   if (!i18n.isInitialized) {
     i18n
-      .use(initReactI18next) // passes i18n down to react-i18next
+      .use(initReactI18next)
       .init({
         compatibilityJSON: 'v3',
-        fallbackLng: 'en-US',
+        fallbackLng: LanguageLocalizationKey.en_US,
         lng: currentLocale,
         debug: true,
         resources,
@@ -28,25 +29,25 @@ const setI18nConfig = (currentLocale = 'en-US') => {
 };
 
 const getDeviceLanguage = () => {
-  let deviceLanguage = 'en-US';
+  let deviceLanguage = LanguageLocalizationKey.en_US;
 
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === PlatformName.ios) {
     deviceLanguage = NativeModules.SettingsManager.settings.AppleLocale ||
                      NativeModules.SettingsManager.settings.AppleLanguages[0];
-  } else if (Platform.OS === 'android') {
+  } else if (Platform.OS === PlatformName.android) {
     deviceLanguage = NativeModules.I18nManager.localeIdentifier;
   }
 
-  return deviceLanguage.replace('_', '-'); // Ensure it uses the correct format
+  return deviceLanguage.replace('_', '-');
 };
 
 export const detectAndInitializeLanguage = () => {
   const deviceLanguage = getDeviceLanguage();
   const appLanguage = i18n.language || deviceLanguage;
-  setI18nConfig(appLanguage);
+  setI18nConfig(LanguageLocalizationKey.ru_RU);
 };
 
-export const changeLanguage = (currentLocale = 'en-US') => {
+export const changeLanguage = (currentLocale = LanguageLocalizationKey.en_US) => {
   i18n.changeLanguage(currentLocale);
 };
 

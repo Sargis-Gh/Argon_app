@@ -1,33 +1,30 @@
 import React from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
-import LinearGradient from 'react-native-linear-gradient'
 import { Text, View, SafeAreaView } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 
 import styles from './style'
-import AppBar from '../../components/appBar/AppBar'
-import { AppWords, Icons, PageName } from '../../constants/constants'
-import SignWithButton from './components/signWithButton/SignWithButton'
-// import { setEmail, setPassword, setError, clearError } from '../../redux/sore'
-// import { googleAnalytics } from '../../utils/analytics'
 import { t } from '../../localization/i18n'
+import AppBar from '../../components/appBar/AppBar'
 import LoginForm from './components/loginForm/LoginForm'
+import SignWithButton from './components/signWithButton/SignWithButton'
+import { AppColors, AppWords, Icons, LanguageLocalizationKey, PageName } from '../../constants/constants'
 
 class SignScreen extends React.Component {
     render() {
         const { navigation } = this.props
         return (
             <LinearGradient
-                colors={['rgba(23, 43, 77, 1)', 'rgba(26, 23, 77, 1)']}
-                start={{ x: 0, y: 0 }} // Start at the top-left corner
-                end={{ x: 1, y: 0 }} // End at the bottom-right corner
+                colors={[AppColors.lightBlue, AppColors.darkBlue]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
             >
                 <SafeAreaView>
                     <View style={styles.background}>
-                        {/* <AppBar
-                            text={t(AppWords.signIn, 'global')}
+                        <AppBar
+                            text={t('title', LanguageLocalizationKey.signIn)}
                             pageName={PageName.tabs}
                             navigation={navigation}
-                        /> */}
+                        />
                         <Body navigation={navigation}/>
                     </View>
                 </SafeAreaView>
@@ -41,7 +38,7 @@ class Body extends React.Component {
         return (
             <View style={styles.body}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.signUpWith}>{t(AppWords.signInWith, 'global')}</Text>
+                    <Text style={styles.signUpWith}>{t('text.signInWith', LanguageLocalizationKey.signIn)}</Text>
                     <View style={styles.buttons}>
                         <SignWithButton text={AppWords.gitHub} Icon={<Icons.gitHub />} />
                         <SignWithButton text={AppWords.google} Icon={<Icons.google />} />
@@ -49,7 +46,7 @@ class Body extends React.Component {
                 </View>
                 <View style={styles.bottomContainer}>
                     <Text style={styles.signUpWith}>
-                        {t(AppWords.orSignInWithCredentials, 'global')}
+                        {t('text.orSignInWithCredentials', LanguageLocalizationKey.signIn)}
                     </Text>
                     <LoginForm navigation={navigation}/>
                 </View>

@@ -25,7 +25,7 @@ export const PageName = {
     first: 'First Page',
     sign: 'Sign In',
     settings: 'Settings',
-    favorites: 'favorites',
+    favorites: 'Favorites',
     onBoarding: 'OnBoarding',
     universities: 'Universities',
 }
@@ -43,7 +43,8 @@ export const AppColors = {
     pink: 'rgb(229, 125, 222)',
     white: 'rgb(255, 255, 255)',
     grey: 'rgba(136, 152, 170, 1)',
-    darkBlue: 'rgba(23, 43, 77, 1)',
+    darkBlue: 'rgba(26, 23, 77, 1)',
+    lightBlue: 'rgba(23, 43, 77, 1)',
     titleColor: 'rgba(50, 50, 93, 1)',
     lightGrey: 'rgba(202, 209, 215, 1)',
     articleColor: 'rgba(94, 114, 228, 1)',
@@ -99,4 +100,19 @@ export const Position = {
     flexStart: 'flex-start',
     spaceAround: 'space-around',
     spaceBetween: 'space-between',
+}
+
+export const LanguageLocalizationKey = {
+    home: 'home',
+    en_US: 'en-US',
+    ru_RU: 'ru-RU',
+    signIn: 'signIn',
+    profile: 'profile',
+    settings: 'settings',
+    onboarding: 'onboarding',
+}
+
+export const PlatformName = {
+    ios: 'ios',
+    android: 'android',
 }

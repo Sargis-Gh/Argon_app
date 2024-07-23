@@ -3,32 +3,32 @@ import { AppColors, Fonts, Position } from "../../../../constants/constants";
 
 const styles = StyleSheet.create({
     background: {
+        rowGap: 10,
+        paddingBottom: 20,
         alignItems: Position.center,
         justifyContent: Position.center,
-        rowGap: 10,
         backgroundColor: AppColors.white,
-        paddingBottom: 20,
     },
     getStarted: {
-        backgroundColor: AppColors.titleColor,
-        borderRadius: 10,
         width: '70%',
-        alignItems: Position.center,
-        paddingVertical: 10,
+        borderRadius: 10,
         shadowRadius: 10,
         shadowOpacity: 0.7,
+        paddingVertical: 10,
+        alignItems: Position.center,
         shadowColor: AppColors.titleColor,
         shadowOffset: { width: 0, height: 3 },
+        backgroundColor: AppColors.titleColor,
     },
     getStartedText: {
+        fontSize: 18,
         color: AppColors.white,
         fontFamily: Fonts.openSans,
-        fontSize: 18,
     },
     closeText: {
-        color: AppColors.titleColor,
-        fontFamily: Fonts.openSans,
         fontSize: 18,
+        fontFamily: Fonts.openSans,
+        color: AppColors.titleColor,
     },
 })
 

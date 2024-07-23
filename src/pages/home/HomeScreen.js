@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import styles from './style'
 import { connect } from 'react-redux'
+import { View, Text } from 'react-native'
+
+import styles from './style'
 import { activeTabName } from '../../redux/action/activeTabName'
 
 class HomeScreen extends React.Component {

@@ -1,12 +1,15 @@
-import { StyleSheet, View } from 'react-native'
-import { AppColors, Fonts, Position } from '../../../constants/constants'
+import { StyleSheet } from 'react-native'
+import { AppColors, Fonts, Position } from '../../../../constants/constants'
 
 const styles = StyleSheet.create({
     slide: {
         flex: 1,
         alignItems: Position.center,
-        justifyContent: 'center',
+        justifyContent: Position.center,
         backgroundColor: AppColors.white,
+    },
+    image: {
+        width: Position.fullSize,
     },
     title: {
         fontSize: 20,
@@ -16,10 +19,10 @@ const styles = StyleSheet.create({
     subtitle: {
         padding: 16,
         fontSize: 15,
-        textAlign: Position.center,
         color: AppColors.grey,
         fontFamily: Fonts.openSans,
-    }
+        textAlign: Position.center,
+    },
 })
 
 export default styles
