@@ -1,13 +1,12 @@
 import React from 'react'
-import { View } from 'react-native'
-import { connect } from 'react-redux'
+import { View, TouchableOpacity, Text } from 'react-native'
 
 import styles from './style'
-import Error from '../error/Error'
 import { t } from '../../../../localization/i18n'
-import SingInButton from '../signInButton/SignInButton'
+import { Icons } from '../../../../constants/Icons'
 import CustomTextInput from '../../../../components/textInput/TextInput'
-import { Icons, LanguageLocalizationKey, PageName } from '../../../../constants/constants'
+import { LanguageLocalizationNSKey, PageName } from '../../../../constants/constants'
+import { navigationNavigate } from '../../../../navigation/navigation'
 
 class LoginForm extends React.Component {
     state = {
@@ -16,55 +15,56 @@ class LoginForm extends React.Component {
         error: '',
     }
 
-    handleSignIn = (navigation) => {
+    handleSignIn = () => {
         const { email, password } = this.state
+        const { navigation } = this.props
 
-        const correctEmail = 'Test'
-        const correctPassword = 'pass'
+        const correctEmail = 'email'
+        const correctPassword = 'password'
 
         if (email === correctEmail && password === correctPassword) {
-            navigation.navigate(PageName.tabs)
-        } else {
-            this.setState({ error: 'text.invalidEmailOrPassword' })
+            navigationNavigate(navigation, PageName.tabs)
+            return
         }
+        this.setState({ error: 'texts.invalidEmailOrPassword' })
+
+    }
+
+    renderSignInButton = () => {
+        return (
+            <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
+                <Text style={styles.signInText}>{t('title', LanguageLocalizationNSKey.signIn)}</Text>
+            </TouchableOpacity>
+        )
+    }
+
+    renderError = (error, localizationKey) => {
+        return <Text style={styles.field}>{t(error, localizationKey)}</Text>
     }
 
     render() {
         const { email, password, error } = this.state
-        const { navigation } = this.props
 
         return (
             <View style={styles.loginForm}>
                 <CustomTextInput
-                    Icon={<Icons.mail />}
+                    Icon={<Icons.Mail />}
                     value={email}
-                    placeholderText={t('text.email', LanguageLocalizationKey.signIn)}
+                    placeholderText={t('texts.email', LanguageLocalizationNSKey.signIn)}
                     onChangeText={(text) => this.setState({ email: text })}
                 />
                 <CustomTextInput
-                    Icon={<Icons.password />}
+                    Icon={<Icons.Password />}
                     value={password}
                     secureTextEntry={true}
-                    placeholderText={t('text.password', LanguageLocalizationKey.signIn)}
+                    placeholderText={t('texts.password', LanguageLocalizationNSKey.signIn)}
                     onChangeText={(text) => this.setState({ password: text })}
                 />
-                {error ? (
-                    <Error error={error} localizationKey={LanguageLocalizationKey.signIn} />
-                ) : null}
-                <SingInButton
-                    onPress={() => {
-                        this.handleSignIn(navigation)
-                    }}
-                />
+                {!!error && this.renderError(error, LanguageLocalizationNSKey.signIn)}
+                {this.renderSignInButton()}
             </View>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    authError: state.error,
-})
-
-const mapDispatchToProps = (dispatch) => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default LoginForm

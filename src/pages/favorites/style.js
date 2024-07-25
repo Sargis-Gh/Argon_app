@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
-import { AppColors, Position } from "../../constants/constants";
+import { Styles } from "../../constants/constants";
 
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        alignItems: Position.center,
-        backgroundColor: AppColors.grey,
-        justifyContent: Position.center,
+        alignItems: Styles.center,
+        backgroundColor: Styles.grey,
+        justifyContent: Styles.center,
     }
 })
 

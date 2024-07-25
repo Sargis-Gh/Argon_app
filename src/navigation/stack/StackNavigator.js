@@ -1,10 +1,10 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import BottomTabAuthNavigator from '../tabs/tabs'
 import { PageName } from '../../constants/constants'
 import SignScreen from '../../pages/signIn/SignScreen'
 import OnBoarding from '../../pages/onboarding/OnboardingScreen'
+import BottomTabAuthNavigator from '../bottomnavigationBar/BottomNavigationbar'
 
 const Stack = createStackNavigator()
 

@@ -1,28 +1,41 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import styles from './style'
 import { Text, View } from 'react-native'
+import { t } from '../../localization/i18n'
+import { Icons } from '../../constants/Icons'
 import DrawerNavigator from '../drawer/Drawer'
 import QRScreen from '../../pages/QR/QRScreen'
 import QRButton from '../../components/qrButton/QRButton'
 import ProfileScreen from '../../pages/profile/ProfileScreen'
 import FavoritesScreen from '../../pages/favorites/FavoritesScreen'
-import { AppColors, Icons, PageName } from '../../constants/constants'
 import UniversitiesScreen from '../../pages/universities/UniversitiesScreen'
+import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants'
 
 const Tab = createBottomTabNavigator()
 
 class BottomTabAuthNavigator extends React.Component {
+    renderTabBarLabel = (pageName, focused) => {
+        return (
+            <Text
+                style={{
+                    color: focused ? Styles.grey : Styles.articleColor,
+                }}>
+                {pageName}
+            </Text>
+        )
+    }
     render() {
         return (
             <Tab.Navigator
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: {
-                        backgroundColor: AppColors.white,
+                        backgroundColor: Styles.white,
                     },
                     tabBarBackground: () => (
-                        <View style={{ backgroundColor: AppColors.white }}></View>
+                        <View style={styles.tabBarBackground}></View>
                     ),
                 }}>
                 <Tab.Screen
@@ -30,15 +43,10 @@ class BottomTabAuthNavigator extends React.Component {
                     component={DrawerNavigator}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.home fill={focused ? AppColors.grey : AppColors.articleColor} />
+                            <Icons.Home fill={focused ? Styles.grey : Styles.articleColor} />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            <Text
-                                style={{
-                                    color: focused ? AppColors.grey : AppColors.articleColor,
-                                }}>
-                                {PageName.home}
-                            </Text>
+                            this.renderTabBarLabel(t('home', LanguageLocalizationNSKey.footerTab), focused)
                         ),
                     }}
                 />
@@ -47,17 +55,12 @@ class BottomTabAuthNavigator extends React.Component {
                     component={UniversitiesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.university
-                                fill={focused ? AppColors.grey : AppColors.articleColor}
+                            <Icons.University
+                                fill={focused ? Styles.grey : Styles.articleColor}
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            <Text
-                                style={{
-                                    color: focused ? AppColors.grey : AppColors.articleColor,
-                                }}>
-                                {PageName.universities}
-                            </Text>
+                            this.renderTabBarLabel(t('university', LanguageLocalizationNSKey.footerTab), focused)
                         ),
                     }}
                 />
@@ -73,17 +76,12 @@ class BottomTabAuthNavigator extends React.Component {
                     component={FavoritesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.favorite
-                                fill={focused ? AppColors.grey : AppColors.articleColor}
+                            <Icons.Favorite
+                                fill={focused ? Styles.grey : Styles.articleColor}
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            <Text
-                                style={{
-                                    color: focused ? AppColors.grey : AppColors.articleColor,
-                                }}>
-                                {PageName.favorites}
-                            </Text>
+                            this.renderTabBarLabel(t('favorite', LanguageLocalizationNSKey.footerTab), focused)
                         ),
                     }}
                 />
@@ -92,17 +90,12 @@ class BottomTabAuthNavigator extends React.Component {
                     component={ProfileScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.profile
-                                fill={focused ? AppColors.grey : AppColors.articleColor}
+                            <Icons.Profile
+                                fill={focused ? Styles.grey : Styles.articleColor}
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            <Text
-                                style={{
-                                    color: focused ? AppColors.grey : AppColors.articleColor,
-                                }}>
-                                {PageName.profile}
-                            </Text>
+                            this.renderTabBarLabel(t('profile', LanguageLocalizationNSKey.footerTab), focused)
                         ),
                     }}
                 />

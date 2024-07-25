@@ -1,5 +1,8 @@
 {
     "title": "Settings",
-    "text": {
+    "texts": {
+        "languages": "Languages",
+        "english": "English",
+        "russian": "Russian"
     }
 }
