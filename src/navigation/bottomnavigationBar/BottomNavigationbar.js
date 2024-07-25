@@ -46,7 +46,7 @@ class BottomTabAuthNavigator extends React.Component {
                             <Icons.Home fill={focused ? Styles.grey : Styles.articleColor} />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            this.renderTabBarLabel(t('home', LanguageLocalizationNSKey.footerTab), focused)
+                            this.renderTabBarLabel(t('home', LanguageLocalizationNSKey.bottomTab), focused)
                         ),
                     }}
                 />
@@ -60,7 +60,7 @@ class BottomTabAuthNavigator extends React.Component {
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            this.renderTabBarLabel(t('university', LanguageLocalizationNSKey.footerTab), focused)
+                            this.renderTabBarLabel(t('university', LanguageLocalizationNSKey.bottomTab), focused)
                         ),
                     }}
                 />
@@ -81,7 +81,7 @@ class BottomTabAuthNavigator extends React.Component {
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            this.renderTabBarLabel(t('favorite', LanguageLocalizationNSKey.footerTab), focused)
+                            this.renderTabBarLabel(t('favorite', LanguageLocalizationNSKey.bottomTab), focused)
                         ),
                     }}
                 />
@@ -95,7 +95,7 @@ class BottomTabAuthNavigator extends React.Component {
                             />
                         ),
                         tabBarLabel: ({ focused }) => (
-                            this.renderTabBarLabel(t('profile', LanguageLocalizationNSKey.footerTab), focused)
+                            this.renderTabBarLabel(t('profile', LanguageLocalizationNSKey.bottomTab), focused)
                         ),
                     }}
                 />

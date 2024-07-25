@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+
 import { DEVICE_SETTINGS, Styles } from '../../constants/constants'
 
 const styles = StyleSheet.create({
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
         backgroundColor: Styles.white,
     },
     getStarted: {
-        padding: 10,
+        padding: 8,
         borderRadius: 10,
         alignItems: Styles.center,
         backgroundColor: Styles.articleColor,

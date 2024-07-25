@@ -1,4 +1,4 @@
-import QR from '../assets/icons/qr'
+import QRIcon from '../assets/icons/qr'
 import Mail from '../assets/icons/mail'
 import Home from '../assets/icons/home'
 import Menu from '../assets/icons/menu'
@@ -15,11 +15,11 @@ import Password from '../assets/icons/password'
 import University from '../assets/icons/university'
 
 export const Icons = {
-    QR,
     Mail,
     Menu,
     Home,
     Left,
+    QRIcon,
     Google,
     GitHub,
     Verify,

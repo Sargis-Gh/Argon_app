@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+
 import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
   background: {
-    padding: 30,
+    padding: 32,
     height: Styles.fullSize,
   },
   body: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     lineHeight: 57,
     color: Styles.white,
     fontFamily: Styles.openSans,
-    fontWeight: Styles.weight700,
+    fontWeight: Styles.fontWeightBold,
   },
   signUpWith: {
     margin: 20,
@@ -62,13 +63,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
   },
   headerText: {
-    margin: 10,
+    margin: 8,
     fontSize: 14,
     lineHeight: 19,
     letterSpacing: 0.43,
-    fontFamily: Styles.openSans,
-    fontWeight: Styles.weight700,
     color: Styles.articleColor,
+    fontFamily: Styles.openSans,
+    fontWeight: Styles.fontWeightBold,
   },
 });
 

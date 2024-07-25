@@ -9,7 +9,7 @@ class QRButton extends React.Component {
         const { onPress } = this.props
         return (
             <TouchableOpacity activeOpacity={1} style={styles.touchableContent} onPress={onPress}>
-                <Icons.QR />
+                <Icons.QRIcon />
             </TouchableOpacity>
         )
     }

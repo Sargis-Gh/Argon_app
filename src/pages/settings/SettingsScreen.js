@@ -26,7 +26,9 @@ class SettingsScreen extends React.Component {
     }
 
     renderLoadingContent = () => (
-        <View style={styles.renderLoadingContent}><ActivityIndicator /></View>
+        <View style={styles.renderLoadingContent}>
+            <ActivityIndicator />
+        </View>
     )
 
     initData = async () => {

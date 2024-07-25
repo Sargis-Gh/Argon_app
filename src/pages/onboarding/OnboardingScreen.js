@@ -3,7 +3,7 @@ import AppIntroSlider from 'react-native-app-intro-slider'
 
 import styles from './style'
 import { t } from '../../localization/i18n'
-import { OnBoardingData } from '../../data/data'
+import { OnBoardingData } from '../../mockData/MockData'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import { DEVICE_SETTINGS, LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants'
 
@@ -45,7 +45,6 @@ class OnBoarding extends React.Component {
     )
 
     render() {
-        console.log(DEVICE_SETTINGS)
         return (
             <AppIntroSlider
                 ref={ref => this.aaaa = ref}

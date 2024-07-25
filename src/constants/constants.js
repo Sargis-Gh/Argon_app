@@ -5,11 +5,11 @@ export const PageName = {
     tabs: 'Tabs',
     home: 'Home',
     intro: 'Intro',
+    sign: 'Sign In',
     drawer: 'Drawer',
     loading: 'Loading',
     profile: 'Profile',
     first: 'First Page',
-    sign: 'Sign In',
     settings: 'Settings',
     favorites: 'Favorites',
     onBoarding: 'OnBoarding',
@@ -18,8 +18,15 @@ export const PageName = {
 
 export const Styles = {
     // Font Weihghts
-    weight700: '700',
-    weight600: '600',
+    fontWeightThin: '100', // Thin
+    fontWeightUltraLight: '200', // Ultra Light
+    fontWeightLight: '300', // Light
+    fontWeightRegular: '400', // Regular
+    fontWeightMedium: '500', // Medium
+    fontWeightSemibold: '600', // Semibold
+    fontWeightBold: '700', // Bold
+    fontWeightHeavy: '800', // Heavy
+    fontWeightBlack: '900', // Black
 
     // Font Families
     openSans: 'Open Sans',
@@ -52,12 +59,6 @@ export const Styles = {
     spaceAround: 'space-around',
     spaceBetween: 'space-between',
 
-    alignItems: {
-
-    },
-    justifyContent: {
-
-    },
     contentCenter: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -68,22 +69,6 @@ export const Styles = {
 export const AppWords = {
     google: 'GOOGLE',
     gitHub: 'GITHUB',
-    home: 'screens.home.title',
-    viewArticle: 'View article',
-    design: 'screens.first.design',
-    signIn: 'screens.signIn.title',
-    profile: 'screens.profile.title',
-    systeam: 'screens.first.systeam',
-    strongPassword: 'Strong password',
-    settings: 'screens.settings.title',
-    email: 'screens.signIn.text.email',
-    asyncStoreFirstOpenKey: 'isFirstOpen',
-    firstScreenText: 'screens.first.text',
-    password: 'screens.signIn.text.password',
-    signInWith: 'screens.signIn.text.signInWith',
-    whatAreYouLookingFor: 'screens.home.text.whatAreYouLookingFor',
-    invalidEmailOrPassword: 'screens.signIn.text.invalidEmailOrPassword',
-    orSignInWithCredentials: 'screens.signIn.text.orSignInWithCredentials',
 }
 
 export const LanguageLocalizationKey = {
@@ -96,7 +81,7 @@ export const LanguageLocalizationNSKey = {
     signIn: 'signIn',
     profile: 'profile',
     settings: 'settings',
-    footerTab: 'footerTab',
+    bottomTab: 'bottomTab',
     onboarding: 'onboarding',
     university: 'university',
 }
@@ -107,10 +92,10 @@ export const PlatformName = {
 }
 
 export const DEVICE_SETTINGS = {
-    windowHeight: Dimensions.get('window').height,
     windowWidth: Dimensions.get('window').width,
-    screenHeight: Dimensions.get('screen').height,
     screenWidth: Dimensions.get('screen').width,
+    screenHeight: Dimensions.get('screen').height,
+    windowHeight: Dimensions.get('window').height,
 }
 
 export const AsyncStorageKeys = {

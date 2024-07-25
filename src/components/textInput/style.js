@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native'
+
 import {  Styles } from '../../constants/constants'
 
 const styles = StyleSheet.create({
     background: {
         height: 46,
-        padding: 6,
+        padding: 4,
         borderRadius: 3,
         shadowRadius: 3,
         marginBottom: 20,

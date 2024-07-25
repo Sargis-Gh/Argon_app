@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     color: Styles.white,
     fontFamily: Styles.openSans,
-    fontWeight: Styles.weight700,
+    fontWeight: Styles.fontWeightSemibold,
   },
 });
 

@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         color: Styles.black,
         fontFamily: Styles.openSans,
-        fontWeight: Styles.weight600,
+        fontWeight: Styles.fontWeightSemibold,
     },
     buttons: {
-        padding: 2,
+        padding: 4,
         flexDirection: Styles.row,
     },
     languageButtoncontent: {
