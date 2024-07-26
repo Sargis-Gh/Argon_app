@@ -47,13 +47,13 @@ export const Styles = {
     articleColor: 'rgba(94, 114, 228, 1)',
     backgroundColor: 'rgb(243, 245, 251)',
     textInputGrey: 'rgba(173, 181, 189, 1)',
+    greyWithalpha: 'rgba(240, 239, 244, 0)',
     bottomContainerColor: 'rgb(244, 245, 247)',
+    containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
     row: 'row',
     center: 'center',
-    percent20: '20%',
-    percent90: '90%',
     fullSize: '100%',
     flexStart: 'flex-start',
     spaceAround: 'space-around',
@@ -100,4 +100,8 @@ export const DEVICE_SETTINGS = {
 
 export const AsyncStorageKeys = {
     language: 'language'
+}
+
+export const AppURL = {
+    universities: 'http://universities.hipolabs.com/search?country=United+States'
 }

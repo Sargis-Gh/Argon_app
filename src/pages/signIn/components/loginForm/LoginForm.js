@@ -19,7 +19,7 @@ class LoginForm extends React.Component {
         const { email, password } = this.state
         const { navigation } = this.props
 
-        const correctEmail = 'email'
+        const correctEmail = 'Email'
         const correctPassword = 'password'
 
         if (email === correctEmail && password === correctPassword) {

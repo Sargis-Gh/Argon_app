@@ -12,6 +12,7 @@ import Russia from '../assets/icons/russia'
 import Profile from '../assets/icons/profile'
 import Favorite from '../assets/icons/favorite'
 import Password from '../assets/icons/password'
+import Location from '../assets/icons/location'
 import University from '../assets/icons/university'
 
 export const Icons = {
@@ -29,5 +30,6 @@ export const Icons = {
     Profile,
     Favorite,
     Password,
+    Location,
     University,
 }
