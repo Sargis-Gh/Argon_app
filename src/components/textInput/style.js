@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
     },
     textInput: {
+        width: '90%',
         fontSize: 14,
         lineHeight: 19,
         marginLeft: 10,
-        width: Styles.percent90,
         height: Styles.fullSize,
         fontFamily: Styles.openSans,
         color: Styles.textInputGrey,

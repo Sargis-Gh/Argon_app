@@ -14,7 +14,7 @@ const StackNavigation = () => {
             screenOptions={{
                 headerShown: false,
             }}
-            initialRouteName={PageName.tabs}>
+            initialRouteName={PageName.onBoarding}>
             <Stack.Screen
                 name={PageName.onBoarding}
                 component={OnBoarding}
