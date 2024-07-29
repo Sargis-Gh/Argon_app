@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-import {  Styles } from '../../constants/constants'
+import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
-    background: {
+    container: {
         height: 46,
         padding: 4,
+        elevation: 3,
         borderRadius: 3,
         shadowRadius: 3,
         marginBottom: 20,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         fontFamily: Styles.openSans,
         color: Styles.textInputGrey,
         backgroundColor: Styles.white,
-    }
-})
+    },
+});
 
-export default styles
+export default styles;

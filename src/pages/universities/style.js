@@ -1,19 +1,10 @@
-import { StyleSheet } from "react-native";
-import { Styles } from "../../constants/constants";
+import { StyleSheet } from 'react-native';
+
+import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    header: {
-        padding: 8,
-        ...Styles.contentCenter,
-    },
-    headerText: {
-        fontSize: 20,
-        color: Styles.articleColor,
-        fontFamily: Styles.openSans,
-        fontWeight: Styles.fontWeightBold,
     },
     item: {
         padding: 8,
@@ -40,13 +31,17 @@ const styles = StyleSheet.create({
         alignItems: Styles.center,
     },
     countryName: {
-        color: Styles.grey
+        color: Styles.grey,
     },
     addToFavorites: {
         padding: 4,
         borderLeftWidth: 0.4,
         borderLeftColor: Styles.grey,
-    }
-})
+    },
+    loading: {
+        height: Styles.fullSize,
+        ...Styles.contentCenter,
+    },
+});
 
-export default styles
+export default styles;

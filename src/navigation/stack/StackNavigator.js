@@ -1,12 +1,12 @@
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { PageName } from '../../constants/constants'
-import SignScreen from '../../pages/signIn/SignScreen'
-import OnBoarding from '../../pages/onboarding/OnboardingScreen'
-import BottomTabAuthNavigator from '../bottomnavigationBar/BottomNavigationbar'
+import { PageName } from '../../constants/constants';
+import SignScreen from '../../pages/signIn/SignScreen';
+import Onboarding from '../../pages/onboarding/OnboardingScreen';
+import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 /*
  * Add loading screen
@@ -17,12 +17,12 @@ const StackNavigation = () => {
             screenOptions={{
                 headerShown: false,
             }}
-            initialRouteName={PageName.onBoarding}>
+            initialRouteName={PageName.onboarding}>
             <Stack.Screen
-                name={PageName.onBoarding}
-                component={OnBoarding}
+                name={PageName.onboarding}
+                component={Onboarding}
                 options={({ navigation }) => ({
-                    onBoardingScreenProps: { navigation },
+                    onboardingScreenProps: { navigation },
                 })}
             />
             <Stack.Screen
@@ -35,7 +35,7 @@ const StackNavigation = () => {
             />
             <Stack.Screen
                 name={PageName.tabs}
-                component={BottomTabAuthNavigator}
+                component={BottomTabNavigator}
                 options={({ navigation }) => ({
                     DrawerScreenProps: { navigation },
                     gestureEnabled: false,
@@ -43,7 +43,7 @@ const StackNavigation = () => {
             />
             {/* Loading Screen */}
         </Stack.Navigator>
-    )
-}
+    );
+};
 
-export default StackNavigation
+export default StackNavigation;

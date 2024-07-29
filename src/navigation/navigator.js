@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import MyStack from './stack/StackNavigator'
+import MyStack from './stack/StackNavigator';
+
 import { navigationRef } from './navigation';
 
 const AppNavigator = () => {
@@ -8,7 +9,7 @@ const AppNavigator = () => {
         <NavigationContainer ref={navigationRef}>
             <MyStack />
         </NavigationContainer>
-    )
-}
+    );
+};
 
-export default AppNavigator
+export default AppNavigator;

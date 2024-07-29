@@ -1,28 +1,30 @@
-import React from "react"
-import { FlatList, View, Text, SafeAreaView } from "react-native"
+import React from 'react';
+import { FlatList, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 
-import styles from "./style"
-import { t } from "../../localization/i18n"
-import { getUniversitiesFromApi } from "../../utils/GetUniversities"
-import { LanguageLocalizationKey, LanguageLocalizationNSKey, Styles } from "../../constants/constants"
-import { Icons } from "../../constants/Icons"
+import styles from './style';
+import { t } from '../../localization/i18n';
+import { Icons } from '../../constants/Icons';
+import { getUniversities } from '../../providers/university';
+import { LanguageLocalizationNSKey, Styles } from '../../constants/constants';
 
 class UniversitiesScreen extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            data: [],
-        }
+            loading: true,
+            universities: [],
+        };
     }
     async componentDidMount() {
         try {
-            data = await getUniversitiesFromApi()
-            this.setState({ data })
+            const { data } = await getUniversities();
+
+            this.setState({ universities: data, loading: false });
         } catch (error) {
-            console.log(error)
+            console.log('Error: ', error);
         }
     }
-    s
+
     renderUniversitieItem = (item) => {
         return (
             <View style={styles.item}>
@@ -37,25 +39,34 @@ class UniversitiesScreen extends React.Component {
                     <Icons.Favorite fill={Styles.textInputGrey} />
                 </View>
             </View>
-        )
-    }
+        );
+    };
+
+    renderContent = (loading, universities) => {
+        if (loading) {
+            return (
+                <View style={styles.loading}>
+                    <ActivityIndicator size={Styles.large} />
+                </View>
+            );
+        }
+        return (
+            <FlatList
+                data={universities}
+                keyExtractor={(item) => item.name}
+                renderItem={({ item }) => this.renderUniversitieItem(item)}
+            />
+        );
+    };
 
     render() {
-        const { data } = this.state
+        const { loading, universities } = this.state;
         return (
             <SafeAreaView styles={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>{t('university', LanguageLocalizationNSKey.bottomTab)}</Text>
-                </View>
-                <FlatList
-                    data={data}
-                    keyExtractor={(item) => item.name}
-                    renderItem={({ item }) => this.renderUniversitieItem(item)}
-                >
-                </FlatList>
+                {this.renderContent(loading, universities)}
             </SafeAreaView>
-        )
+        );
     }
 }
 
-export default UniversitiesScreen
+export default UniversitiesScreen;

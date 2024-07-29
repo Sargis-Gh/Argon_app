@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Styles } from "../../../../constants/constants";
+import { StyleSheet } from 'react-native';
+
+import { Styles } from '../../../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         borderRadius: 6,
         backgroundColor: Styles.blue,
-    }
-})
+    },
+});
 
-export default styles
+export default styles;

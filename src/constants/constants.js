@@ -1,20 +1,20 @@
-import { Dimensions } from "react-native"
+import { Dimensions } from 'react-native';
 
 export const PageName = {
     qr: 'QR',
-    tabs: 'Tabs',
     home: 'Home',
     intro: 'Intro',
-    sign: 'Sign In',
+    sign: 'SignIn',
     drawer: 'Drawer',
+    tabs: 'BottomTab',
     loading: 'Loading',
     profile: 'Profile',
-    first: 'First Page',
+    first: 'FirstPage',
     settings: 'Settings',
     favorites: 'Favorites',
-    onBoarding: 'OnBoarding',
+    onboarding: 'Onboarding',
     universities: 'Universities',
-}
+};
 
 export const Styles = {
     // Font Weihghts
@@ -32,6 +32,7 @@ export const Styles = {
     openSans: 'Open Sans',
 
     // Colors
+    large: 'large',
     green: '#77BB41',
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
@@ -62,19 +63,18 @@ export const Styles = {
     contentCenter: {
         alignItems: 'center',
         justifyContent: 'center',
-    }
-}
-
+    },
+};
 
 export const AppWords = {
     google: 'GOOGLE',
     gitHub: 'GITHUB',
-}
+};
 
 export const LanguageLocalizationKey = {
     en: 'en-US',
     ru: 'ru-RU',
-}
+};
 
 export const LanguageLocalizationNSKey = {
     home: 'home',
@@ -84,24 +84,24 @@ export const LanguageLocalizationNSKey = {
     bottomTab: 'bottomTab',
     onboarding: 'onboarding',
     university: 'university',
-}
+};
 
 export const PlatformName = {
     ios: 'ios',
     android: 'android',
-}
+};
 
 export const DEVICE_SETTINGS = {
     windowWidth: Dimensions.get('window').width,
     screenWidth: Dimensions.get('screen').width,
     screenHeight: Dimensions.get('screen').height,
     windowHeight: Dimensions.get('window').height,
-}
+};
 
 export const AsyncStorageKeys = {
-    language: 'language'
-}
+    language: 'language',
+};
 
 export const AppURL = {
-    universities: 'http://universities.hipolabs.com/search?country=United+States'
-}
+    universities: 'http://universities.hipolabs.com/search?country=United+States',
+};
