@@ -12,7 +12,7 @@ import FavoritesScreen from '../../pages/favorites/FavoritesScreen';
 import UniversitiesScreen from '../../pages/universities/UniversitiesScreen';
 import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants';
 
-const Tab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 class BottomTabNavigator extends React.Component {
     renderTabBarLabel = (pageName, focused) => {
@@ -28,7 +28,7 @@ class BottomTabNavigator extends React.Component {
 
     render() {
         return (
-            <Tab.Navigator
+            <BottomTab.Navigator
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: {
@@ -36,7 +36,7 @@ class BottomTabNavigator extends React.Component {
                     },
                     tabBarBackground: () => <View style={styles.tabBarBackground}></View>,
                 }}>
-                <Tab.Screen
+                <BottomTab.Screen
                     name={PageName.drawer}
                     component={DrawerNavigator}
                     options={{
@@ -50,7 +50,7 @@ class BottomTabNavigator extends React.Component {
                             ),
                     }}
                 />
-                <Tab.Screen
+                <BottomTab.Screen
                     name={PageName.universities}
                     component={UniversitiesScreen}
                     options={{
@@ -64,7 +64,7 @@ class BottomTabNavigator extends React.Component {
                             ),
                     }}
                 />
-                <Tab.Screen
+                <BottomTab.Screen
                     name={PageName.qr}
                     component={QRScreen}
                     options={{
@@ -78,7 +78,7 @@ class BottomTabNavigator extends React.Component {
                         ),
                     }}
                 />
-                <Tab.Screen
+                <BottomTab.Screen
                     name={PageName.favorites}
                     component={FavoritesScreen}
                     options={{
@@ -92,7 +92,7 @@ class BottomTabNavigator extends React.Component {
                             ),
                     }}
                 />
-                <Tab.Screen
+                <BottomTab.Screen
                     name={PageName.profile}
                     component={ProfileScreen}
                     options={{
@@ -106,7 +106,7 @@ class BottomTabNavigator extends React.Component {
                             ),
                     }}
                 />
-            </Tab.Navigator>
+            </BottomTab.Navigator>
         );
     }
 }

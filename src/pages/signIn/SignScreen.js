@@ -42,7 +42,6 @@ class SignScreen extends React.Component {
     };
 
     render() {
-        const { navigation } = this.props;
         return (
             <LinearGradient
                 colors={[Styles.lightBlue, Styles.darkBlue]}

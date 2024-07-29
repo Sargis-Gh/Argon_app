@@ -27,7 +27,9 @@ class LoginForm extends React.Component {
             navigationNavigate(navigation, PageName.tabs);
             return;
         }
-        this.setState({ error: 'texts.invalidEmailOrPassword' });
+        this.setState({
+            error: t('texts.invalidEmailOrPassword', LanguageLocalizationNSKey.signIn),
+        });
     };
 
     renderSignInButton = () => {
@@ -41,7 +43,7 @@ class LoginForm extends React.Component {
     };
 
     renderError = (error) => {
-        return <Text style={styles.errorMesage}>{t(error, LanguageLocalizationNSKey.signIn)}</Text>;
+        return <Text style={styles.errorMesage}>{error}</Text>;
     };
 
     render() {
