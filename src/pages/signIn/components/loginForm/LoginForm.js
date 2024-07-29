@@ -32,23 +32,16 @@ class LoginForm extends React.Component {
         });
     };
 
-    renderSignInButton = () => {
-        return (
-            <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
-                <Text style={styles.signInText}>
-                    {t('title', LanguageLocalizationNSKey.signIn)}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
+    renderSignInButton = () => (
+        <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
+            <Text style={styles.signInText}>{t('title', LanguageLocalizationNSKey.signIn)}</Text>
+        </TouchableOpacity>
+    );
 
-    renderError = (error) => {
-        return <Text style={styles.errorMesage}>{error}</Text>;
-    };
+    renderError = (error) => <Text style={styles.errorMessage}>{error}</Text>;
 
     render() {
         const { email, password, error } = this.state;
-
         return (
             <View style={styles.loginForm}>
                 <CustomTextInput

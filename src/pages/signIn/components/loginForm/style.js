@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         color: Styles.white,
         fontFamily: Styles.openSans,
     },
-    errorMesage: {
+    errorMessage: {
         fontSize: 12,
         marginBottom: 10,
         color: Styles.red,

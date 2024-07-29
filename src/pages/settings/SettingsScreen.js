@@ -11,6 +11,7 @@ class SettingsScreen extends React.Component {
         loading: true,
         selectedLanguage: LanguageLocalizationKey.en,
     };
+
     componentDidMount() {
         this.initData();
     }

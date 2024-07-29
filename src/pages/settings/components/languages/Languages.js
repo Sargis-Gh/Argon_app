@@ -52,9 +52,9 @@ class Languages extends React.Component {
             },
         ];
         return (
-            <View style={{ rowGap: 16 }}>
+            <View style={styles.languageButtonContainer}>
                 {buttonsData.map(({ text, icon, isSelected, selectLanguage }) => (
-                    <View key={text} style={styles.languageButtoncontent}>
+                    <View key={text} style={styles.languageButtonContent}>
                         <TouchableOpacity
                             style={styles.languageButton}
                             activeOpacity={0.5}

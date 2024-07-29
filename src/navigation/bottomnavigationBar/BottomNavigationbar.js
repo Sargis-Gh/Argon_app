@@ -34,7 +34,7 @@ class BottomTabNavigator extends React.Component {
                     tabBarStyle: {
                         backgroundColor: Styles.white,
                     },
-                    tabBarBackground: () => <View style={styles.tabBarBackground}></View>,
+                    tabBarBackground: () => <View style={styles.container}></View>,
                 }}>
                 <BottomTab.Screen
                     name={PageName.drawer}

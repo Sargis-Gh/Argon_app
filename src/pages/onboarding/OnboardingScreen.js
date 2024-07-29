@@ -22,21 +22,19 @@ class Onboarding extends React.Component {
         );
     };
 
-    doneButton = () => {
-        return (
-            <TouchableOpacity
-                style={styles.getStarted}
-                activeOpacity={0.7}
-                onPress={() => {
-                    const { navigation } = this.props;
-                    navigationNavigate(navigation, PageName.sign);
-                }}>
-                <Text style={styles.getStartedText}>
-                    {t('getStarted', LanguageLocalizationNSKey.onboarding)}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
+    doneButton = () => (
+        <TouchableOpacity
+            style={styles.getStarted}
+            activeOpacity={0.7}
+            onPress={() => {
+                const { navigation } = this.props;
+                navigationNavigate(navigation, PageName.sign);
+            }}>
+            <Text style={styles.getStartedText}>
+                {t('getStarted', LanguageLocalizationNSKey.onboarding)}
+            </Text>
+        </TouchableOpacity>
+    );
 
     nextButton = () => (
         <View style={styles.getStarted}>
@@ -51,8 +49,6 @@ class Onboarding extends React.Component {
             <AppIntroSlider
                 bottomButton={true}
                 data={OnboardingData}
-                showNextButton={true}
-                showSkipButton={false}
                 dotStyle={styles.dotStyle}
                 style={styles.appIntroSlider}
                 renderDoneButton={this.doneButton}

@@ -9,14 +9,12 @@ import LoginForm from './components/loginForm/LoginForm';
 import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class SignScreen extends React.Component {
-    renderSignInWith = (icon, text) => {
-        return (
-            <TouchableOpacity style={styles.signInWith}>
-                {icon}
-                <Text style={styles.headerText}>{text}</Text>
-            </TouchableOpacity>
-        );
-    };
+    renderSignInWith = (icon, text) => (
+        <TouchableOpacity style={styles.signInWith}>
+            {icon}
+            <Text style={styles.headerText}>{text}</Text>
+        </TouchableOpacity>
+    );
 
     renderBody = () => {
         const { navigation } = this.props;

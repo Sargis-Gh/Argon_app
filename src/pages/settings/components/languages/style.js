@@ -23,7 +23,10 @@ const styles = StyleSheet.create({
         padding: 4,
         flexDirection: Styles.row,
     },
-    languageButtoncontent: {
+    languageButtonContainer: {
+        rowGap: 16,
+    },
+    languageButtonContent: {
         width: Styles.fullSize,
         flexDirection: Styles.row,
         alignItems: Styles.center,

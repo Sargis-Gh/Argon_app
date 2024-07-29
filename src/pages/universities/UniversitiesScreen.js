@@ -2,10 +2,9 @@ import React from 'react';
 import { FlatList, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 
 import styles from './style';
-import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
+import { Styles } from '../../constants/constants';
 import { getUniversities } from '../../providers/university';
-import { LanguageLocalizationNSKey, Styles } from '../../constants/constants';
 
 class UniversitiesScreen extends React.Component {
     constructor(props) {
@@ -15,32 +14,30 @@ class UniversitiesScreen extends React.Component {
             universities: [],
         };
     }
+
     async componentDidMount() {
         try {
             const { data } = await getUniversities();
-
             this.setState({ universities: data, loading: false });
         } catch (error) {
             console.log('Error: ', error);
         }
     }
 
-    renderUniversitieItem = (item) => {
-        return (
-            <View style={styles.item}>
-                <View style={styles.itemInfo}>
-                    <Text style={styles.title}>{item.name}</Text>
-                    <View style={styles.location}>
-                        <Icons.Location fill={Styles.grey} />
-                        <Text style={styles.countryName}>{item.country}</Text>
-                    </View>
-                </View>
-                <View style={styles.addToFavorites}>
-                    <Icons.Favorite fill={Styles.textInputGrey} />
+    renderUniversitiesItem = (item) => (
+        <View style={styles.item}>
+            <View style={styles.itemInfo}>
+                <Text style={styles.title}>{item.name}</Text>
+                <View style={styles.location}>
+                    <Icons.Location fill={Styles.grey} />
+                    <Text style={styles.countryName}>{item.country}</Text>
                 </View>
             </View>
-        );
-    };
+            <View style={styles.addToFavorites}>
+                <Icons.Favorite fill={Styles.textInputGrey} />
+            </View>
+        </View>
+    );
 
     renderContent = (loading, universities) => {
         if (loading) {
@@ -54,7 +51,7 @@ class UniversitiesScreen extends React.Component {
             <FlatList
                 data={universities}
                 keyExtractor={(item) => item.name}
-                renderItem={({ item }) => this.renderUniversitieItem(item)}
+                renderItem={({ item }) => this.renderUniversitiesItem(item)}
             />
         );
     };
