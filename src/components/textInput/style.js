@@ -1,31 +1,32 @@
 import { StyleSheet } from 'react-native'
-import { AppColors, AppWords, Fonts, Position } from '../../constants/constants'
+
+import {  Styles } from '../../constants/constants'
 
 const styles = StyleSheet.create({
     background: {
         height: 46,
-        padding: 6,
-        columnGap: 10,
+        padding: 4,
         borderRadius: 3,
         shadowRadius: 3,
+        marginBottom: 20,
         shadowOpacity: 0.4,
-        width: Position.fullSize,
-        alignItems: Position.center,
-        flexDirection: Position.row,
-        color: AppColors.textInputGrey,
-        backgroundColor: AppColors.white,
-        shadowColor: AppColors.textInputGrey,
+        width: Styles.fullSize,
+        alignItems: Styles.center,
+        flexDirection: Styles.row,
+        color: Styles.textInputGrey,
+        backgroundColor: Styles.white,
+        shadowColor: Styles.textInputGrey,
         shadowOffset: { width: 0, height: 2 },
-
     },
     textInput: {
+        width: '90%',
         fontSize: 14,
         lineHeight: 19,
-        width: Position.percent90,
-        height: Position.fullSize,
-        fontFamily: Fonts.openSans,
-        color: AppColors.textInputGrey,
-        backgroundColor: AppColors.white,
+        marginLeft: 10,
+        height: Styles.fullSize,
+        fontFamily: Styles.openSans,
+        color: Styles.textInputGrey,
+        backgroundColor: Styles.white,
     }
 })
 

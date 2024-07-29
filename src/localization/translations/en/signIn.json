@@ -1,6 +1,6 @@
 {
     "title": "Sign in",
-    "text": {
+    "texts": {
         "signIn": "Sign In",
         "email": "Email",
         "password": "Password",

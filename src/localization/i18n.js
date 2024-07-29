@@ -1,51 +1,54 @@
 import i18n from 'i18next';
 import { NativeModules, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { EnLanguageResources } from './translations/en';
 import { RuLanguageResources } from './translations/ru';
-import { LanguageLocalizationKey, PlatformName } from '../constants/constants';
+import { AsyncStorageKeys, LanguageLocalizationKey, PlatformName } from '../constants/constants';
 
 const resources = {
-    [LanguageLocalizationKey.en_US]: EnLanguageResources,
-    [LanguageLocalizationKey.ru_RU]: RuLanguageResources,
+  [LanguageLocalizationKey.en]: EnLanguageResources,
+  [LanguageLocalizationKey.ru]: RuLanguageResources,
 };
 
-const setI18nConfig = (currentLocale = LanguageLocalizationKey.en_US) => {
-  if (!i18n.isInitialized) {
-    i18n
-      .init({
-        compatibilityJSON: 'v3',
-        fallbackLng: LanguageLocalizationKey.en_US,
-        lng: currentLocale,
-        debug: true,
-        resources,
-        returnObjects: true,
-      });
-  } else {
+const setI18nConfig = (currentLocale = LanguageLocalizationKey.en) => {
+  if (i18n.isInitialized) {
     i18n.changeLanguage(currentLocale);
+    return;
   }
+  i18n
+    .init({
+      compatibilityJSON: 'v3',
+      fallbackLng: LanguageLocalizationKey.en,
+      lng: currentLocale,
+      debug: true,
+      resources,
+      returnObjects: true,
+    });
 };
 
 const getDeviceLanguage = () => {
-  let deviceLanguage = LanguageLocalizationKey.en_US;
-
-  if (Platform.OS === PlatformName.ios) {
-    deviceLanguage = NativeModules.SettingsManager.settings.AppleLocale ||
-                     NativeModules.SettingsManager.settings.AppleLanguages[0];
-  } else if (Platform.OS === PlatformName.android) {
-    deviceLanguage = NativeModules.I18nManager.localeIdentifier;
+  try {
+    let deviceLanguage = (Platform.OS === PlatformName.ios &&
+      NativeModules.SettingsManager.settings.AppleLocale || NativeModules.SettingsManager.settings.AppleLanguages[0])
+      || NativeModules.I18nManager.localeIdentifier;
+    return deviceLanguage.replace('_', '-');
+  } catch (_) {
+    return LanguageLocalizationKey.en;
   }
-
-  return deviceLanguage.replace('_', '-');
 };
 
-export const detectAndInitializeLanguage = () => {
+export const detectAndInitializeLanguage = async () => {
+  const storedLanguage = await AsyncStorage.getItem(AsyncStorageKeys.language);
+  if (storedLanguage) {
+    setI18nConfig(storedLanguage);
+    return;
+  }
   const deviceLanguage = getDeviceLanguage();
-  const appLanguage = i18n.language || deviceLanguage;
-  setI18nConfig(LanguageLocalizationKey.ru_RU);
+  setI18nConfig(deviceLanguage);
 };
 
-export const changeLanguage = (currentLocale = LanguageLocalizationKey.en_US) => {
+export const changeLanguage = (currentLocale = LanguageLocalizationKey.en) => {
   i18n.changeLanguage(currentLocale);
 };
 

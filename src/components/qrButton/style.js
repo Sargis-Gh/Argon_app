@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native'
-import { AppColors, Position } from '../../constants/constants'
+
+import { Styles } from '../../constants/constants'
 
 const styles = StyleSheet.create({
-    touchable: {
-        top: -30,
-        alignItems: Position.center,
-        justifyContent: Position.center,
-    },
-    background: {
+    touchableContent: {
         width: 70,
-        height: 70,
+        bottom: 30,
+        elevation: 2,
+        aspectRatio: 1,
+        shadowRadius: 4,
         borderRadius: 35,
-        alignItems: Position.center,
-        justifyContent: Position.center,
-        backgroundColor: AppColors.articleColor,
+        shadowOpacity: 0.3,
+        ...Styles.contentCenter,
+        shadowColor: Styles.articleColor,
+        backgroundColor: Styles.articleColor,
+        shadowOffset: { width: 0, height: 1 },
     },
 })
 

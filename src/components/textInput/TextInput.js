@@ -2,13 +2,9 @@ import React from 'react'
 import { View, TextInput } from 'react-native'
 
 import styles from './style'
-import { AppColors } from '../../constants/constants'
+import { Styles } from '../../constants/constants'
 
 class CustomTextInput extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         const {
             Icon,
@@ -22,14 +18,14 @@ class CustomTextInput extends React.Component {
         } = this.props
         return (
             <View style={style}>
-                {!iconRight ? Icon : null}
+                {!iconRight && Icon}
                 <TextInput
                     style={textStyle}
                     value={value}
                     placeholder={placeholderText}
                     onChangeText={onChangeText}
                     secureTextEntry={secureTextEntry}
-                    placeholderTextColor={AppColors.grey}
+                    placeholderTextColor={Styles.grey}
                 />
                 {iconRight ? Icon : null}
             </View>

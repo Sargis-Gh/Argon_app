@@ -1,44 +1,41 @@
-import QR from '../assets/icons/qr'
-import Mail from '../assets/icons/mail'
-import Home from '../assets/icons/home'
-import Menu from '../assets/icons/menu'
-import Left from '../assets/icons/left'
-import USAflag from '../assets/icons/us'
-import Google from '../assets/icons/google'
-import GitHub from '../assets/icons/github'
-import Verify from '../assets/icons/verify'
-import Search from '../assets/icons/search'
-import Russia from '../assets/icons/russia'
-import Profile from '../assets/icons/profile'
-import Favorite from '../assets/icons/favorite'
-import Password from '../assets/icons/password'
-import University from '../assets/icons/university'
+import { Dimensions } from "react-native"
 
 export const PageName = {
     qr: 'QR',
     tabs: 'Tabs',
     home: 'Home',
     intro: 'Intro',
+    sign: 'Sign In',
     drawer: 'Drawer',
     loading: 'Loading',
     profile: 'Profile',
     first: 'First Page',
-    sign: 'Sign In',
     settings: 'Settings',
     favorites: 'Favorites',
     onBoarding: 'OnBoarding',
     universities: 'Universities',
 }
 
-export const Fonts = {
-    weight700: '700',
-    openSans: 'Open Sans',
-}
+export const Styles = {
+    // Font Weihghts
+    fontWeightThin: '100', // Thin
+    fontWeightUltraLight: '200', // Ultra Light
+    fontWeightLight: '300', // Light
+    fontWeightRegular: '400', // Regular
+    fontWeightMedium: '500', // Medium
+    fontWeightSemibold: '600', // Semibold
+    fontWeightBold: '700', // Bold
+    fontWeightHeavy: '800', // Heavy
+    fontWeightBlack: '900', // Black
 
-export const AppColors = {
+    // Font Families
+    openSans: 'Open Sans',
+
+    // Colors
     green: '#77BB41',
-    black: 'rgb(0, 0, 0)',
     red: 'rgb(255, 0, 0)',
+    blue: 'rgb(0,191,255)',
+    black: 'rgb(0, 0, 0)',
     purple: 'rgb(43, 19, 137)',
     pink: 'rgb(229, 125, 222)',
     white: 'rgb(255, 255, 255)',
@@ -50,69 +47,61 @@ export const AppColors = {
     articleColor: 'rgba(94, 114, 228, 1)',
     backgroundColor: 'rgb(243, 245, 251)',
     textInputGrey: 'rgba(173, 181, 189, 1)',
+    greyWithalpha: 'rgba(240, 239, 244, 0)',
     bottomContainerColor: 'rgb(244, 245, 247)',
-}
+    containerBackgroundColor: 'rgb(240, 239, 244)',
 
-export const AppWords = {
-    google: 'GOOGLE',
-    gitHub: 'GITHUB',
-    home: 'screens.home.title',
-    viewArticle: 'View article',
-    design: 'screens.first.design',
-    signIn: 'screens.signIn.title',
-    profile: 'screens.profile.title',
-    systeam: 'screens.first.systeam',
-    strongPassword: 'Strong password',
-    settings: 'screens.settings.title',
-    email: 'screens.signIn.text.email',
-    asyncStoreFirstOpenKey: 'isFirstOpen',
-    firstScreenText: 'screens.first.text',
-    password: 'screens.signIn.text.password',
-    signInWith: 'screens.signIn.text.signInWith',
-    whatAreYouLookingFor: 'screens.home.text.whatAreYouLookingFor',
-    invalidEmailOrPassword: 'screens.signIn.text.invalidEmailOrPassword',
-    orSignInWithCredentials: 'screens.signIn.text.orSignInWithCredentials',
-}
-
-export const Icons = {
-    qr: QR,
-    mail: Mail,
-    menu: Menu,
-    home: Home,
-    left: Left,
-    usa: USAflag,
-    google: Google,
-    gitHub: GitHub,
-    verify: Verify,
-    search: Search,
-    russia: Russia,
-    profile: Profile,
-    favorite: Favorite,
-    password: Password,
-    university: University,
-}
-
-export const Position = {
+    // Positions
     row: 'row',
     center: 'center',
-    percent90: '90%',
     fullSize: '100%',
     flexStart: 'flex-start',
     spaceAround: 'space-around',
     spaceBetween: 'space-between',
+
+    contentCenter: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+}
+
+
+export const AppWords = {
+    google: 'GOOGLE',
+    gitHub: 'GITHUB',
 }
 
 export const LanguageLocalizationKey = {
+    en: 'en-US',
+    ru: 'ru-RU',
+}
+
+export const LanguageLocalizationNSKey = {
     home: 'home',
-    en_US: 'en-US',
-    ru_RU: 'ru-RU',
     signIn: 'signIn',
     profile: 'profile',
     settings: 'settings',
+    bottomTab: 'bottomTab',
     onboarding: 'onboarding',
+    university: 'university',
 }
 
 export const PlatformName = {
     ios: 'ios',
     android: 'android',
+}
+
+export const DEVICE_SETTINGS = {
+    windowWidth: Dimensions.get('window').width,
+    screenWidth: Dimensions.get('screen').width,
+    screenHeight: Dimensions.get('screen').height,
+    windowHeight: Dimensions.get('window').height,
+}
+
+export const AsyncStorageKeys = {
+    language: 'language'
+}
+
+export const AppURL = {
+    universities: 'http://universities.hipolabs.com/search?country=United+States'
 }
