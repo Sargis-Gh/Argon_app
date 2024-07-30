@@ -14,6 +14,7 @@ import Profile from '../assets/icons/profile';
 import Favorite from '../assets/icons/favorite';
 import Password from '../assets/icons/password';
 import Location from '../assets/icons/location';
+import ArrowDown from '../assets/icons/arrowDown';
 import University from '../assets/icons/university';
 
 export const Icons = {
@@ -33,5 +34,6 @@ export const Icons = {
     Favorite,
     Password,
     Location,
+    ArrowDown,
     University,
 };

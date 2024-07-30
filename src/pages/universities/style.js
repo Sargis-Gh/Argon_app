@@ -42,6 +42,16 @@ const styles = StyleSheet.create({
         height: Styles.fullSize,
         ...Styles.contentCenter,
     },
+    showMoreButton: {
+        paddingBottom: 16,
+        paddingHorizontal: 16,
+        alignItems: Styles.center,
+        flexDirection: Styles.row,
+        justifyContent: Styles.flexEnd,
+    },
+    showMoreButtonText: {
+        color: Styles.grey,
+    },
 });
 
 export default styles;

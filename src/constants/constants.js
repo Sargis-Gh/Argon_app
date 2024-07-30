@@ -56,6 +56,7 @@ export const Styles = {
     row: 'row',
     center: 'center',
     fullSize: '100%',
+    flexEnd: 'flex-end',
     flexStart: 'flex-start',
     spaceAround: 'space-around',
     spaceBetween: 'space-between',
