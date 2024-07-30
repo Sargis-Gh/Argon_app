@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, NativeModules, Platform } from 'react-native';
 
 export const PageName = {
     qr: 'QR',
@@ -79,6 +79,7 @@ export const LanguageLocalizationKey = {
 export const LanguageLocalizationNSKey = {
     home: 'home',
     signIn: 'signIn',
+    common: 'common',
     profile: 'profile',
     settings: 'settings',
     bottomTab: 'bottomTab',
@@ -91,11 +92,25 @@ export const PlatformName = {
     android: 'android',
 };
 
+const { StatusBarManager } = NativeModules;
+
+const IosDefaultStatusBarHeight = 20;
+const IosDefaultHomeIndicatorHeight = 34;
 export const DEVICE_SETTINGS = {
-    windowWidth: Dimensions.get('window').width,
-    screenWidth: Dimensions.get('screen').width,
+    statusBarHeight: Platform.OS === PlatformName.ios ? StatusBarManager.HEIGHT : 0,
+    isIphoneWithMonobrow:
+        Platform.OS === PlatformName.ios && StatusBarManager.HEIGHT > IosDefaultStatusBarHeight,
+    homeIndicatorHeight:
+        Platform.OS === PlatformName.ios && StatusBarManager.HEIGHT > IosDefaultStatusBarHeight
+            ? IosDefaultHomeIndicatorHeight
+            : 0,
     screenHeight: Dimensions.get('screen').height,
     windowHeight: Dimensions.get('window').height,
+    screenWidth: Dimensions.get('screen').width,
+    windowWidth: Dimensions.get('window').width,
+    isAndroid: Platform.OS === PlatformName.android,
+    isIOS: Platform.OS === PlatformName.ios,
+    using24HourFormat: true,
 };
 
 export const AsyncStorageKeys = {

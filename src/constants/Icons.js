@@ -4,6 +4,7 @@ import Home from '../assets/icons/home';
 import Menu from '../assets/icons/menu';
 import Left from '../assets/icons/left';
 import USAflag from '../assets/icons/us';
+import Error from '../assets/icons/error';
 import Google from '../assets/icons/google';
 import GitHub from '../assets/icons/github';
 import Verify from '../assets/icons/verify';
@@ -20,6 +21,7 @@ export const Icons = {
     Menu,
     Home,
     Left,
+    Error,
     QRIcon,
     Google,
     GitHub,
