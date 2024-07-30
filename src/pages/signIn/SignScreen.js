@@ -1,29 +1,29 @@
-import React from 'react'
-import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
+import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
-import styles from './style'
-import { t } from '../../localization/i18n'
-import { Icons } from '../../constants/Icons'
-import LoginForm from './components/loginForm/LoginForm'
-import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants'
+import styles from './style';
+import { t } from '../../localization/i18n';
+import { Icons } from '../../constants/Icons';
+import LoginForm from './components/loginForm/LoginForm';
+import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class SignScreen extends React.Component {
-    renderSignInWith = (icon, text) => {
-        return (
-            <TouchableOpacity style={styles.signInWith}>
-                {icon}
-                <Text style={styles.headerText}>{text}</Text>
-            </TouchableOpacity>
-        )
-    }
+    renderSignInWith = (icon, text) => (
+        <TouchableOpacity style={styles.signInWith}>
+            {icon}
+            <Text style={styles.headerText}>{text}</Text>
+        </TouchableOpacity>
+    );
 
     renderBody = () => {
-        const { navigation } = this.props
+        const { navigation } = this.props;
         return (
             <View style={styles.body}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.signUpWith}>{t('texts.signInWith', LanguageLocalizationNSKey.signIn)}</Text>
+                    <Text style={styles.signUpWith}>
+                        {t('texts.signInWith', LanguageLocalizationNSKey.signIn)}
+                    </Text>
                     <View style={styles.buttons}>
                         {this.renderSignInWith(<Icons.GitHub />, AppWords.gitHub)}
                         {this.renderSignInWith(<Icons.Google />, AppWords.google)}
@@ -33,28 +33,24 @@ class SignScreen extends React.Component {
                     <Text style={styles.signUpWith}>
                         {t('texts.orSignInWithCredentials', LanguageLocalizationNSKey.signIn)}
                     </Text>
-                    <LoginForm navigation={navigation}/>
+                    <LoginForm navigation={navigation} />
                 </View>
             </View>
-        )
-    }
+        );
+    };
 
     render() {
-        const { navigation } = this.props
         return (
             <LinearGradient
                 colors={[Styles.lightBlue, Styles.darkBlue]}
                 start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-            >
+                end={{ x: 1, y: 0 }}>
                 <SafeAreaView>
-                    <View style={styles.background}>
-                        {this.renderBody()}
-                    </View>
+                    <View style={styles.container}>{this.renderBody()}</View>
                 </SafeAreaView>
             </LinearGradient>
-        )
+        );
     }
 }
 
-export default SignScreen
+export default SignScreen;

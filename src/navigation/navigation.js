@@ -1,4 +1,4 @@
-import { useNavigationContainerRef } from "@react-navigation/native";
+import { useNavigationContainerRef } from '@react-navigation/native';
 
 export const navigationRef = useNavigationContainerRef();
 
@@ -9,10 +9,14 @@ export const navigationRef = useNavigationContainerRef();
 export function navigationRefreshWithoutReload(params) {
     if (navigationRef.isReady()) {
         const currentRoute = navigationRef.getCurrentRoute();
-        navigationRef.navigate(currentRoute?.name, { ...currentRoute?.params, ...params, paramPropKey: new Date().toISOString() })
+        navigationRef.navigate(currentRoute?.name, {
+            ...currentRoute?.params,
+            ...params,
+            paramPropKey: new Date().toISOString(),
+        });
     }
 }
 
 export function navigationNavigate(navigation, name, params) {
     navigation.navigate(name, params);
-}   
+}

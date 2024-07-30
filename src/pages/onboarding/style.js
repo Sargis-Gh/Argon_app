@@ -1,16 +1,16 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
-import { DEVICE_SETTINGS, Styles } from '../../constants/constants'
+import { DEVICE_SETTINGS, Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     appIntroSlider: {
-        backgroundColor: Styles.white
+        backgroundColor: Styles.white,
     },
     dotStyle: {
-        backgroundColor: Styles.lightGrey
+        backgroundColor: Styles.lightGrey,
     },
     activeDotStyle: {
-        backgroundColor: Styles.articleColor
+        backgroundColor: Styles.articleColor,
     },
     buttonContainer: {
         paddingBottom: 20,
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
         fontFamily: Styles.openSans,
         textAlign: Styles.center,
     },
-})
+});
 
-export default styles
+export default styles;

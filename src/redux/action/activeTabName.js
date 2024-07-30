@@ -1,4 +1,4 @@
-import { ActionsType } from "../../constants/reduxConstants"
+import { ActionsType } from '../../constants/reduxConstants';
 
 export const activeTabName = {
     setActiveTabName: (page) => {
@@ -6,7 +6,7 @@ export const activeTabName = {
             return dispatch({
                 type: ActionsType.activeTabName,
                 payload: page,
-            })
-        }
+            });
+        };
     },
-}
+};

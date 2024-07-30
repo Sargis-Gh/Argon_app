@@ -8,8 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import App from './App';
 import { name as appName } from './app.json';
+import store from './src/redux/store/store';
 
-import store from './src/redux/store/store'
 import { navigationRef } from './src/navigation/navigation';
 
 const RNRedux = () => (
@@ -18,6 +18,6 @@ const RNRedux = () => (
             <App />
         </NavigationContainer>
     </Provider>
-)
+);
 
 AppRegistry.registerComponent(appName, () => RNRedux);

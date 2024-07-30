@@ -1,16 +1,15 @@
+import thunk from 'redux-thunk';
+import * as reduxModule from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
-import * as reduxModule from "redux";
+import reducers from '../reducer/index';
 
-import thunk from "redux-thunk";
-import reducers from "../reducer/index";
-import { applyMiddleware, compose, createStore } from "redux";
-
-reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = "@@redux/INIT";
+reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
 
 const composeEnhancers =
-    process.env.NODE_ENV !== "production" &&
-        typeof window === 'object' &&
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    process.env.NODE_ENV !== 'production' &&
+    typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
         ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
         : compose;
 

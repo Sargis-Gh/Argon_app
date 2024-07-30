@@ -1,50 +1,47 @@
-import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
 
-import styles from './style'
-import { t } from '../../../../localization/i18n'
-import { Icons } from '../../../../constants/Icons'
-import CustomTextInput from '../../../../components/textInput/TextInput'
-import { LanguageLocalizationNSKey, PageName } from '../../../../constants/constants'
-import { navigationNavigate } from '../../../../navigation/navigation'
+import styles from './style';
+import { t } from '../../../../localization/i18n';
+import { Icons } from '../../../../constants/Icons';
+import CustomTextInput from '../../../../components/textInput/TextInput';
+import { LanguageLocalizationNSKey, PageName } from '../../../../constants/constants';
+
+import { navigationNavigate } from '../../../../navigation/navigation';
 
 class LoginForm extends React.Component {
     state = {
-        email: '',
-        password: '',
         error: '',
-    }
+        email: 'Email',
+        password: 'password',
+    };
 
     handleSignIn = () => {
-        const { email, password } = this.state
-        const { navigation } = this.props
+        const { navigation } = this.props;
+        const { email, password } = this.state;
 
-        const correctEmail = 'email'
-        const correctPassword = 'password'
+        const correctEmail = 'Email';
+        const correctPassword = 'password';
 
         if (email === correctEmail && password === correctPassword) {
-            navigationNavigate(navigation, PageName.tabs)
-            return
+            navigationNavigate(navigation, PageName.tabs);
+            return;
         }
-        this.setState({ error: 'texts.invalidEmailOrPassword' })
+        this.setState({
+            error: t('texts.invalidEmailOrPassword', LanguageLocalizationNSKey.signIn),
+        });
+    };
 
-    }
+    renderSignInButton = () => (
+        <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
+            <Text style={styles.signInText}>{t('title', LanguageLocalizationNSKey.signIn)}</Text>
+        </TouchableOpacity>
+    );
 
-    renderSignInButton = () => {
-        return (
-            <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
-                <Text style={styles.signInText}>{t('title', LanguageLocalizationNSKey.signIn)}</Text>
-            </TouchableOpacity>
-        )
-    }
-
-    renderError = (error, localizationKey) => {
-        return <Text style={styles.field}>{t(error, localizationKey)}</Text>
-    }
+    renderError = (error) => <Text style={styles.errorMessage}>{error}</Text>;
 
     render() {
-        const { email, password, error } = this.state
-
+        const { email, password, error } = this.state;
         return (
             <View style={styles.loginForm}>
                 <CustomTextInput
@@ -60,11 +57,11 @@ class LoginForm extends React.Component {
                     placeholderText={t('texts.password', LanguageLocalizationNSKey.signIn)}
                     onChangeText={(text) => this.setState({ password: text })}
                 />
-                {!!error && this.renderError(error, LanguageLocalizationNSKey.signIn)}
+                {!!error && this.renderError(error)}
                 {this.renderSignInButton()}
             </View>
-        )
+        );
     }
 }
 
-export default LoginForm
+export default LoginForm;

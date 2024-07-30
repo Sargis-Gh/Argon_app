@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Styles } from "../../../../constants/constants";
+import { StyleSheet } from 'react-native';
+
+import { Styles } from '../../../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,7 +23,10 @@ const styles = StyleSheet.create({
         padding: 4,
         flexDirection: Styles.row,
     },
-    languageButtoncontent: {
+    languageButtonContainer: {
+        rowGap: 16,
+    },
+    languageButtonContent: {
         width: Styles.fullSize,
         flexDirection: Styles.row,
         alignItems: Styles.center,
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         borderRadius: 6,
         backgroundColor: Styles.blue,
-    }
-})
+    },
+});
 
-export default styles
+export default styles;

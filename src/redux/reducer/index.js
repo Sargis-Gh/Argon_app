@@ -1,7 +1,7 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import activeTabName from "./activeTabNameReducer";
+import activeTabName from './activeTabNameReducer';
 
 export default combineReducers({
-    activeTabName
+    activeTabName,
 });
