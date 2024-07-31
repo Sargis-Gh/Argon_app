@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { PageName } from '../../constants/constants';
 import SignScreen from '../../pages/signIn/SignScreen';
 import Onboarding from '../../pages/onboarding/OnboardingScreen';
-// import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
+import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
 
 const Stack = createStackNavigator();
 
