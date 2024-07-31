@@ -16,15 +16,12 @@ import { getUniversities } from '../../providers/university';
 import { LanguageLocalizationNSKey, Styles } from '../../constants/constants';
 
 class UniversitiesScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            dataLength: 20,
-            universities: [],
-            refreshing: false,
-        };
-    }
+    state = {
+        loading: true,
+        dataLength: 20,
+        universities: [],
+        refreshing: false,
+    };
 
     async componentDidMount() {
         await this.fetchUniversities();
@@ -101,7 +98,6 @@ class UniversitiesScreen extends React.Component {
     };
 
     render() {
-        const { loading, universities } = this.state;
         return <SafeAreaView styles={styles.container}>{this.renderContent()}</SafeAreaView>;
     }
 }
