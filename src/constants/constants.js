@@ -37,7 +37,8 @@ export const Styles = {
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
     black: 'rgb(0, 0, 0)',
-    purple: 'rgb(43, 19, 137)',
+    purple: 'rgb(40, 20, 131)',
+    transparent: 'transparent',
     pink: 'rgb(229, 125, 222)',
     white: 'rgb(255, 255, 255)',
     grey: 'rgba(136, 152, 170, 1)',
@@ -50,6 +51,7 @@ export const Styles = {
     textInputGrey: 'rgba(173, 181, 189, 1)',
     greyWithalpha: 'rgba(240, 239, 244, 0)',
     bottomContainerColor: 'rgb(244, 245, 247)',
+    purpleWithOpacity: 'rgba(40, 20, 131, 0.5)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
@@ -120,4 +122,8 @@ export const AsyncStorageKeys = {
 
 export const AppURL = {
     universities: 'http://universities.hipolabs.com/search?country=United+States',
+};
+
+export const Configs = {
+    universitiesOpacity: 20,
 };

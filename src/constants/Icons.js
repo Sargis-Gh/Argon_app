@@ -16,6 +16,8 @@ import Password from '../assets/icons/password';
 import Location from '../assets/icons/location';
 import ArrowDown from '../assets/icons/arrowDown';
 import University from '../assets/icons/university';
+import NotFavorite from '../assets/icons/notFavorite';
+
 
 export const Icons = {
     Mail,
@@ -36,4 +38,5 @@ export const Icons = {
     Location,
     ArrowDown,
     University,
+    NotFavorite,
 };

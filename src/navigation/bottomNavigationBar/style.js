@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         ...Styles.contentCenter,
         shadowColor: Styles.grey,
-        backgroundColor: Styles.black,
+        backgroundColor: Styles.purple,
         shadowOffset: { width: 0, height: 1 },
     },
 });

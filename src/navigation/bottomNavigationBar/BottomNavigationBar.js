@@ -19,7 +19,7 @@ class BottomTabNavigator extends React.Component {
         return (
             <Text
                 style={{
-                    color: focused ? Styles.black : Styles.grey,
+                    color: focused ? Styles.purple : Styles.grey,
                 }}>
                 {pageName}
             </Text>
@@ -41,7 +41,7 @@ class BottomTabNavigator extends React.Component {
                     component={DrawerNavigator}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Home fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Home fill={focused ? Styles.purple : Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -55,7 +55,7 @@ class BottomTabNavigator extends React.Component {
                     component={UniversitiesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.University fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.University fill={focused ? Styles.purple : Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -83,13 +83,14 @@ class BottomTabNavigator extends React.Component {
                     component={FavoritesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Favorite fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Favorite fill={focused ? Styles.purple : Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('favorite', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
+                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
@@ -97,7 +98,7 @@ class BottomTabNavigator extends React.Component {
                     component={ProfileScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Profile fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Profile fill={focused ? Styles.purple : Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(

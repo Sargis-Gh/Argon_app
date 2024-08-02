@@ -1,6 +1,9 @@
 {
+    "search": "Search",
     "showMore": "Show more",
     "tryAgain": "Try again",
+    "viewDetails": "View details",
+    "univeersities": "Univeersities",
     "errorMessageHeader": "Something went wrong",
     "errorMessageBody": "Unfortunately we have encountered an unexpected issue. Please try again orcontact us."
 }

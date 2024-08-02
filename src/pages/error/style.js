@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
         paddingBottom: DEVICE_SETTINGS.homeIndicatorHeight,
     },
     errorMessageContainer: {
+        flex: 1,
         rowGap: 8,
-        marginTop: '60%',
         ...Styles.contentCenter,
     },
     errorMessageHeader: {
