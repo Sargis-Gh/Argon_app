@@ -1,6 +1,7 @@
 {
     "home": "Home",
+    "series": "Series",
+    "movies": "Movies",
     "profile": "Profile",
-    "favorite": "Favorite",
-    "university": "Academy"
+    "favorite": "Favorite"
 }

@@ -40,13 +40,14 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        fontFamily: Styles.openSans,
         color: Styles.purple,
+        fontFamily: Styles.openSans,
+        fontWeight: Styles.fontWeightBold,
     },
     subtitle: {
         padding: 16,
         fontSize: 15,
-        color: Styles.grey,
+        color: Styles.purple,
         fontFamily: Styles.openSans,
         textAlign: Styles.center,
     },

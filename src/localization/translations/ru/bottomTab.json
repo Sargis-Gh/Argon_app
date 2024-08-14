@@ -1,6 +1,7 @@
 {
     "home": "Дом",
+    "movies": "Фильмы",
+    "series": "Сериалы",
     "profile": "Профиль",
-    "favorite": "Избранное",
-    "university": "Академия"
+    "favorite": "Избранное"
 }

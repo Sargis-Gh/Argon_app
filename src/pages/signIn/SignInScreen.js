@@ -8,7 +8,20 @@ import { Icons } from '../../constants/Icons';
 import LoginForm from './components/loginForm/LoginForm';
 import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
-class SignScreen extends React.Component {
+class SignInScreen extends React.Component {
+    render() {
+        return (
+            <LinearGradient
+                colors={[Styles.lightBlue, Styles.darkBlue]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}>
+                <SafeAreaView>
+                    <View style={styles.container}>{this.renderBody()}</View>
+                </SafeAreaView>
+            </LinearGradient>
+        );
+    }
+
     renderSignInWith = (icon, text) => (
         <TouchableOpacity style={styles.signInWith}>
             {icon}
@@ -38,19 +51,6 @@ class SignScreen extends React.Component {
             </View>
         );
     };
-
-    render() {
-        return (
-            <LinearGradient
-                colors={[Styles.lightBlue, Styles.darkBlue]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}>
-                <SafeAreaView>
-                    <View style={styles.container}>{this.renderBody()}</View>
-                </SafeAreaView>
-            </LinearGradient>
-        );
-    }
 }
 
-export default SignScreen;
+export default SignInScreen;

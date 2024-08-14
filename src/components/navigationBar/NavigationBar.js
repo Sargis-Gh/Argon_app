@@ -7,14 +7,8 @@ import { Icons } from '../../constants/Icons';
 import { navigationNavigate } from '../../navigation/navigation';
 
 class NavigationBar extends React.Component {
-    onPress = () => {
-        const { navigation, pageName } = this.props;
-        navigationNavigate(navigation, pageName);
-    };
-
     render() {
         const { text } = this.props;
-
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={this.onPress}>
@@ -24,6 +18,11 @@ class NavigationBar extends React.Component {
             </View>
         );
     }
+
+    onPress = () => {
+        const { navigation, pageName } = this.props;
+        navigationNavigate(navigation, pageName);
+    };
 }
 
 export default NavigationBar;

@@ -5,13 +5,13 @@ import { Styles } from '../../constants/constants';
 const styles = StyleSheet.create({
     container: {
         padding: 16,
+        ...Styles.contentCenter,
         height: Styles.fullSize,
     },
     body: {
         borderRadius: 5,
         width: Styles.fullSize,
         alignItems: Styles.center,
-        marginTop: Styles.percent20,
         backgroundColor: Styles.white,
     },
     headerContainer: {

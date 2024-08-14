@@ -21,19 +21,18 @@ class Languages extends React.Component {
         };
     }
 
-    selectLanguage = (language) => {
-        try {
-            AsyncStorage.setItem(AsyncStorageKeys.language, language);
-            this.setState({ selectedLanguage: language });
-            changeLanguage(language);
-            navigationRefreshWithoutReload();
-        } catch (error) {
-            /**
-             * Will be use the crashlytics logs
-             */
-            console.log('Error', error);
-        }
-    };
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>
+                        {t('texts.languages', LanguageLocalizationNSKey.settings)}
+                    </Text>
+                    {this.renderLanguageButtons()}
+                </View>
+            </View>
+        );
+    }
 
     renderLanguageButtons = () => {
         const { selectedLanguage } = this.state;
@@ -69,18 +68,19 @@ class Languages extends React.Component {
         );
     };
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>
-                        {t('texts.languages', LanguageLocalizationNSKey.settings)}
-                    </Text>
-                    {this.renderLanguageButtons()}
-                </View>
-            </View>
-        );
-    }
+    selectLanguage = (language) => {
+        try {
+            AsyncStorage.setItem(AsyncStorageKeys.language, language);
+            this.setState({ selectedLanguage: language });
+            changeLanguage(language);
+            navigationRefreshWithoutReload();
+        } catch (error) {
+            /**
+             * Will be use the crashlytics logs
+             */
+            console.log('Error', error);
+        }
+    };
 }
 
 export default Languages;

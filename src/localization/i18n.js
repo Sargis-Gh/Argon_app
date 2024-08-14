@@ -33,7 +33,7 @@ const getDeviceLanguage = () => {
                 NativeModules.SettingsManager.settings.AppleLocale) ||
             NativeModules.SettingsManager.settings.AppleLanguages[0] ||
             NativeModules.I18nManager.localeIdentifier;
-        return deviceLanguage.replace('_', '-');
+        return deviceLanguage.split('_')[0];
     } catch (_) {
         return LanguageLocalizationKey.en;
     }
@@ -46,7 +46,9 @@ export const detectAndInitializeLanguage = async () => {
         return;
     }
     const deviceLanguage = getDeviceLanguage();
-    setI18nConfig(deviceLanguage);
+    const language = LanguageLocalizationKey[deviceLanguage];
+    await AsyncStorage.setItem(AsyncStorageKeys.language, language);
+    setI18nConfig(language);
 };
 
 export const changeLanguage = (currentLocale = LanguageLocalizationKey.en) => {

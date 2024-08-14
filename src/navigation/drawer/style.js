@@ -3,10 +3,12 @@ import { StyleSheet } from 'react-native';
 import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
-    loading: {
-        flex: 1,
-        ...Styles.contentCenter,
+    headerContainer: {
         backgroundColor: Styles.purple,
+    },
+    headerTitle: {
+        color: Styles.white,
+        fontFamily: Styles.openSans,
     },
 });
 

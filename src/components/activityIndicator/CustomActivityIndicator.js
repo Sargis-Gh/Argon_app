@@ -8,7 +8,7 @@ class CustomActivityIndicator extends React.Component {
     render() {
         return (
             <View style={styles.loading}>
-                <ActivityIndicator size={Styles.large} color={Styles.purple} />
+                <ActivityIndicator size={Styles.large} color={Styles.white} />
             </View>
         );
     }

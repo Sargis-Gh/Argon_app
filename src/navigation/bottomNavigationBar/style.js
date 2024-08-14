@@ -16,8 +16,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         ...Styles.contentCenter,
         shadowColor: Styles.grey,
-        backgroundColor: Styles.purple,
+        borderColor: Styles.purple,
+        backgroundColor: Styles.white,
         shadowOffset: { width: 0, height: 1 },
+    },
+    tabBarStyle: {
+        backgroundColor: Styles.white,
     },
 });
 

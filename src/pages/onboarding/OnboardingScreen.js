@@ -10,17 +10,28 @@ import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 import { navigationNavigate } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
-    renderItem = (item) => {
+    render() {
         return (
-            <View style={styles.slide}>
-                <Image source={item.image} style={styles.image} />
-                <Text style={styles.title}>
-                    {t(item.title, LanguageLocalizationNSKey.onboarding)}
-                </Text>
-                <Text style={styles.subtitle}>{item.text}</Text>
-            </View>
+            <AppIntroSlider
+                bottomButton={true}
+                data={OnboardingData}
+                dotStyle={styles.dotStyle}
+                style={styles.appIntroSlider}
+                renderDoneButton={this.doneButton}
+                renderNextButton={this.nextButton}
+                activeDotStyle={styles.activeDotStyle}
+                renderItem={({ item }) => this.renderItem(item)}
+            />
         );
-    };
+    }
+
+    renderItem = (item) => (
+        <View style={styles.slide}>
+            <Image source={item.image} style={styles.image} />
+            <Text style={styles.title}>{t(item.title, LanguageLocalizationNSKey.onboarding)}</Text>
+            <Text style={styles.subtitle}>{item.text}</Text>
+        </View>
+    );
 
     doneButton = () => (
         <TouchableOpacity
@@ -43,21 +54,6 @@ class Onboarding extends React.Component {
             </Text>
         </View>
     );
-
-    render() {
-        return (
-            <AppIntroSlider
-                bottomButton={true}
-                data={OnboardingData}
-                dotStyle={styles.dotStyle}
-                style={styles.appIntroSlider}
-                renderDoneButton={this.doneButton}
-                renderNextButton={this.nextButton}
-                activeDotStyle={styles.activeDotStyle}
-                renderItem={({ item }) => this.renderItem(item)}
-            />
-        );
-    }
 }
 
 export default Onboarding;
