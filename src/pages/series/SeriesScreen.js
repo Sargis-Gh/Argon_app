@@ -4,6 +4,7 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
+import FastImage from 'react-native-fast-image';
 import { getSeasons } from '../../providers/endpoints';
 import { genericErrorHandling } from '../../utils/errorHandlers';
 import { PageName, DEVICE_SETTINGS, LanguageLocalizationNSKey } from '../../constants/constants';
@@ -60,7 +61,7 @@ class SeriesScreen extends React.Component {
             }}>
             {item.image && (
                 <FastImage
-                    source={item.image.medium}
+                    source={{ uri: item.image.medium }}
                     style={styles.image}
                     resizeMode={FastImage.resizeMode.stretch}
                 />

@@ -41,8 +41,8 @@ class MovieDetailsScreen extends React.Component {
             <View>
                 {image && (
                     <FastImage
-                        source={image}
                         style={styles.image}
+                        source={{ uri: image }}
                         resizeMode={FastImage.resizeMode.stretch}
                     />
                 )}
