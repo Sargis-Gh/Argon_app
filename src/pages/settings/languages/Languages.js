@@ -3,15 +3,16 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
-import { Icons } from '../../../../constants/Icons';
-import { changeLanguage, t } from '../../../../localization/i18n';
+import { Icons } from '../../../constants/Icons';
+import { changeLanguage, t } from '../../../localization/i18n';
+import { genericErrorHandling } from '../../../utils/errorHandlers';
 import {
     AsyncStorageKeys,
     LanguageLocalizationKey,
     LanguageLocalizationNSKey,
-} from '../../../../constants/constants';
+} from '../../../constants/constants';
 
-import { navigationRefreshWithoutReload } from '../../../../navigation/navigation';
+import { navigationRefreshWithoutReload } from '../../../navigation/navigation';
 
 class Languages extends React.Component {
     constructor(props) {
@@ -21,19 +22,18 @@ class Languages extends React.Component {
         };
     }
 
-    selectLanguage = (language) => {
-        try {
-            AsyncStorage.setItem(AsyncStorageKeys.language, language);
-            this.setState({ selectedLanguage: language });
-            changeLanguage(language);
-            navigationRefreshWithoutReload();
-        } catch (error) {
-            /**
-             * Will be use the crashlytics logs
-             */
-            console.log('Error', error);
-        }
-    };
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>
+                        {t('texts.languages', LanguageLocalizationNSKey.settings)}
+                    </Text>
+                    {this.renderLanguageButtons()}
+                </View>
+            </View>
+        );
+    }
 
     renderLanguageButtons = () => {
         const { selectedLanguage } = this.state;
@@ -69,18 +69,16 @@ class Languages extends React.Component {
         );
     };
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>
-                        {t('texts.languages', LanguageLocalizationNSKey.settings)}
-                    </Text>
-                    {this.renderLanguageButtons()}
-                </View>
-            </View>
-        );
-    }
+    selectLanguage = (language) => {
+        try {
+            AsyncStorage.setItem(AsyncStorageKeys.language, language);
+            this.setState({ selectedLanguage: language });
+            changeLanguage(language);
+            navigationRefreshWithoutReload();
+        } catch (error) {
+            genericErrorHandling(error);
+        }
+    };
 }
 
 export default Languages;

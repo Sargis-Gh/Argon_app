@@ -1,0 +1,13 @@
+{
+    "genre": "Genre",
+    "search": "Search",
+    "minutes": "minutes",
+    "synopsis": "Synopsis",
+    "showMore": "Show more",
+    "tryAgain": "Try again",
+    "favorites": "Favorites",
+    "viewDetails": "Details",
+    "releaseDate": "Release Date",
+    "errorMessageHeader": "Something went wrong",
+    "errorMessageBody": "Unfortunately we have encountered an unexpected issue. Please try again orcontact us."
+}

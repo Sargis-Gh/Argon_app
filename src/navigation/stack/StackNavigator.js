@@ -2,8 +2,9 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { PageName } from '../../constants/constants';
-import SignScreen from '../../pages/signIn/SignScreen';
+import SignInScreen from '../../pages/signIn/SignInScreen';
 import Onboarding from '../../pages/onboarding/OnboardingScreen';
+import MovieDetailsScreen from '../../pages/movieDetails/MovieDetailsScreen';
 import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
 
 const Stack = createStackNavigator();
@@ -27,7 +28,7 @@ const StackNavigation = () => {
             />
             <Stack.Screen
                 name={PageName.sign}
-                component={SignScreen}
+                component={SignInScreen}
                 options={({ navigation }) => ({
                     signScreenProps: { navigation },
                     gestureEnabled: false,
@@ -37,7 +38,15 @@ const StackNavigation = () => {
                 name={PageName.tabs}
                 component={BottomTabNavigator}
                 options={({ navigation }) => ({
-                    DrawerScreenProps: { navigation },
+                    bottomTabNavigatorProps: { navigation },
+                    gestureEnabled: false,
+                })}
+            />
+            <Stack.Screen
+                name={PageName.details}
+                component={MovieDetailsScreen}
+                options={({ navigation }) => ({
+                    movieDetailsScreenProps: { navigation },
                     gestureEnabled: false,
                 })}
             />

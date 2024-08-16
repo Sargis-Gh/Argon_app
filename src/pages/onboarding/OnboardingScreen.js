@@ -1,6 +1,7 @@
 import React from 'react';
+import FastImage from 'react-native-fast-image';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
@@ -10,17 +11,33 @@ import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 import { navigationNavigate } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
-    renderItem = (item) => {
+    render() {
+        console.log(OnboardingData);
         return (
-            <View style={styles.slide}>
-                <Image source={item.image} style={styles.image} />
-                <Text style={styles.title}>
-                    {t(item.title, LanguageLocalizationNSKey.onboarding)}
-                </Text>
-                <Text style={styles.subtitle}>{item.text}</Text>
-            </View>
+            <AppIntroSlider
+                bottomButton={true}
+                data={OnboardingData}
+                dotStyle={styles.dotStyle}
+                style={styles.appIntroSlider}
+                activeDotStyle={styles.activeDotStyle}
+                renderItem={this.renderItem}
+                renderNextButton={this.nextButton}
+                renderDoneButton={this.doneButton}
+            />
         );
-    };
+    }
+
+    renderItem = ({ item }) => (
+        <View style={styles.slide}>
+            <FastImage
+                source={item.image}
+                style={styles.image}
+                resizeMode={FastImage.resizeMode.stretch}
+            />
+            <Text style={styles.title}>{t(item.title, LanguageLocalizationNSKey.onboarding)}</Text>
+            <Text style={styles.subtitle}>{item.text}</Text>
+        </View>
+    );
 
     doneButton = () => (
         <TouchableOpacity
@@ -43,21 +60,6 @@ class Onboarding extends React.Component {
             </Text>
         </View>
     );
-
-    render() {
-        return (
-            <AppIntroSlider
-                bottomButton={true}
-                data={OnboardingData}
-                dotStyle={styles.dotStyle}
-                style={styles.appIntroSlider}
-                renderDoneButton={this.doneButton}
-                renderNextButton={this.nextButton}
-                activeDotStyle={styles.activeDotStyle}
-                renderItem={({ item }) => this.renderItem(item)}
-            />
-        );
-    }
 }
 
 export default Onboarding;

@@ -7,9 +7,9 @@ import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import DrawerNavigator from '../drawer/Drawer';
 import QRScreen from '../../pages/QR/QRScreen';
-import ProfileScreen from '../../pages/profile/ProfileScreen';
+import SeriesScreen from '../../pages/series/SeriesScreen';
+import MoviesScreen from '../../pages/movies/MoviesScreen';
 import FavoritesScreen from '../../pages/favorites/FavoritesScreen';
-import UniversitiesScreen from '../../pages/universities/UniversitiesScreen';
 import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants';
 
 const BottomTab = createBottomTabNavigator();
@@ -19,7 +19,7 @@ class BottomTabNavigator extends React.Component {
         return (
             <Text
                 style={{
-                    color: focused ? Styles.black : Styles.grey,
+                    color: (focused && Styles.purple) || Styles.grey,
                 }}>
                 {pageName}
             </Text>
@@ -31,9 +31,7 @@ class BottomTabNavigator extends React.Component {
             <BottomTab.Navigator
                 screenOptions={{
                     headerShown: false,
-                    tabBarStyle: {
-                        backgroundColor: Styles.white,
-                    },
+                    tabBarStyle: styles.tabBarStyle,
                     tabBarBackground: () => <View style={styles.container}></View>,
                 }}>
                 <BottomTab.Screen
@@ -41,7 +39,7 @@ class BottomTabNavigator extends React.Component {
                     component={DrawerNavigator}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Home fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Home fill={(focused && Styles.purple) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -51,17 +49,18 @@ class BottomTabNavigator extends React.Component {
                     }}
                 />
                 <BottomTab.Screen
-                    name={PageName.universities}
-                    component={UniversitiesScreen}
+                    name={PageName.movies}
+                    component={MoviesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.University fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Movie fill={(focused && Styles.purple) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
-                                t('university', LanguageLocalizationNSKey.bottomTab),
+                                t('movies', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
+                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
@@ -83,27 +82,29 @@ class BottomTabNavigator extends React.Component {
                     component={FavoritesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Favorite fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Favorite fill={(focused && Styles.purple) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
-                                t('favorite', LanguageLocalizationNSKey.bottomTab),
+                                t('favorites', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
+                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
-                    name={PageName.profile}
-                    component={ProfileScreen}
+                    name={PageName.series}
+                    component={SeriesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Profile fill={focused ? Styles.black : Styles.grey} />
+                            <Icons.Series fill={(focused && Styles.purple) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
-                                t('profile', LanguageLocalizationNSKey.bottomTab),
+                                t('series', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
+                        unmountOnBlur: true,
                     }}
                 />
             </BottomTab.Navigator>

@@ -1,14 +1,40 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, BackHandler } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import LoginForm from './components/loginForm/LoginForm';
-import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
+import {
+    Styles,
+    AppWords,
+    BackHandlerEvents,
+    LanguageLocalizationNSKey,
+} from '../../constants/constants';
 
-class SignScreen extends React.Component {
+class SignInScreen extends React.Component {
+    componentDidMount() {
+        BackHandler.addEventListener(BackHandlerEvents, this.handleBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener(BackHandlerEvents.hardwareBackPress, this.handleBackPress);
+    }
+
+    render() {
+        return (
+            <LinearGradient
+                colors={[Styles.lightBlue, Styles.darkBlue]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}>
+                <SafeAreaView>
+                    <View style={styles.container}>{this.renderBody()}</View>
+                </SafeAreaView>
+            </LinearGradient>
+        );
+    }
+
     renderSignInWith = (icon, text) => (
         <TouchableOpacity style={styles.signInWith}>
             {icon}
@@ -39,18 +65,9 @@ class SignScreen extends React.Component {
         );
     };
 
-    render() {
-        return (
-            <LinearGradient
-                colors={[Styles.lightBlue, Styles.darkBlue]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}>
-                <SafeAreaView>
-                    <View style={styles.container}>{this.renderBody()}</View>
-                </SafeAreaView>
-            </LinearGradient>
-        );
-    }
+    handleBackPress = () => {
+        return true;
+    };
 }
 
-export default SignScreen;
+export default SignInScreen;

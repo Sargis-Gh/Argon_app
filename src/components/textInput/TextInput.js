@@ -20,10 +20,10 @@ class CustomTextInput extends React.Component {
             <View style={style}>
                 {!iconRight && Icon}
                 <TextInput
-                    style={textStyle}
                     value={value}
-                    placeholder={placeholderText}
+                    style={textStyle}
                     onChangeText={onChangeText}
+                    placeholder={placeholderText}
                     secureTextEntry={secureTextEntry}
                     placeholderTextColor={Styles.grey}
                 />
