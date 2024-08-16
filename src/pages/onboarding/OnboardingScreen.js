@@ -19,10 +19,10 @@ class Onboarding extends React.Component {
                 data={OnboardingData}
                 dotStyle={styles.dotStyle}
                 style={styles.appIntroSlider}
-                renderDoneButton={this.doneButton}
-                renderNextButton={this.nextButton}
                 activeDotStyle={styles.activeDotStyle}
                 renderItem={this.renderItem}
+                renderNextButton={this.nextButton}
+                renderDoneButton={this.doneButton}
             />
         );
     }

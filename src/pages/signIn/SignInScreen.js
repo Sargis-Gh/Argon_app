@@ -9,20 +9,17 @@ import LoginForm from './components/loginForm/LoginForm';
 import {
     Styles,
     AppWords,
+    BackHandlerEvents,
     LanguageLocalizationNSKey,
-    BACK_HANDLER_EVENTS,
 } from '../../constants/constants';
 
 class SignInScreen extends React.Component {
     componentDidMount() {
-        BackHandler.addEventListener(BACK_HANDLER_EVENTS.HARDWARE_BACK_PRESS, this.handleBackPress);
+        BackHandler.addEventListener(BackHandlerEvents, this.handleBackPress);
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener(
-            BACK_HANDLER_EVENTS.HARDWARE_BACK_PRESS,
-            this.handleBackPress,
-        );
+        BackHandler.removeEventListener(BackHandlerEvents.hardwareBackPress, this.handleBackPress);
     }
 
     render() {

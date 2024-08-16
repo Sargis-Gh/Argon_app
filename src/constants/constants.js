@@ -3,7 +3,6 @@ import { Dimensions, NativeModules, Platform } from 'react-native';
 export const PageName = {
     qr: 'QR',
     home: 'Home',
-    intro: 'Intro',
     sign: 'SignIn',
     movies: 'Movies',
     drawer: 'Drawer',
@@ -12,7 +11,6 @@ export const PageName = {
     details: 'Details',
     loading: 'Loading',
     profile: 'Profile',
-    first: 'FirstPage',
     settings: 'Settings',
     favorites: 'Favorites',
     onboarding: 'Onboarding',
@@ -36,9 +34,9 @@ export const Styles = {
     // Colors
     dark: '#211F30',
     green: '#77BB41',
+    black: 'rgb(0, 0, 0)',
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
-    black: 'rgb(0, 0, 0)',
     transparent: 'transparent',
     pink: 'rgb(229, 125, 222)',
     white: 'rgb(255, 255, 255)',
@@ -127,8 +125,8 @@ export const DEVICE_SETTINGS = {
     using24HourFormat: true,
 };
 
-export const BACK_HANDLER_EVENTS = {
-    HARDWARE_BACK_PRESS: 'hardwareBackPress',
+export const BackHandlerEvents = {
+    hardwareBackPress: 'hardwareBackPress',
 };
 
 export const AsyncStorageKeys = {

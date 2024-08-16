@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
         padding: 16,
         fontSize: 15,
         color: Styles.purple,
-        fontFamily: Styles.openSans,
         textAlign: Styles.center,
+        fontFamily: Styles.openSans,
     },
 });
 

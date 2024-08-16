@@ -35,21 +35,20 @@ class MovieDetailsScreen extends React.Component {
         );
     }
 
-    renderHeader = (image) => {
+    renderHeader = (uri) => {
         const { navigation } = this.props;
         return (
             <View>
-                {image && (
+                {!!uri && (
                     <FastImage
                         style={styles.image}
-                        source={{ uri: image }}
+                        source={{ uri }}
                         resizeMode={FastImage.resizeMode.stretch}
                     />
                 )}
                 <TouchableOpacity
                     style={styles.backIcon}
                     onPress={() => {
-                        console.log('Click');
                         navigationNavigate(navigation, PageName.series);
                     }}>
                     <Icons.Left />

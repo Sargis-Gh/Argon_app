@@ -33,21 +33,21 @@ class SeriesScreen extends React.Component {
                 <FlatList
                     data={series}
                     keyExtractor={(item, index) => item[index].id}
-                    renderItem={({ item }) => this.renderContent(item)}
+                    renderItem={this.renderContent}
                 />
             </View>
         );
     }
 
-    renderContent = (data) => {
+    renderContent = ({ item }) => {
         return (
             <Carousel
                 loop
-                data={data}
+                data={item}
                 height={240}
                 width={DEVICE_SETTINGS.windowWidth}
-                renderItem={this.renderItem}
                 panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+                renderItem={this.renderItem}
             />
         );
     };
@@ -59,7 +59,7 @@ class SeriesScreen extends React.Component {
             onPress={() => {
                 this.props.navigation.navigate(PageName.details, { id: item.id });
             }}>
-            {item.image && (
+            {!!item?.image?.medium && (
                 <FastImage
                     source={{ uri: item.image.medium }}
                     style={styles.image}
