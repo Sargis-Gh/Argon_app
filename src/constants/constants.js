@@ -19,8 +19,6 @@ export const PageName = {
 };
 
 export const Styles = {
-    window: 'window',
-
     // Font Weights
     fontWeightThin: '100', // Thin
     fontWeightUltraLight: '200', // Ultra Light
@@ -129,6 +127,10 @@ export const DEVICE_SETTINGS = {
     using24HourFormat: true,
 };
 
+export const BACK_HANDLER_EVENTS = {
+    HARDWARE_BACK_PRESS: 'hardwareBackPress',
+};
+
 export const AsyncStorageKeys = {
     language: 'language',
     favorites: 'favorites',
@@ -138,6 +140,6 @@ export const Endpoints = {
     getMovies: 'https://api.tvmaze.com/shows',
     getMovie: 'https://api.tvmaze.com/shows/%S',
     getActors: 'https://api.tvmaze.com/shows/%S/cast',
-    getShows: 'https://api.tvmaze.com/shows/%S/seasons',
     getCreators: 'https://api.tvmaze.com/shows/%S/crew',
+    getSeasons: 'https://api.tvmaze.com/shows/%S/seasons',
 };

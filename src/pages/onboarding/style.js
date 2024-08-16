@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         alignItems: Styles.center,
         justifyContent: Styles.center,
         backgroundColor: Styles.white,
+        marginTop: DEVICE_SETTINGS.statusBarHeight,
     },
     image: {
         width: Styles.fullSize,

@@ -11,7 +11,7 @@ export const getMovie = async (id) => {
     return await axios.get(stringFormat(Endpoints.getMovie, id));
 };
 
-export const getShows = async () => {
+export const getSeasons = async () => {
     const urls = [
         'https://api.tvmaze.com/shows/1/seasons',
         'https://api.tvmaze.com/shows/2/seasons',

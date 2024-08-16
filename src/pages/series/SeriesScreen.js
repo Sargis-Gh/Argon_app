@@ -1,11 +1,12 @@
 import React from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import { View, Text, Dimensions, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
-import { getShows } from '../../providers/endpoints';
-import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants';
+import { getSeasons } from '../../providers/endpoints';
+import { genericErrorHandling } from '../../utils/errorHandlers';
+import { PageName, DEVICE_SETTINGS, LanguageLocalizationNSKey } from '../../constants/constants';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 
 class SeriesScreen extends React.Component {
@@ -19,8 +20,8 @@ class SeriesScreen extends React.Component {
     }
 
     render() {
-        if (this.state.loading) return <CustomActivityIndicator />;
-        const { series } = this.state;
+        const { series, loading } = this.state;
+        if (loading) return <CustomActivityIndicator />;
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -38,39 +39,44 @@ class SeriesScreen extends React.Component {
     }
 
     renderContent = (data) => {
-        const width = Dimensions.get(Styles.window).width;
         return (
             <Carousel
                 loop
                 data={data}
                 height={240}
-                width={width}
-                renderItem={({ item }) => this.renderItem(item)}
+                width={DEVICE_SETTINGS.windowWidth}
+                renderItem={this.renderItem}
                 panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
             />
         );
     };
 
-    renderItem = (item) => (
+    renderItem = ({ item }) => (
         <TouchableOpacity
             style={styles.item}
             activeOpacity={0.7}
             onPress={() => {
                 this.props.navigation.navigate(PageName.details, { id: item.id });
             }}>
-            {item.image && <Image style={styles.image} source={{ uri: item.image.medium }} />}
+            {item.image && (
+                <FastImage
+                    source={item.image.medium}
+                    style={styles.image}
+                    resizeMode={FastImage.resizeMode.stretch}
+                />
+            )}
         </TouchableOpacity>
     );
 
     initData = async () => {
         try {
-            const series = await getShows();
+            const series = await getSeasons();
             this.setState({
                 series,
                 loading: false,
             });
         } catch (error) {
-            console.log('Error: ', error);
+            genericErrorHandling(error);
             this.setState({ loading: false });
         }
     };

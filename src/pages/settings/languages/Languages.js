@@ -3,15 +3,16 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
-import { Icons } from '../../../../constants/Icons';
-import { changeLanguage, t } from '../../../../localization/i18n';
+import { Icons } from '../../../constants/Icons';
+import { changeLanguage, t } from '../../../localization/i18n';
+import { genericErrorHandling } from '../../../utils/errorHandlers';
 import {
     AsyncStorageKeys,
     LanguageLocalizationKey,
     LanguageLocalizationNSKey,
-} from '../../../../constants/constants';
+} from '../../../constants/constants';
 
-import { navigationRefreshWithoutReload } from '../../../../navigation/navigation';
+import { navigationRefreshWithoutReload } from '../../../navigation/navigation';
 
 class Languages extends React.Component {
     constructor(props) {
@@ -75,10 +76,7 @@ class Languages extends React.Component {
             changeLanguage(language);
             navigationRefreshWithoutReload();
         } catch (error) {
-            /**
-             * Will be use the crashlytics logs
-             */
-            console.log('Error', error);
+            genericErrorHandling(error);
         }
     };
 }

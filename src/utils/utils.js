@@ -7,5 +7,5 @@ export const stringFormat = (string, values) => {
 };
 
 export const removeTags = (string) => {
-    return string.replace(/<\/?p>|<\/?b>/g, '');
+    return string?.replace(/<\/?p>|<\/?b>/g, '');
 };

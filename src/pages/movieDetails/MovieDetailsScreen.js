@@ -1,17 +1,22 @@
 import React from 'react';
-import { View, Text, Image, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { removeTags } from '../../utils/utils';
 import { getMovie } from '../../providers/endpoints';
-import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants';
+import Divider from '../../components/divider/Divider';
+import { genericErrorHandling } from '../../utils/errorHandlers';
+import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
+
+import { navigationNavigate } from '../../navigation/navigation';
 
 class MovieDetailsScreen extends React.Component {
     state = {
-        data: [],
+        data: {},
         loading: true,
     };
 
@@ -20,25 +25,32 @@ class MovieDetailsScreen extends React.Component {
     }
 
     render() {
-        if (this.state.loading) return <CustomActivityIndicator />;
-        const { data } = this.state;
+        const { data, loading } = this.state;
+        if (loading) return <CustomActivityIndicator />;
         return (
             <ScrollView style={styles.container}>
-                {this.renderHeader(data.image.original)}
+                {this.renderHeader(data?.image?.original)}
                 {this.renderAboutMovie(data)}
             </ScrollView>
         );
     }
 
     renderHeader = (image) => {
-        const width = Dimensions.get(Styles.window).width;
+        const { navigation } = this.props;
         return (
             <View>
-                <Image source={{ uri: image }} style={[{ width: width }, styles.image]} />
+                {image && (
+                    <FastImage
+                        source={image}
+                        style={styles.image}
+                        resizeMode={FastImage.resizeMode.stretch}
+                    />
+                )}
                 <TouchableOpacity
                     style={styles.backIcon}
                     onPress={() => {
-                        this.props.navigation.navigate(PageName.series);
+                        console.log('Click');
+                        navigationNavigate(navigation, PageName.series);
                     }}>
                     <Icons.Left />
                 </TouchableOpacity>
@@ -46,24 +58,24 @@ class MovieDetailsScreen extends React.Component {
         );
     };
 
-    renderAboutMovie = (data) => (
+    renderAboutMovie = ({ name, averageRuntime, ended, summary, rating, genres }) => (
         <View style={styles.aboutMovieContainer}>
-            <Text style={styles.movieName}>{data.name}</Text>
+            <Text style={styles.movieName}>{name}</Text>
             <View style={styles.minutesAndRatings}>
                 <Icons.Schedule />
                 <Text style={styles.text}>
-                    {data.averageRuntime} {t('minutes', LanguageLocalizationNSKey.common)}
+                    {averageRuntime} {t('minutes', LanguageLocalizationNSKey.common)}
                 </Text>
                 <Icons.Star />
-                <Text style={styles.text}>{data.rating.average}</Text>
+                <Text style={styles.text}>{rating?.average}</Text>
             </View>
-            {this.renderDivider()}
+            <Divider />
             <View style={styles.releaseGenreContainer}>
                 <View style={styles.releaseContainer}>
                     <Text style={styles.releaseDate}>
                         {t('releaseDate', LanguageLocalizationNSKey.common)}
                     </Text>
-                    <Text style={styles.text}>{data.ended}</Text>
+                    <Text style={styles.text}>{ended}</Text>
                 </View>
                 <View style={styles.genresContainer}>
                     <Text style={styles.releaseDate}>
@@ -73,21 +85,19 @@ class MovieDetailsScreen extends React.Component {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.genreItemsContainer}>
-                        {data.genres.map((genre) => this.renderGenreItem(genre))}
+                        {genres?.map((genre) => this.renderGenreItem(genre))}
                     </ScrollView>
                 </View>
             </View>
-            {this.renderDivider()}
+            <Divider />
             <View style={styles.description}>
                 <Text style={styles.releaseDate}>
                     {t('synopsis', LanguageLocalizationNSKey.common)}
                 </Text>
-                <Text style={styles.text}>{removeTags(data.summary)}</Text>
+                <Text style={styles.text}>{removeTags(summary)}</Text>
             </View>
         </View>
     );
-
-    renderDivider = () => <View style={styles.divider}></View>;
 
     renderGenreItem = (genre) => (
         <View key={genre} style={styles.genreItem}>
@@ -103,7 +113,7 @@ class MovieDetailsScreen extends React.Component {
                 loading: false,
             });
         } catch (error) {
-            console.log('Error: ', error);
+            genericErrorHandling(error);
             this.setState({ loading: false });
         }
     };

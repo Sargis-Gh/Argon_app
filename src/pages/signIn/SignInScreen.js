@@ -1,14 +1,30 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, BackHandler } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import LoginForm from './components/loginForm/LoginForm';
-import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
+import {
+    Styles,
+    AppWords,
+    LanguageLocalizationNSKey,
+    BACK_HANDLER_EVENTS,
+} from '../../constants/constants';
 
 class SignInScreen extends React.Component {
+    componentDidMount() {
+        BackHandler.addEventListener(BACK_HANDLER_EVENTS.HARDWARE_BACK_PRESS, this.handleBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener(
+            BACK_HANDLER_EVENTS.HARDWARE_BACK_PRESS,
+            this.handleBackPress,
+        );
+    }
+
     render() {
         return (
             <LinearGradient
@@ -50,6 +66,10 @@ class SignInScreen extends React.Component {
                 </View>
             </View>
         );
+    };
+
+    handleBackPress = () => {
+        return true;
     };
 }
 

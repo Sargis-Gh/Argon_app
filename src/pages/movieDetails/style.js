@@ -17,10 +17,13 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
         position: Styles.absolute,
         backgroundColor: Styles.greyWithalpha,
+        marginVertical: DEVICE_SETTINGS.statusBarHeight,
     },
     image: {
         height: 300,
         resizeMode: Styles.stretch,
+        width: DEVICE_SETTINGS.windowWidth,
+        marginTop: DEVICE_SETTINGS.statusBarHeight,
     },
     aboutMovieContainer: {
         rowGap: 12,
@@ -39,11 +42,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: Styles.white,
         fontFamily: Styles.openSans,
-    },
-    divider: {
-        height: 1,
-        width: Styles.fullSize,
-        backgroundColor: Styles.greyWithalpha,
     },
     releaseGenreContainer: {
         flexDirection: Styles.row,

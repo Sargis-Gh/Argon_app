@@ -1,6 +1,7 @@
 import React from 'react';
+import FastImage from 'react-native-fast-image';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
@@ -11,6 +12,7 @@ import { navigationNavigate } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
     render() {
+        console.log(OnboardingData);
         return (
             <AppIntroSlider
                 bottomButton={true}
@@ -20,14 +22,18 @@ class Onboarding extends React.Component {
                 renderDoneButton={this.doneButton}
                 renderNextButton={this.nextButton}
                 activeDotStyle={styles.activeDotStyle}
-                renderItem={({ item }) => this.renderItem(item)}
+                renderItem={this.renderItem}
             />
         );
     }
 
-    renderItem = (item) => (
+    renderItem = ({ item }) => (
         <View style={styles.slide}>
-            <Image source={item.image} style={styles.image} />
+            <FastImage
+                source={item.image}
+                style={styles.image}
+                resizeMode={FastImage.resizeMode.stretch}
+            />
             <Text style={styles.title}>{t(item.title, LanguageLocalizationNSKey.onboarding)}</Text>
             <Text style={styles.subtitle}>{item.text}</Text>
         </View>
