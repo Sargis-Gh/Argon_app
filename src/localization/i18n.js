@@ -73,4 +73,8 @@ export function t(name, key = 'ns', params = {}) {
     return i18n.t(name, { ...params, ns: key });
 }
 
+export const getCurrentLanguage = () => {
+    return i18n.language.slice(0, 2);
+};
+
 export default i18n;

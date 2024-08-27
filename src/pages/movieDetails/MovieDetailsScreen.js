@@ -1,5 +1,6 @@
 import React from 'react';
 import FastImage from 'react-native-fast-image';
+import YoutubeIframe from 'react-native-youtube-iframe';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import styles from './style';
@@ -14,17 +15,20 @@ import { navigationNavigate } from '../../navigation/navigation';
 import CustomBlurView from '../../components/customBlurView/CustomBlurView';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
+    Styles,
+    AppWords,
     PageName,
-    movieGenres,
     KnownForDepartment,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
 class MovieDetailsScreen extends React.Component {
     state = {
+        trailer: {},
         details: {},
         credits: {},
         loading: true,
+        playing: false,
     };
 
     componentDidMount() {
@@ -33,36 +37,65 @@ class MovieDetailsScreen extends React.Component {
 
     render() {
         const { navigation } = this.props;
-        const { details, credits, loading } = this.state;
+        const { trailer, details, credits, loading } = this.state;
         if (loading) return <CustomActivityIndicator />;
         return (
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {this.renderHeader(details, navigation)}
+                {this.renderHeader(details, trailer, navigation)}
                 {this.renderAboutMovie(details, credits, navigation)}
             </ScrollView>
         );
     }
 
-    renderHeader = ({ poster_path }, navigation) => (
-        <View>
-            {!!poster_path && (
-                <FastImage
-                    style={styles.image}
-                    resizeMode={FastImage.resizeMode.stretch}
-                    source={{ uri: buildImageUrl(poster_path) }}
-                />
-            )}
-            <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.backIcon}
-                onPress={() => {
-                    navigationNavigate(navigation, PageName.home);
-                }}>
-                <CustomBlurView />
-                <Icons.Left />
-            </TouchableOpacity>
-        </View>
+    renderIframe = (key) => {
+        return (
+            <YoutubeIframe
+                play={true}
+                height={225}
+                videoId={key}
+                width={Styles.fullSize}
+                onChangeState={(state) => {
+                    state === AppWords.ended && this.setState({ playing: false });
+                }}
+            />
+        );
+    };
+
+    renderImage = (url) => (
+        <FastImage
+            style={styles.image}
+            resizeMode={FastImage.resizeMode.cover}
+            source={{ uri: buildImageUrl(url) }}
+        />
     );
+
+    renderHeader = (details, trailer, navigation) => {
+        const { playing } = this.state;
+        const hasTrailer = !!trailer?.key;
+        const hasPoster = !!details?.poster_path;
+        return (
+            <View style={styles.headerContainer}>
+                {playing && hasTrailer
+                    ? this.renderIframe(trailer?.key)
+                    : hasPoster && this.renderImage(details?.poster_path)}
+                <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={styles.backIcon}
+                    onPress={() => navigationNavigate(navigation, PageName.home)}>
+                    <CustomBlurView />
+                    <Icons.Left />
+                </TouchableOpacity>
+                {!playing && (
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        style={styles.playButton}
+                        onPress={() => this.setState({ playing: true })}>
+                        <Icons.PlayCircle />
+                    </TouchableOpacity>
+                )}
+            </View>
+        );
+    };
 
     renderAboutMovie = (
         { title, runtime, vote_average, release_date, overview, genres },
@@ -95,7 +128,7 @@ class MovieDetailsScreen extends React.Component {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.genreItemsContainer}>
-                        {genres.map((genre) => this.renderGenreItem(genre.id))}
+                        {genres.map((genre) => this.renderGenreItem(genre))}
                     </ScrollView>
                 </View>
             </View>
@@ -170,18 +203,18 @@ class MovieDetailsScreen extends React.Component {
         </TouchableOpacity>
     );
 
-    renderGenreItem = (id) => (
-        <View key={genre} style={styles.genreItem}>
-            <Text style={styles.text}>
-                {(genre = movieGenres.find((genre) => genre?.id === id).name)}
-            </Text>
+    renderGenreItem = (genre) => (
+        <View key={genre?.id} style={styles.genreItem}>
+            <Text style={styles.text}>{genre?.name}</Text>
         </View>
     );
 
     initData = async () => {
         try {
-            const { details, credits } = await getMovieDetails(this.props.route.params.id);
+            const { details, credits, videos } = await getMovieDetails(this.props.route.params.id);
+            const trailer = videos?.results.find((video) => video?.type === AppWords.trailer);
             this.setState({
+                trailer,
                 details,
                 credits,
                 loading: false,

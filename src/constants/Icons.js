@@ -19,7 +19,9 @@ import Profile from '../assets/icons/profile';
 import Favorite from '../assets/icons/favorite';
 import Password from '../assets/icons/password';
 import Schedule from '../assets/icons/schedule';
+import PlayVideo from '../assets/icons/playVideo';
 import ArrowDown from '../assets/icons/arrowDown';
+import PlayCircle from '../assets/icons/playCircle';
 import NotFavorite from '../assets/icons/notFavorite';
 
 export const Icons = {
@@ -44,6 +46,8 @@ export const Icons = {
     Schedule,
     Favorite,
     Password,
+    PlayVideo,
     ArrowDown,
+    PlayCircle,
     NotFavorite,
 };

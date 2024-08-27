@@ -9,7 +9,12 @@ const styles = StyleSheet.create({
         paddingTop: DEVICE_SETTINGS.statusBarHeight,
         paddingBottom: DEVICE_SETTINGS.homeIndicatorHeight,
     },
+    headerContainer: {
+        ...Styles.contentCenter,
+    },
     backIcon: {
+        top: 0,
+        left: 0,
         width: 40,
         height: 40,
         margin: 16,
@@ -18,7 +23,7 @@ const styles = StyleSheet.create({
         position: Styles.absolute,
     },
     image: {
-        height: 290,
+        height: 225,
         width: DEVICE_SETTINGS.windowWidth,
     },
     aboutMovieContainer: {
@@ -107,6 +112,14 @@ const styles = StyleSheet.create({
     },
     footer: {
         height: 100,
+    },
+    playButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        ...Styles.contentCenter,
+        position: Styles.absolute,
+        backgroundColor: Styles.blackWithOpacity,
     },
 });
 

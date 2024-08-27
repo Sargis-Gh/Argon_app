@@ -1,4 +1,5 @@
-import { Api_Key, BASE_URL, IMAGE_BASE_URL } from '../constants/constants';
+import { getCurrentLanguage } from '../localization/i18n';
+import { API_KEY, BASE_URL, IMAGE_BASE_URL, LANGUAGE } from '../constants/constants';
 
 export const stringFormat = (string, values) => {
     values = [].concat(values || []);
@@ -10,4 +11,5 @@ export const stringFormat = (string, values) => {
 
 export const buildImageUrl = (string) => IMAGE_BASE_URL + string;
 
-export const buildApiUrl = (string, id) => BASE_URL + stringFormat(string, id) + Api_Key;
+export const buildApiUrl = (string, id) =>
+    BASE_URL + stringFormat(string, id) + LANGUAGE + getCurrentLanguage() + API_KEY;
