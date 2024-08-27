@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     languageButtonText: {
         marginLeft: 8,
-        color: Styles.titleColor,
+        color: Styles.appBackground,
         fontFamily: Styles.openSans,
     },
     checked: {

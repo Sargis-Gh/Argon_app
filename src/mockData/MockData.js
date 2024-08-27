@@ -2,19 +2,19 @@ export const OnboardingData = [
     {
         key: 'one',
         title: 'upcoming',
-        text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+        text: 'firstPageDescription',
         image: require('../assets/images/onboarding/first.jpg'),
     },
     {
         key: 'two',
         title: 'movies',
-        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        text: 'secondPageDescription',
         image: require('../assets/images/onboarding/second.png'),
     },
     {
         key: 'tree',
         title: 'series',
-        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        text: 'thirdPageDescription',
         image: require('../assets/images/onboarding/third.png'),
     },
 ];

@@ -4,12 +4,14 @@ import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 16,
         ...Styles.contentCenter,
         height: Styles.fullSize,
+        backgroundColor: Styles.appBackground,
     },
     body: {
-        borderRadius: 5,
+        borderRadius: 10,
         width: Styles.fullSize,
         alignItems: Styles.center,
         backgroundColor: Styles.white,
@@ -48,14 +50,14 @@ const styles = StyleSheet.create({
     signInWith: {
         width: 140,
         height: 44,
-        elevation: 5,
+        elevation: 8,
         borderRadius: 3,
         shadowRadius: 3,
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.2,
         ...Styles.contentCenter,
-        shadowColor: Styles.grey,
         flexDirection: Styles.row,
         backgroundColor: Styles.white,
+        shadowColor: Styles.appBackground,
         shadowOffset: { width: 0, height: 2 },
     },
     headerText: {

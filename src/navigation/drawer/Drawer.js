@@ -1,7 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import HomeScreen from '../../pages/home/HomeScreen';
@@ -17,9 +16,9 @@ class DrawerNavigator extends React.Component {
                     name={PageName.home}
                     component={HomeScreen}
                     options={{
+                        headerShown: false,
+                        unmountOnBlur: true,
                         drawerIcon: Icons.Home,
-                        headerStyle: styles.headerContainer,
-                        headerTitleStyle: styles.headerTitle,
                         title: t('title', LanguageLocalizationNSKey.home),
                     }}
                 />
@@ -27,8 +26,6 @@ class DrawerNavigator extends React.Component {
                     name={PageName.settings}
                     component={SettingsScreen}
                     options={{
-                        headerStyle: styles.headerContainer,
-                        headerTitleStyle: styles.headerTitle,
                         title: t('title', LanguageLocalizationNSKey.settings),
                     }}
                 />

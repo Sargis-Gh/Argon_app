@@ -12,7 +12,6 @@ import { navigationNavigate } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
     render() {
-        console.log(OnboardingData);
         return (
             <AppIntroSlider
                 bottomButton={true}
@@ -35,7 +34,9 @@ class Onboarding extends React.Component {
                 resizeMode={FastImage.resizeMode.stretch}
             />
             <Text style={styles.title}>{t(item.title, LanguageLocalizationNSKey.onboarding)}</Text>
-            <Text style={styles.subtitle}>{item.text}</Text>
+            <Text style={styles.subtitle}>
+                {t(item.text, LanguageLocalizationNSKey.onboarding)}
+            </Text>
         </View>
     );
 

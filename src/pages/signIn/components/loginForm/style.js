@@ -11,9 +11,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 40,
         alignSelf: Styles.center,
+        shadowColor: Styles.grey,
         alignItems: Styles.center,
-        shadowColor: Styles.titleColor,
-        backgroundColor: Styles.titleColor,
+        backgroundColor: Styles.appBackground,
         shadowOffset: { width: 0, height: 3 },
     },
     signInText: {

@@ -19,7 +19,7 @@ class BottomTabNavigator extends React.Component {
         return (
             <Text
                 style={{
-                    color: (focused && Styles.purple) || Styles.grey,
+                    color: (focused && Styles.appBackground) || Styles.grey,
                 }}>
                 {pageName}
             </Text>
@@ -39,13 +39,14 @@ class BottomTabNavigator extends React.Component {
                     component={DrawerNavigator}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Home fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Home fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('home', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
+                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
@@ -53,7 +54,7 @@ class BottomTabNavigator extends React.Component {
                     component={MoviesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Movie fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Movie fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -72,7 +73,7 @@ class BottomTabNavigator extends React.Component {
                                 activeOpacity={1}
                                 style={styles.touchableContent}
                                 onPress={onPress}>
-                                <Icons.QRIcon />
+                                <Icons.QRIcon fill={Styles.appBackground} />
                             </TouchableOpacity>
                         ),
                     }}
@@ -82,7 +83,9 @@ class BottomTabNavigator extends React.Component {
                     component={FavoritesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Favorite fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Favorite
+                                fill={(focused && Styles.appBackground) || Styles.grey}
+                            />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -97,7 +100,7 @@ class BottomTabNavigator extends React.Component {
                     component={SeriesScreen}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Series fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Series fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(

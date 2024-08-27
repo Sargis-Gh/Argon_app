@@ -3,7 +3,10 @@
     "next": "Next",
     "close": "Close",
     "movies": "Movies",
-    "series": "Series",
+    "series": " TV shows",
     "upcoming": "Upcoming",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "thirdPageDescription": "Explore our selection of TV shows and never miss out on the latest must-watch series.",
+    "firstPageDescription": "Stay ahead of the curve by exploring upcoming movies that everyone will be talking about soon.",
+    "secondPageDescription": "Dive into a vast collection of movies from all genres and find your next cinematic adventure."
 }

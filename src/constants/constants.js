@@ -31,27 +31,25 @@ export const Styles = {
     // Font Families
     openSans: 'Open Sans',
 
+    // Carousel Mode
+    parallax: 'parallax',
+
+    light: 'light',
+
     // Colors
-    dark: '#211F30',
     green: '#77BB41',
     black: 'rgb(0, 0, 0)',
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
-    transparent: 'transparent',
-    pink: 'rgb(229, 125, 222)',
     white: 'rgb(255, 255, 255)',
-    grey: 'rgba(136, 152, 170, 1)',
-    darkBlue: 'rgba(26, 23, 77, 1)',
-    lightBlue: 'rgba(23, 43, 77, 1)',
-    purple: 'rgba(40, 20, 131, 0.75)',
-    titleColor: 'rgba(50, 50, 93, 1)',
+    grey: 'rgba(188, 188, 188, 1)',
+    appBackground: 'rgb(23, 23, 23)',
     lightGrey: 'rgba(202, 209, 215, 1)',
     articleColor: 'rgba(94, 114, 228, 1)',
-    backgroundColor: 'rgb(243, 245, 251)',
+    blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
     textInputGrey: 'rgba(173, 181, 189, 1)',
-    greyWithalpha: 'rgba(240, 239, 244, 0.2)',
+    greyWithalpha: 'rgba(218, 218, 218, 0.4)',
     bottomContainerColor: 'rgb(244, 245, 247)',
-    purpleWithOpacity: 'rgba(40, 20, 131, 0.5)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
@@ -77,6 +75,13 @@ export const Styles = {
         fontFamily: 'Open Sans',
         color: 'rgb(255, 255, 255)',
     },
+
+    header: {
+        fontSize: 25,
+        color: 'white',
+        fontWeight: '400',
+        fontFamily: 'Open Sans',
+    },
 };
 
 export const AppWords = {
@@ -87,6 +92,10 @@ export const AppWords = {
 export const LanguageLocalizationKey = {
     en: 'en-US',
     ru: 'ru-RU',
+};
+
+export const Language = {
+    en: 'en',
 };
 
 export const LanguageLocalizationNSKey = {
@@ -134,10 +143,71 @@ export const AsyncStorageKeys = {
     favorites: 'favorites',
 };
 
+export const BASE_URL = 'https://api.themoviedb.org/3';
+export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+export const Api_Key = '?api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+
 export const Endpoints = {
-    getMovies: 'https://api.tvmaze.com/shows',
-    getMovie: 'https://api.tvmaze.com/shows/%S',
-    getActors: 'https://api.tvmaze.com/shows/%S/cast',
-    getCreators: 'https://api.tvmaze.com/shows/%S/crew',
-    getSeasons: 'https://api.tvmaze.com/shows/%S/seasons',
+    movieDetails: '/movie/%S',
+    topRated: '/movie/top_rated',
+    popularMovies: '/movie/popular',
+    nowPlaying: '/movie/now_playing',
+    upcomingMovies: '/movie/upcoming',
+    movieCredits: '/movie/%S/credits',
+    genreMovieList: '/genre/movie/list',
 };
+
+export const PromiseStatus = {
+    rejected: 'rejected',
+    fulfilled: 'fulfilled',
+};
+
+export const KnownForDepartment = {
+    art: 'Art',
+    crew: 'Crew',
+    acting: 'Acting',
+    directing: 'Directing',
+};
+
+export const movieGenres = [
+    { id: 80, name: 'Crime' },
+    { id: 18, name: 'Drama' },
+    { id: 27, name: 'Horror' },
+    { id: 28, name: 'Action' },
+    { id: 35, name: 'Comedy' },
+    { id: 10752, name: 'War' },
+    { id: 14, name: 'Fantasy' },
+    { id: 36, name: 'History' },
+    { id: 37, name: 'Western' },
+    { id: 10402, name: 'Music' },
+    { id: 53, name: 'Thriller' },
+    { id: 12, name: 'Adventure' },
+    { id: 16, name: 'Animation' },
+    { id: 10751, name: 'Family' },
+    { id: 9648, name: 'Mystery' },
+    { id: 10749, name: 'Romance' },
+    { id: 99, name: 'Documentary' },
+    { id: 10770, name: 'TV Movie' },
+    { id: 878, name: 'Science Fiction' },
+];
+
+export const tvGenres = [
+    { id: 18, name: 'Drama' },
+    { id: 80, name: 'Crime' },
+    { id: 35, name: 'Comedy' },
+    { id: 10762, name: 'Kids' },
+    { id: 10763, name: 'News' },
+    { id: 10766, name: 'Soap' },
+    { id: 10767, name: 'Talk' },
+    { id: 37, name: 'Western' },
+    { id: 16, name: 'Animation' },
+    { id: 10751, name: 'Family' },
+    { id: 9648, name: 'Mystery' },
+    { id: 10764, name: 'Reality' },
+    { id: 99, name: 'Documentary' },
+    { id: 10768, name: 'War & Politics' },
+    { id: 10765, name: 'Sci-Fi & Fantasy' },
+    { id: 10759, name: 'Action & Adventure' },
+];
+
+export const HomeScreenDataTitles = ['topRated', 'nowPlaying', 'popular', 'upcoming'];

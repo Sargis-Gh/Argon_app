@@ -7,7 +7,7 @@ import { Styles } from '../../constants/constants';
 class CustomActivityIndicator extends React.Component {
     render() {
         return (
-            <View style={styles.loading}>
+            <View style={styles.container}>
                 <ActivityIndicator size={Styles.large} color={Styles.white} />
             </View>
         );

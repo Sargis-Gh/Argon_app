@@ -5,25 +5,21 @@ import { DEVICE_SETTINGS, Styles } from '../../constants/constants';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Styles.purple,
+        backgroundColor: Styles.appBackground,
+        paddingTop: DEVICE_SETTINGS.statusBarHeight,
         paddingBottom: DEVICE_SETTINGS.homeIndicatorHeight,
     },
     backIcon: {
         width: 40,
         height: 40,
+        margin: 16,
         borderRadius: 20,
-        marginVertical: 24,
-        marginHorizontal: 16,
         ...Styles.contentCenter,
         position: Styles.absolute,
-        backgroundColor: Styles.greyWithalpha,
-        marginVertical: DEVICE_SETTINGS.statusBarHeight,
     },
     image: {
-        height: 300,
-        resizeMode: Styles.stretch,
+        height: 290,
         width: DEVICE_SETTINGS.windowWidth,
-        marginTop: DEVICE_SETTINGS.statusBarHeight,
     },
     aboutMovieContainer: {
         rowGap: 12,
@@ -50,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 0.5,
         rowGap: 12,
     },
-    releaseDate: {
+    titleText: {
         fontSize: 16,
         ...Styles.fontWeightFamilyColor,
     },
@@ -67,7 +63,7 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         paddingHorizontal: 12,
         ...Styles.contentCenter,
-        backgroundColor: Styles.black,
+        backgroundColor: Styles.blackWithOpacity,
     },
     genreItemText: {
         fontSize: 14,
@@ -76,6 +72,41 @@ const styles = StyleSheet.create({
     },
     description: {
         rowGap: 12,
+    },
+    creditsContainer: {
+        rowGap: 16,
+    },
+    personContainer: {
+        marginRight: 16,
+        alignItems: Styles.center,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+        justifyContent: Styles.spaceBetween,
+        backgroundColor: Styles.greyWithalpha,
+    },
+    personImageBackground: {
+        borderBottomLeftRadius: 44,
+        borderBottomRightRadius: 44,
+        backgroundColor: Styles.appBackground,
+    },
+    personImage: {
+        width: 80,
+        margin: 4,
+        height: 80,
+        borderRadius: 40,
+    },
+    nameContainer: {
+        width: 80,
+        paddingBottom: 8,
+        ...Styles.contentCenter,
+    },
+    name: {
+        color: Styles.white,
+        textAlign: Styles.center,
+        fontFamily: Styles.openSans,
+    },
+    footer: {
+        height: 100,
     },
 });
 

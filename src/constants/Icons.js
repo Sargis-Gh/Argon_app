@@ -1,5 +1,6 @@
 import QRIcon from '../assets/icons/qr';
 import Mail from '../assets/icons/mail';
+import Play from '../assets/icons/play';
 import Star from '../assets/icons/star';
 import Home from '../assets/icons/home';
 import Menu from '../assets/icons/menu';
@@ -12,6 +13,7 @@ import GitHub from '../assets/icons/github';
 import Verify from '../assets/icons/verify';
 import Search from '../assets/icons/search';
 import Russia from '../assets/icons/russia';
+import Rating from '../assets/icons/rating';
 import Series from '../assets/icons/series';
 import Profile from '../assets/icons/profile';
 import Favorite from '../assets/icons/favorite';
@@ -22,6 +24,7 @@ import NotFavorite from '../assets/icons/notFavorite';
 
 export const Icons = {
     Mail,
+    Play,
     Star,
     Menu,
     Home,
@@ -34,6 +37,7 @@ export const Icons = {
     Verify,
     Search,
     Russia,
+    Rating,
     Series,
     USAflag,
     Profile,

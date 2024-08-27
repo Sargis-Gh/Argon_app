@@ -13,9 +13,11 @@ import MyStack from './src/navigation/stack/StackNavigator';
 import { detectAndInitializeLanguage } from './src/localization/i18n';
 
 class App extends React.Component {
-    async componentDidMount() {
-        await detectAndInitializeLanguage();
-        SplashScreen.hide();
+    componentDidMount() {
+        (async () => {
+            await detectAndInitializeLanguage();
+            SplashScreen.hide();
+        })();
     }
 
     render() {
