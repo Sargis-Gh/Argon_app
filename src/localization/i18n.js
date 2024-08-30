@@ -4,13 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { EnLanguageResources } from './translations/en';
 import { RuLanguageResources } from './translations/ru';
+import { genericErrorHandling } from '../utils/errorHandlers';
 import {
     Language,
     PlatformName,
     AsyncStorageKeys,
     LanguageLocalizationKey,
 } from '../constants/constants';
-import { genericErrorHandling } from '../utils/errorHandlers';
 
 const resources = {
     [LanguageLocalizationKey.en]: EnLanguageResources,
@@ -69,9 +69,7 @@ export const changeLanguage = (currentLocale = LanguageLocalizationKey.en) => {
     i18n.changeLanguage(currentLocale);
 };
 
-export function t(name, key = 'ns', params = {}) {
-    return i18n.t(name, { ...params, ns: key });
-}
+export const t = (name, key = 'ns', params = {}) => i18n.t(name, { ...params, ns: key });
 
 export const getCurrentLanguage = () => {
     return i18n.language.slice(0, 2);

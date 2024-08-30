@@ -26,6 +26,7 @@ class DrawerNavigator extends React.Component {
                     name={PageName.settings}
                     component={SettingsScreen}
                     options={{
+                        drawerIcon: Icons.Settings,
                         title: t('title', LanguageLocalizationNSKey.settings),
                     }}
                 />

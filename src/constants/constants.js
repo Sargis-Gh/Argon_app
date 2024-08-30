@@ -8,12 +8,13 @@ export const PageName = {
     drawer: 'Drawer',
     series: 'Series',
     tabs: 'BottomTab',
-    details: 'Details',
     loading: 'Loading',
     profile: 'Profile',
     settings: 'Settings',
     favorites: 'Favorites',
     onboarding: 'Onboarding',
+    movieDetails: 'MovieDetails',
+    personDetails: 'PersonDetails',
 };
 
 export const Styles = {
@@ -35,6 +36,7 @@ export const Styles = {
     parallax: 'parallax',
 
     light: 'light',
+    transparent: 'transparent',
 
     // Colors
     green: '#77BB41',
@@ -48,8 +50,8 @@ export const Styles = {
     articleColor: 'rgba(94, 114, 228, 1)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
     textInputGrey: 'rgba(173, 181, 189, 1)',
-    greyWithalpha: 'rgba(218, 218, 218, 0.4)',
     bottomContainerColor: 'rgb(244, 245, 247)',
+    greyWithOpacity: 'rgba(218, 218, 218, 0.2)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
@@ -85,6 +87,7 @@ export const Styles = {
 };
 
 export const AppWords = {
+    focus: 'focus',
     ended: 'ended',
     google: 'GOOGLE',
     gitHub: 'GITHUB',
@@ -108,6 +111,7 @@ export const LanguageLocalizationNSKey = {
     settings: 'settings',
     bottomTab: 'bottomTab',
     onboarding: 'onboarding',
+    personDetails: 'personDetails',
 };
 
 export const PlatformName = {
@@ -145,20 +149,37 @@ export const AsyncStorageKeys = {
     favorites: 'favorites',
 };
 
+export const filmDefaultSource = require('../assets/images/filmDefaultSource.jpeg');
+
+export const carouselItemCountLimit = 20;
+
+export const PAGE = '&page=6';
 export const LANGUAGE = '?language=';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 export const API_KEY = '&api_key=50b28e2f4f87a8e4935d3f87527e1e24';
 
 export const Endpoints = {
-    movieDetails: '/movie/%S',
+    // Home Page
     topRated: '/movie/top_rated',
-    movieVideos: '/movie/%S/videos',
     popularMovies: '/movie/popular',
     nowPlaying: '/movie/now_playing',
     upcomingMovies: '/movie/upcoming',
+
+    // Movie Details
+    movieDetails: '/movie/%S',
+    movieVideos: '/movie/%S/videos',
     movieCredits: '/movie/%S/credits',
-    genreMovieList: '/genre/movie/list',
+
+    // TV Shows Details
+    tvShowsDetails: '/tv/%S',
+    tvVideos: '/tv/%S/videos',
+    tvCredits: '/tv/%S/credits',
+
+    // Person Details
+    personDetails: '/person/%S',
+    personTVCredits: '/person/%S/tv_credits',
+    personMovieCredits: '/person/%S/movie_credits',
 };
 
 export const PromiseStatus = {
@@ -171,6 +192,11 @@ export const KnownForDepartment = {
     crew: 'Crew',
     acting: 'Acting',
     directing: 'Directing',
+};
+
+export const CreditType = {
+    movie: 'movie',
+    tvShow: 'tvShow',
 };
 
 export const HomeScreenDataTitles = ['topRated', 'nowPlaying', 'popular', 'upcoming'];

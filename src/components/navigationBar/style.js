@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
         flexDirection: Styles.row,
     },
     headerText: {
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 22,
-        marginLeft: 40,
-        color: Styles.white,
+        marginLeft: 20,
+        color: Styles.appBackground,
         fontFamily: Styles.openSans,
         fontWeight: Styles.fontWeightSemibold,
     },

@@ -70,6 +70,7 @@ class BottomTabNavigator extends React.Component {
                     options={{
                         tabBarButton: ({ onPress }) => (
                             <TouchableOpacity
+                                delayPressIn={100}
                                 activeOpacity={1}
                                 style={styles.touchableContent}
                                 onPress={onPress}>

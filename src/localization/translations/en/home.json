@@ -1,7 +1,7 @@
 {
     "title": "Home",
     "texts": {
-        "viewArticle": "View article",
-        "whatAreYouLookingFor": "What are you looking for?"
+        "continue": "Continue",
+        "readyPlayer": "Ready Player..."
     }
 }

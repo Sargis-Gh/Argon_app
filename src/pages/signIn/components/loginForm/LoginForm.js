@@ -7,7 +7,7 @@ import { Icons } from '../../../../constants/Icons';
 import CustomTextInput from '../../../../components/textInput/TextInput';
 import { LanguageLocalizationNSKey, PageName } from '../../../../constants/constants';
 
-import { navigationNavigate } from '../../../../navigation/navigation';
+import { navigationReplace } from '../../../../navigation/navigation';
 
 class LoginForm extends React.Component {
     state = {
@@ -24,7 +24,7 @@ class LoginForm extends React.Component {
         const correctPassword = 'password';
 
         if (email === correctEmail && password === correctPassword) {
-            navigationNavigate(navigation, PageName.tabs);
+            navigationReplace(navigation, PageName.tabs);
             return;
         }
         this.setState({
@@ -33,7 +33,11 @@ class LoginForm extends React.Component {
     };
 
     renderSignInButton = () => (
-        <TouchableOpacity style={styles.signIn} activeOpacity={0.7} onPress={this.handleSignIn}>
+        <TouchableOpacity
+            delayPressIn={100}
+            activeOpacity={0.7}
+            style={styles.signIn}
+            onPress={this.handleSignIn}>
             <Text style={styles.signInText}>{t('title', LanguageLocalizationNSKey.signIn)}</Text>
         </TouchableOpacity>
     );

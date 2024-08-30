@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
         rowGap: 16,
     },
     personContainer: {
+        rowGap: 8,
         marginRight: 16,
         alignItems: Styles.center,
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 12,
-        justifyContent: Styles.spaceBetween,
-        backgroundColor: Styles.greyWithalpha,
+        backgroundColor: Styles.greyWithOpacity,
     },
     personImageBackground: {
         borderBottomLeftRadius: 44,
@@ -102,10 +102,11 @@ const styles = StyleSheet.create({
     },
     nameContainer: {
         width: 80,
-        paddingBottom: 8,
+        paddingBottom: 4,
         ...Styles.contentCenter,
     },
     name: {
+        paddingHorizontal: 8,
         color: Styles.white,
         textAlign: Styles.center,
         fontFamily: Styles.openSans,
@@ -120,6 +121,12 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
         position: Styles.absolute,
         backgroundColor: Styles.blackWithOpacity,
+    },
+    adult: {
+        top: 0,
+        right: 0,
+        margin: 16,
+        position: Styles.absolute,
     },
 });
 

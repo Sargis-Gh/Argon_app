@@ -21,7 +21,7 @@ class SignInScreen extends React.Component {
     }
 
     renderSignInWith = (icon, text) => (
-        <TouchableOpacity style={styles.signInWith}>
+        <TouchableOpacity style={styles.signInWith} delayPressIn={100}>
             {icon}
             <Text style={styles.headerText}>{text}</Text>
         </TouchableOpacity>

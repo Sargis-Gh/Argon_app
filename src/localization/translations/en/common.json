@@ -1,21 +1,21 @@
 {
     "genre": "Genre",
+    "retry": "Retry",
     "search": "Search",
     "actors": "Actors",
     "popular": "Popular",
     "minutes": "minutes",
     "creators": "Creators",
-    "continue": "Continue",
-    "upcoming": "Upcoming",
     "synopsis": "Synopsis",
-    "topRated": "Top Rated",
+    "upcoming": "Upcoming",
     "showMore": "Show more",
+    "topRated": "Top Rated",
     "tryAgain": "Try again",
     "favorites": "Favorites",
     "viewDetails": "Details",
     "nowPlaying": "Now Playing",
     "releaseDate": "Release Date",
-    "readyPlayer": "Ready Player...",
     "errorMessageHeader": "Something went wrong",
-    "errorMessageBody": "Unfortunately we have encountered an unexpected issue. Please try again or contact us."
+    "errorMessageBody": "Unfortunately we have encountered an unexpected issue. Please try again or contact us.",
+    "errorMessageRetry": "The internet connection appears to be offline. Please, make sure your device is connected and try again."
 }
