@@ -38,6 +38,7 @@ class BottomTabNavigator extends React.Component {
                     name={PageName.drawer}
                     component={DrawerNavigator}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
                             <Icons.Home fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
@@ -46,13 +47,13 @@ class BottomTabNavigator extends React.Component {
                                 t('home', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
                     name={PageName.movies}
                     component={MoviesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
                             <Icons.Movie fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
@@ -61,7 +62,6 @@ class BottomTabNavigator extends React.Component {
                                 t('movies', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
@@ -83,6 +83,7 @@ class BottomTabNavigator extends React.Component {
                     name={PageName.favorites}
                     component={FavoritesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
                             <Icons.Favorite
                                 fill={(focused && Styles.appBackground) || Styles.grey}
@@ -93,13 +94,13 @@ class BottomTabNavigator extends React.Component {
                                 t('favorites', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
                     name={PageName.series}
                     component={SeriesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
                             <Icons.Series fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
@@ -108,7 +109,6 @@ class BottomTabNavigator extends React.Component {
                                 t('series', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
             </BottomTab.Navigator>

@@ -1,23 +1,19 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, BackHandler } from 'react-native';
+import { Text, View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import LoginForm from './components/loginForm/LoginForm';
-import { AppWords, BackHandlerEvents, LanguageLocalizationNSKey } from '../../constants/constants';
+import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class SignInScreen extends React.Component {
-    componentDidMount() {
-        BackHandler.addEventListener(BackHandlerEvents, this.handleBackPress);
-    }
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener(BackHandlerEvents.hardwareBackPress, this.handleBackPress);
-    }
-
     render() {
-        return <View style={styles.container}>{this.renderBody()}</View>;
+        return (
+            <KeyboardAvoidingView style={styles.container} behavior={Styles.padding}>
+                {this.renderBody()}
+            </KeyboardAvoidingView>
+        );
     }
 
     renderSignInWith = (icon, text) => (
@@ -48,10 +44,6 @@ class SignInScreen extends React.Component {
                 </View>
             </View>
         );
-    };
-
-    handleBackPress = () => {
-        return true;
     };
 }
 

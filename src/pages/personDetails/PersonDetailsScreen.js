@@ -6,19 +6,17 @@ import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
-import { buildImageUrl } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
 import { getPersonDetails } from '../../providers/personDetails';
 import { genericErrorHandling } from '../../utils/errorHandlers';
-import CustomBlurView from '../../components/customBlurView/CustomBlurView';
+import { buildImageUrl, getUniqueElements } from '../../utils/utils';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
     PageName,
     CreditType,
-    filmDefaultSource,
-    carouselItemCountLimit,
+    DefaultSource,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -38,10 +36,14 @@ class PersonDetailsScreen extends React.Component {
     }
 
     render() {
-        const { navigation } = this.props;
-        const { title } = this.props.route.params;
-        const { person, movieCredits, tvCredits, loading, wrongData } = this.state;
+        const { loading, wrongData } = this.state;
         if (loading) return <CustomActivityIndicator />;
+        const {
+            navigation,
+            route: {
+                params: { title },
+            },
+        } = this.props;
         if (wrongData)
             return (
                 <WrongDataScreen
@@ -51,88 +53,92 @@ class PersonDetailsScreen extends React.Component {
                     clickRetryButton={this.clickRetryButton}
                 />
             );
+        const { person, movieCredits, tvCredits } = this.state;
         return (
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 {this.renderHeader(person, navigation)}
-                {this.renderAboutPerson(person, tvCredits, navigation, movieCredits)}
+                {this.renderAboutPerson(tvCredits, navigation, movieCredits, person)}
             </ScrollView>
         );
     }
 
     renderHeader = ({ profile_path, name }, navigation) => (
-        <View
-            style={
-                (!!profile_path && styles.headerContainer) || styles.headerContainerWithoutImage
-            }>
-            {!!profile_path && (
-                <FastImage
-                    style={styles.image}
-                    resizeMode={FastImage.resizeMode.contain}
-                    source={{ uri: buildImageUrl(profile_path) }}
-                />
-            )}
-            {!!name && <Text style={styles.name}>{name}</Text>}
-            <TouchableOpacity
-                delayPressIn={100}
-                activeOpacity={0.8}
-                style={styles.backIcon}
-                onPress={() => {
-                    navigationGoBack(navigation);
-                }}>
-                <CustomBlurView />
-                <Icons.Left />
-            </TouchableOpacity>
+        <View style={styles.headerContainer}>
+            <FastImage
+                style={styles.image}
+                defaultSource={DefaultSource.person}
+                resizeMode={FastImage.resizeMode.contain}
+                source={{ uri: buildImageUrl(profile_path) }}>
+                <TouchableOpacity
+                    delayPressIn={100}
+                    activeOpacity={0.8}
+                    style={styles.backIcon}
+                    onPress={() => {
+                        navigationGoBack(navigation);
+                    }}>
+                    <Icons.Left />
+                </TouchableOpacity>
+                {!!name && <Text style={styles.name}>{name}</Text>}
+            </FastImage>
+            <Divider />
         </View>
     );
 
     renderAboutPerson = (
-        { biography, birthday, popularity },
         tvCredits,
         navigation,
         movieCredits,
-    ) => (
-        <View style={styles.aboutContainer}>
-            <View style={styles.horizontalContainer}>
-                {!!popularity &&
-                    this.renderInfoContainer(
-                        <Icons.StarHalf />,
-                        popularity?.toFixed(1),
-                        t('popularity', LanguageLocalizationNSKey.personDetails),
+        { biography, birthday, popularity },
+    ) => {
+        const hasTVCredits = !!tvCredits?.cast?.length;
+        const hasMovieCredits = !!movieCredits?.cast?.length;
+        const hasPopularityOrBirthday = !!popularity || !!birthday;
+        return (
+            <View style={styles.aboutContainer}>
+                {hasPopularityOrBirthday && (
+                    <View style={styles.horizontalContainer}>
+                        {!!popularity &&
+                            this.renderInfoContainer(
+                                <Icons.StarHalf />,
+                                popularity?.toFixed(1),
+                                t('popularity', LanguageLocalizationNSKey.personDetails),
+                            )}
+                        {!!birthday &&
+                            this.renderInfoContainer(
+                                <Icons.Schedule />,
+                                birthday,
+                                t('birthday', LanguageLocalizationNSKey.personDetails),
+                            )}
+                    </View>
+                )}
+                {hasPopularityOrBirthday && <Divider />}
+                {hasMovieCredits &&
+                    this.renderCarousel(
+                        navigation,
+                        movieCredits?.cast,
+                        CreditType.movie,
+                        t('filmsFeaturing', LanguageLocalizationNSKey.personDetails),
                     )}
-                {!!birthday &&
-                    this.renderInfoContainer(
-                        <Icons.Schedule />,
-                        birthday,
-                        t('birthday', LanguageLocalizationNSKey.personDetails),
+                {hasTVCredits &&
+                    this.renderCarousel(
+                        navigation,
+                        tvCredits?.cast,
+                        CreditType.tvShow,
+                        t('tvShowsFeaturing', LanguageLocalizationNSKey.personDetails),
                     )}
+                {(hasMovieCredits || hasTVCredits) && <Divider />}
+                {!!biography && (
+                    <View style={styles.verticalContainer}>
+                        <Text style={styles.title}>
+                            {t('biography', LanguageLocalizationNSKey.personDetails)}
+                        </Text>
+                        <Text style={styles.text}>{biography}</Text>
+                    </View>
+                )}
+                <View style={styles.footer} />
             </View>
-            {(!!popularity || !!birthday) && <Divider />}
-            {!!movieCredits.cast.length > 0 &&
-                this.renderCarousel(
-                    navigation,
-                    movieCredits.cast,
-                    CreditType.movie,
-                    t('filmsFeaturing', LanguageLocalizationNSKey.personDetails),
-                )}
-            {!!tvCredits.cast.length > 0 &&
-                this.renderCarousel(
-                    navigation,
-                    tvCredits.cast,
-                    CreditType.tvShow,
-                    t('tvShowsFeaturing', LanguageLocalizationNSKey.personDetails),
-                )}
-            {(!!movieCredits.cast.length > 0 || !!tvCredits.cast.length > 0) && <Divider />}
-            {!!biography && (
-                <View style={styles.verticalContainer}>
-                    <Text style={styles.title}>
-                        {t('biography', LanguageLocalizationNSKey.personDetails)}
-                    </Text>
-                    <Text style={styles.text}>{biography}</Text>
-                </View>
-            )}
-            <View style={styles.footer}></View>
-        </View>
-    );
+        );
+    };
 
     renderInfoContainer = (icon, info, title) => (
         <View style={styles.infoContainer}>
@@ -153,14 +159,14 @@ class PersonDetailsScreen extends React.Component {
                 pagingEnabled={true}
                 mode={Styles.parallax}
                 {...styles.baseOptions}
-                data={cast.slice(0, carouselItemCountLimit)}
+                data={getUniqueElements(cast)}
                 panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
                 renderItem={(item) => this.renderItem(item, navigation, type)}
             />
         </>
     );
 
-    renderItem = ({ item }, navigation, type, title) => (
+    renderItem = ({ item }, navigation, type) => (
         <TouchableOpacity
             activeOpacity={1}
             delayPressIn={100}
@@ -174,23 +180,21 @@ class PersonDetailsScreen extends React.Component {
             }}>
             <FastImage
                 style={styles.itemImage}
-                defaultSource={filmDefaultSource}
+                defaultSource={DefaultSource.film}
                 resizeMode={FastImage.resizeMode.cover}
-                source={{ uri: buildImageUrl(item?.backdrop_path) }}
-            />
-            {!!item?.title && (
-                <View style={styles.details}>
-                    <CustomBlurView />
-                    <Text style={styles.title}>{item?.title}</Text>
-                </View>
-            )}
-            {!!item?.vote_average && (
-                <View style={styles.rating}>
-                    <CustomBlurView />
-                    <Icons.Rating />
-                    <Text style={styles.title}>{item?.vote_average.toFixed(1)}</Text>
-                </View>
-            )}
+                source={{ uri: buildImageUrl(item?.backdrop_path) }}>
+                {(!!item?.vote_average && (
+                    <View style={styles.rating}>
+                        <Icons.Rating />
+                        <Text style={styles.title}>{item?.vote_average?.toFixed(1)}</Text>
+                    </View>
+                )) || <View />}
+                {!!item?.title && (
+                    <View style={styles.details}>
+                        <Text style={styles.title}>{item?.title}</Text>
+                    </View>
+                )}
+            </FastImage>
         </TouchableOpacity>
     );
 
@@ -200,7 +204,11 @@ class PersonDetailsScreen extends React.Component {
     };
 
     initData = async () => {
-        const { id } = this.props.route.params;
+        const {
+            route: {
+                params: { id },
+            },
+        } = this.props;
         try {
             const { person, tvCredits, movieCredits } = await getPersonDetails(id);
             this.setState({ person, tvCredits, movieCredits, loading: false, wrongData: false });

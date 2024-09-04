@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native';
 
-import { Styles } from '../../constants/constants';
+import { DEVICE_SETTINGS, Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+        paddingHorizontal: 16,
         backgroundColor: Styles.white,
+        paddingTop: DEVICE_SETTINGS.statusBarHeight,
+        paddingBottom: DEVICE_SETTINGS.homeIndicatorHeight,
     },
     body: {
         flex: 1,

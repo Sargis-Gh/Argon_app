@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
         color: Styles.red,
         fontFamily: Styles.openSans,
     },
+    loginForm: {
+        paddingHorizontal: 16,
+    },
 });
 
 export default styles;

@@ -8,7 +8,7 @@ import { t } from '../../localization/i18n';
 import { OnboardingData } from '../../mockData/MockData';
 import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 
-import { navigationNavigate } from '../../navigation/navigation';
+import { navigationReplace } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
     render() {
@@ -47,7 +47,7 @@ class Onboarding extends React.Component {
             style={styles.getStarted}
             onPress={() => {
                 const { navigation } = this.props;
-                navigationNavigate(navigation, PageName.sign);
+                navigationReplace(navigation, PageName.signIn);
             }}>
             <Text style={styles.getStartedText}>
                 {t('getStarted', LanguageLocalizationNSKey.onboarding)}

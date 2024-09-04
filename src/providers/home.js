@@ -11,8 +11,4 @@ export const getHomeData = async () => {
         axios.get(buildApiUrl(Endpoints.upcomingMovies)),
     ]);
     return data.map((el, index) => ({ data: el.data.results, title: HomeScreenDataTitles[index] }));
-
-    return new Promise((_, reject) => {
-        setTimeout(() => reject('Error -----'), 3000);
-    });
 };

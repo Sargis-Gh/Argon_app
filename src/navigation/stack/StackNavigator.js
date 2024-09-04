@@ -11,7 +11,8 @@ import PersonDetailsScreen from '../../pages/personDetails/PersonDetailsScreen';
 
 const Stack = createStackNavigator();
 
-const StackNavigation = () => {
+const StackNavigation = (props) => {
+    const { initialRouteName } = props;
     return (
         <Stack.Navigator
             screenOptions={{
@@ -19,16 +20,16 @@ const StackNavigation = () => {
                 cardStyle: styles.cardStyle,
                 cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
             }}
-            initialRouteName={PageName.onboarding}>
+            initialRouteName={initialRouteName}>
             <Stack.Screen
-                name={PageName.onboarding}
                 component={Onboarding}
+                name={PageName.onboarding}
                 options={({ navigation }) => ({
                     onboardingScreenProps: { navigation },
                 })}
             />
             <Stack.Screen
-                name={PageName.sign}
+                name={PageName.signIn}
                 component={SignInScreen}
                 options={({ navigation }) => ({
                     gestureEnabled: false,

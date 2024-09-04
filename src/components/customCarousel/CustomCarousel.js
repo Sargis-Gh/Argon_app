@@ -5,11 +5,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import styles from './style';
 import Divider from '../divider/Divider';
 import { t } from '../../localization/i18n';
-import {
-    carouselItemCountLimit,
-    LanguageLocalizationNSKey,
-    Styles,
-} from '../../constants/constants';
+import { Styles, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class CustomCarousel extends React.Component {
     render() {
@@ -30,11 +26,11 @@ class CustomCarousel extends React.Component {
                         {t(title, LanguageLocalizationNSKey.common)}
                     </Text>
                     <Carousel
+                        data={data}
                         loop={false}
                         {...baseOptions}
                         pagingEnabled={true}
                         mode={Styles.parallax}
-                        data={data.slice(0, carouselItemCountLimit)}
                         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
                         renderItem={(item) => renderItem(item, navigation)}
                     />

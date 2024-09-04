@@ -10,7 +10,4 @@ export const getPersonDetails = async (id) => {
         axios.get(buildApiUrl(Endpoints.personMovieCredits, id)),
     ]);
     return { person: person.data, tvCredits: tvCredits.data, movieCredits: movieCredits.data };
-    return new Promise((_, reject) => {
-        setTimeout(() => reject('Error -----'), 2000);
-    });
 };

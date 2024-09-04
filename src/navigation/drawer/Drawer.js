@@ -8,6 +8,7 @@ import SettingsScreen from '../../pages/settings/SettingsScreen';
 import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 
 const Drawer = createDrawerNavigator();
+
 class DrawerNavigator extends React.Component {
     render() {
         return (

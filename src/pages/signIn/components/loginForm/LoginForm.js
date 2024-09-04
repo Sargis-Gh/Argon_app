@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
         const correctEmail = 'Email';
         const correctPassword = 'password';
 
-        if (email === correctEmail && password === correctPassword) {
+        if (correctEmail === email && correctPassword === password) {
             navigationReplace(navigation, PageName.tabs);
             return;
         }
@@ -49,15 +49,15 @@ class LoginForm extends React.Component {
         return (
             <View style={styles.loginForm}>
                 <CustomTextInput
-                    Icon={<Icons.Mail />}
                     value={email}
+                    Icon={<Icons.Mail />}
                     placeholderText={t('texts.email', LanguageLocalizationNSKey.signIn)}
                     onChangeText={(text) => this.setState({ email: text })}
                 />
                 <CustomTextInput
-                    Icon={<Icons.Password />}
                     value={password}
                     secureTextEntry={true}
+                    Icon={<Icons.Password />}
                     placeholderText={t('texts.password', LanguageLocalizationNSKey.signIn)}
                     onChangeText={(text) => this.setState({ password: text })}
                 />

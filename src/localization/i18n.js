@@ -36,12 +36,12 @@ const getDeviceLanguage = () => {
     try {
         let deviceLanguage = Language.en;
 
-        if (Platform.OS === PlatformName.ios) {
+        if (PlatformName.ios === Platform.OS) {
             deviceLanguage =
                 NativeModules.SettingsManager.settings.AppleLocale ||
                 NativeModules.SettingsManager.settings.AppleLanguages?.[0] ||
                 Language.en;
-        } else if (Platform.OS === PlatformName.android) {
+        } else if (PlatformName.android === Platform.OS) {
             deviceLanguage = NativeModules.I18nManager.localeIdentifier || Language.en;
         }
 
@@ -71,8 +71,6 @@ export const changeLanguage = (currentLocale = LanguageLocalizationKey.en) => {
 
 export const t = (name, key = 'ns', params = {}) => i18n.t(name, { ...params, ns: key });
 
-export const getCurrentLanguage = () => {
-    return i18n.language.slice(0, 2);
-};
+export const getCurrentLanguage = () => i18n.language.slice(0, 2);
 
 export default i18n;

@@ -8,17 +8,17 @@ import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { buildImageUrl } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
+import { getData } from '../../providers/movieDetails';
 import { genericErrorHandling } from '../../utils/errorHandlers';
-import CustomBlurView from '../../components/customBlurView/CustomBlurView';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
-import { getMovieDetails, getTVShowsDetails } from '../../providers/movieDetails';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
     AppWords,
     PageName,
-    CreditType,
+    DefaultSource,
     KnownForDepartment,
+    CarouselItemCountLimit,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -47,10 +47,14 @@ class MovieDetailsScreen extends React.Component {
     }
 
     render() {
-        const { navigation } = this.props;
-        const { title } = this.props.route.params;
-        const { trailer, details, credits, loading, wrongData } = this.state;
+        const { loading, wrongData } = this.state;
         if (loading) return <CustomActivityIndicator />;
+        const {
+            navigation,
+            route: {
+                params: { title },
+            },
+        } = this.props;
         if (wrongData)
             return (
                 <WrongDataScreen
@@ -60,23 +64,21 @@ class MovieDetailsScreen extends React.Component {
                     clickRetryButton={this.clickRetryButton}
                 />
             );
+        const { trailer, details, credits } = this.state;
         return (
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 {this.renderHeader(details, trailer, navigation)}
-                {this.renderAboutMovie(credits, details, navigation)}
+                {this.renderAboutMovie(credits, navigation, details)}
             </ScrollView>
         );
     }
 
     renderHeader = (details, trailer, navigation) => {
         const { playing } = this.state;
-        const hasTrailer = !!trailer?.key;
-        const hasPoster = !!details?.poster_path;
         return (
             <View style={styles.headerContainer}>
-                {playing && hasTrailer
-                    ? this.renderIframe(trailer?.key)
-                    : hasPoster && this.renderImage(details?.backdrop_path)}
+                {(playing && this.renderIframe(trailer?.key)) ||
+                    (!!details?.poster_path && this.renderImage(details?.backdrop_path))}
                 <TouchableOpacity
                     delayPressIn={100}
                     activeOpacity={0.8}
@@ -84,15 +86,9 @@ class MovieDetailsScreen extends React.Component {
                     onPress={() => {
                         navigationGoBack(navigation);
                     }}>
-                    <CustomBlurView />
                     <Icons.Left fill={Styles.white} />
                 </TouchableOpacity>
-                {!!details?.adult && (
-                    <View style={styles.adult}>
-                        <Icons.Adult />
-                    </View>
-                )}
-                {(!playing && hasTrailer && hasPoster && (
+                {!playing && !!trailer?.key && !!details?.poster_path && (
                     <TouchableOpacity
                         delayPressIn={100}
                         activeOpacity={0.8}
@@ -100,8 +96,7 @@ class MovieDetailsScreen extends React.Component {
                         onPress={() => this.setState({ playing: true })}>
                         <Icons.PlayCircle />
                     </TouchableOpacity>
-                )) ||
-                    (!playing && !hasTrailer && !hasPoster && <View style={{ height: 40 }}></View>)}
+                )}
             </View>
         );
     };
@@ -113,7 +108,7 @@ class MovieDetailsScreen extends React.Component {
             videoId={key}
             width={Styles.fullSize}
             onChangeState={(state) => {
-                state === AppWords.ended && this.setState({ playing: false });
+                AppWords.ended === state && this.setState({ playing: false });
             }}
         />
     );
@@ -121,18 +116,37 @@ class MovieDetailsScreen extends React.Component {
     renderImage = (url) => (
         <FastImage
             style={styles.image}
-            resizeMode={FastImage.resizeMode.cover}
+            defaultSource={DefaultSource.film}
             source={{ uri: buildImageUrl(url) }}
+            resizeMode={FastImage.resizeMode.cover}
         />
     );
 
     renderAboutMovie = (
         { cast },
-        { title, runtime, vote_average, release_date, overview, genres },
         navigation,
-    ) => (
-        <View style={styles.aboutMovieContainer}>
-            {!!title && <Text style={styles.movieName}>{title}</Text>}
+        { title, runtime, vote_average, release_date, overview, genres },
+    ) => {
+        const hasRuntimeOrVoteAverage = !!runtime || !!vote_average;
+        const hasReleaseDateOrGenres = !!release_date || !!genres?.length;
+        return (
+            <View style={styles.aboutMovieContainer}>
+                {!!title && <Text style={styles.title}>{title}</Text>}
+                {hasRuntimeOrVoteAverage && this.renderRuntimeOrVoteAverage(runtime, vote_average)}
+                {hasReleaseDateOrGenres && this.renderReleaseDateOrGenres(release_date, genres)}
+                {!!overview &&
+                    this.renderSubItem(
+                        t('synopsis', LanguageLocalizationNSKey.common),
+                        <Text style={styles.text}>{overview}</Text>,
+                    )}
+                {this.renderCredits(cast, navigation)}
+                <View style={styles.footer} />
+            </View>
+        );
+    };
+
+    renderRuntimeOrVoteAverage = (runtime, vote_average) => (
+        <>
             <View style={styles.minutesAndRatings}>
                 {!!runtime && (
                     <>
@@ -149,62 +163,42 @@ class MovieDetailsScreen extends React.Component {
                     </>
                 )}
             </View>
-            {(!!runtime || !!vote_average) && <Divider />}
+            <Divider />
+        </>
+    );
+
+    renderReleaseDateOrGenres = (release_date, genres) => (
+        <>
             <View style={styles.releaseGenreContainer}>
-                {!!release_date && (
-                    <View style={styles.releaseContainer}>
-                        <Text style={styles.titleText}>
-                            {t('releaseDate', LanguageLocalizationNSKey.common)}
-                        </Text>
-                        <Text style={styles.text}>{release_date}</Text>
-                    </View>
-                )}
-                {!!genres && (
-                    <View style={styles.genresContainer}>
-                        <Text style={styles.titleText}>
-                            {t('genre', LanguageLocalizationNSKey.common)}
-                        </Text>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={styles.genreItemsContainer}>
+                {!!release_date &&
+                    this.renderSubItem(
+                        t('releaseDate', LanguageLocalizationNSKey.common),
+                        <Text style={styles.text}>{release_date}</Text>,
+                    )}
+                {!!genres?.length &&
+                    this.renderSubItem(
+                        t('genre', LanguageLocalizationNSKey.common),
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                             {genres?.map((genre) => this.renderGenreItem(genre))}
-                        </ScrollView>
-                    </View>
-                )}
+                        </ScrollView>,
+                    )}
             </View>
-            {(!!release_date || !!genres) && <Divider />}
-            {!!overview && (
-                <View style={styles.description}>
-                    <Text style={styles.titleText}>
-                        {t('synopsis', LanguageLocalizationNSKey.common)}
-                    </Text>
-                    <Text style={styles.text}>{overview}</Text>
-                </View>
-            )}
-            {this.renderCredits(cast, navigation)}
-            <View style={styles.footer}></View>
-        </View>
+            <Divider />
+        </>
     );
 
     renderCredits = (cast, navigation) => {
         const actors = [];
         const creators = [];
         cast?.forEach((person) => {
-            if (person.known_for_department === KnownForDepartment.acting) {
+            if (KnownForDepartment.acting === person?.known_for_department) {
                 actors.push(person);
-            } else if (
-                [
-                    KnownForDepartment.art,
-                    KnownForDepartment.crew,
-                    KnownForDepartment.directing,
-                ].includes(person.known_for_department)
-            ) {
-                creators.push(person);
+                return;
             }
+            creators.push(person);
         });
         return (
-            <View style={styles.creditsContainer}>
+            <View style={styles.subContainer}>
                 {this.renderCreditsItem(
                     creators,
                     navigation,
@@ -219,15 +213,22 @@ class MovieDetailsScreen extends React.Component {
         );
     };
 
+    renderSubItem = (subTitle, subItem) => (
+        <View style={styles.releaseGenreSubContainer}>
+            <Text style={styles.subTitle}>{subTitle}</Text>
+            {subItem}
+        </View>
+    );
+
     renderCreditsItem = (data, navigation, title) =>
-        data.length > 0 && (
+        !!data?.length && (
             <>
-                <Text style={styles.titleText}>{title}</Text>
+                <Text style={styles.subTitle}>{title}</Text>
                 <FlatList
                     horizontal
-                    data={data}
                     keyExtractor={(item) => item?.id}
                     showsHorizontalScrollIndicator={false}
+                    data={data.slice(0, CarouselItemCountLimit)}
                     renderItem={({ item }) => this.renderPerson(item, title, navigation)}
                 />
             </>
@@ -242,13 +243,12 @@ class MovieDetailsScreen extends React.Component {
                 navigationPush(navigation, PageName.personDetails, { id: person?.id, title });
             }}>
             <View style={styles.personImageBackground}>
-                {(!!person?.profile_path && (
-                    <FastImage
-                        style={styles.personImage}
-                        resizeMode={FastImage.resizeMode.cover}
-                        source={{ uri: buildImageUrl(person?.profile_path) }}
-                    />
-                )) || <Icons.Person />}
+                <FastImage
+                    style={styles.personImage}
+                    defaultSource={DefaultSource.person}
+                    resizeMode={FastImage.resizeMode.cover}
+                    source={{ uri: buildImageUrl(person?.profile_path) }}
+                />
             </View>
             {!!person?.name && (
                 <View style={styles.nameContainer}>
@@ -272,10 +272,13 @@ class MovieDetailsScreen extends React.Component {
     };
 
     initData = async () => {
-        const { id, type } = this.props.route.params;
+        const {
+            route: {
+                params: { id, type },
+            },
+        } = this.props;
         try {
-            const getData = (CreditType.movie === type && getMovieDetails) || getTVShowsDetails;
-            const { details, credits, videos } = await getData(id);
+            const { details, credits, videos } = await getData(id, type);
             const trailer = videos?.results?.find((video) => AppWords.trailer === video?.type);
             this.setState({
                 details,

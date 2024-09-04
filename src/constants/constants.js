@@ -3,7 +3,7 @@ import { Dimensions, NativeModules, Platform } from 'react-native';
 export const PageName = {
     qr: 'QR',
     home: 'Home',
-    sign: 'SignIn',
+    signIn: 'SignIn',
     movies: 'Movies',
     drawer: 'Drawer',
     series: 'Series',
@@ -45,7 +45,7 @@ export const Styles = {
     blue: 'rgb(0,191,255)',
     white: 'rgb(255, 255, 255)',
     grey: 'rgba(188, 188, 188, 1)',
-    appBackground: 'rgb(23, 23, 23)',
+    appBackground: 'rgb(35, 35, 35)',
     lightGrey: 'rgba(202, 209, 215, 1)',
     articleColor: 'rgba(94, 114, 228, 1)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
@@ -59,6 +59,7 @@ export const Styles = {
     large: 'large',
     center: 'center',
     fullSize: '100%',
+    padding: 'padding',
     contain: 'contain',
     stretch: 'stretch',
     flexEnd: 'flex-end',
@@ -147,13 +148,17 @@ export const BackHandlerEvents = {
 export const AsyncStorageKeys = {
     language: 'language',
     favorites: 'favorites',
+    isFirstLaunch: 'isFirstLaunch',
 };
 
-export const filmDefaultSource = require('../assets/images/filmDefaultSource.jpeg');
+export const DefaultSource = {
+    film: require('../assets/images/filmDefaultSource.jpeg'),
+    person: require('../assets/images/personDefaultSource.png'),
+};
 
-export const carouselItemCountLimit = 20;
+export const CarouselItemCountLimit = 20;
 
-export const PAGE = '&page=6';
+export const PAGE = '&page=1';
 export const LANGUAGE = '?language=';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
@@ -188,10 +193,7 @@ export const PromiseStatus = {
 };
 
 export const KnownForDepartment = {
-    art: 'Art',
-    crew: 'Crew',
     acting: 'Acting',
-    directing: 'Directing',
 };
 
 export const CreditType = {

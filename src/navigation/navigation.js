@@ -1,6 +1,6 @@
-import { useNavigationContainerRef } from '@react-navigation/native';
+import { createNavigationContainerRef } from '@react-navigation/native';
 
-export const navigationRef = useNavigationContainerRef();
+export const navigationRef = createNavigationContainerRef();
 
 /*
  * The refresh current scene functionality is missing from the version 6 navigation library.
@@ -10,8 +10,8 @@ export const navigationRefreshWithoutReload = (params) => {
     if (navigationRef.isReady()) {
         const currentRoute = navigationRef.getCurrentRoute();
         navigationRef.navigate(currentRoute?.name, {
-            ...currentRoute?.params,
             ...params,
+            ...currentRoute?.params,
             paramPropKey: new Date().toISOString(),
         });
     }
@@ -20,4 +20,3 @@ export const navigationRefreshWithoutReload = (params) => {
 export const navigationGoBack = (navigation) => navigation.goBack();
 export const navigationReplace = (navigation, name) => navigation.replace(name);
 export const navigationPush = (navigation, name, params) => navigation.push(name, params);
-export const navigationNavigate = (navigation, name, params) => navigation.navigate(name, params);

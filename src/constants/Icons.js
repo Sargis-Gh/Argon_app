@@ -1,12 +1,10 @@
 import QRIcon from '../assets/icons/qr';
 import Mail from '../assets/icons/mail';
 import Play from '../assets/icons/play';
-import Star from '../assets/icons/star';
 import Home from '../assets/icons/home';
 import Menu from '../assets/icons/menu';
 import Left from '../assets/icons/left';
 import USAflag from '../assets/icons/us';
-import Adult from '../assets/icons/adult';
 import Movie from '../assets/icons/movie';
 import Error from '../assets/icons/error';
 import Google from '../assets/icons/google';
@@ -31,11 +29,9 @@ import NotFavorite from '../assets/icons/notFavorite';
 export const Icons = {
     Mail,
     Play,
-    Star,
     Menu,
     Home,
     Left,
-    Adult,
     Movie,
     Error,
     QRIcon,

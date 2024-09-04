@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
     },
     backIcon: {
-        top: 0,
-        left: 0,
+        top: 16,
+        left: 16,
         width: 40,
-        height: 40,
-        margin: 16,
+        aspectRatio: 1,
         borderRadius: 20,
         ...Styles.contentCenter,
         position: Styles.absolute,
+        backgroundColor: Styles.blackWithOpacity,
     },
     image: {
         height: 225,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         rowGap: 12,
         padding: 16,
     },
-    movieName: {
+    title: {
         fontSize: 24,
         ...Styles.fontWeightFamilyColor,
     },
@@ -47,23 +47,16 @@ const styles = StyleSheet.create({
     releaseGenreContainer: {
         flexDirection: Styles.row,
     },
-    releaseContainer: {
+    releaseGenreSubContainer: {
         flex: 0.5,
         rowGap: 12,
     },
-    titleText: {
+    subTitle: {
         fontSize: 16,
         ...Styles.fontWeightFamilyColor,
     },
-    genresContainer: {
-        flex: 0.5,
-        rowGap: 12,
-        alignItems: Styles.flexStart,
-    },
-    genreItemsContainer: {
-        columnGap: 8,
-    },
     genreItem: {
+        marginRight: 8,
         borderRadius: 22,
         paddingVertical: 4,
         paddingHorizontal: 12,
@@ -75,10 +68,7 @@ const styles = StyleSheet.create({
         color: Styles.white,
         fontFamily: Styles.openSans,
     },
-    description: {
-        rowGap: 12,
-    },
-    creditsContainer: {
+    subContainer: {
         rowGap: 16,
     },
     personContainer: {
@@ -95,15 +85,15 @@ const styles = StyleSheet.create({
         backgroundColor: Styles.appBackground,
     },
     personImage: {
-        width: 80,
         margin: 4,
-        height: 80,
-        borderRadius: 40,
+        aspectRatio: 1,
+        width: DEVICE_SETTINGS.windowWidth / 4.5,
+        borderRadius: DEVICE_SETTINGS.windowWidth / 9,
     },
     nameContainer: {
-        width: 80,
         paddingBottom: 4,
         ...Styles.contentCenter,
+        width: DEVICE_SETTINGS.windowWidth / 4.5,
     },
     name: {
         paddingHorizontal: 8,
@@ -116,17 +106,11 @@ const styles = StyleSheet.create({
     },
     playButton: {
         width: 50,
-        height: 50,
+        aspectRatio: 1,
         borderRadius: 25,
         ...Styles.contentCenter,
         position: Styles.absolute,
         backgroundColor: Styles.blackWithOpacity,
-    },
-    adult: {
-        top: 0,
-        right: 0,
-        margin: 16,
-        position: Styles.absolute,
     },
 });
 
