@@ -19,24 +19,21 @@ class CustomCarousel extends React.Component {
         } = this.props;
         const baseOptions =
             (isStandard && styles.standardBaseOptions) || styles.nonStandardBaseOptions;
+        if (!data?.length) return null;
         return (
-            !!data?.length && (
-                <>
-                    <Text style={styles.itemHeader}>
-                        {t(title, LanguageLocalizationNSKey.common)}
-                    </Text>
-                    <Carousel
-                        data={data}
-                        loop={false}
-                        {...baseOptions}
-                        pagingEnabled={true}
-                        mode={Styles.parallax}
-                        panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
-                        renderItem={(item) => renderItem(item, navigation)}
-                    />
-                    {bottomDivider && <Divider />}
-                </>
-            )
+            <>
+                <Text style={styles.itemHeader}>{t(title, LanguageLocalizationNSKey.common)}</Text>
+                <Carousel
+                    data={data}
+                    loop={false}
+                    {...baseOptions}
+                    pagingEnabled={true}
+                    mode={Styles.parallax}
+                    panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+                    renderItem={(item) => renderItem(item, navigation)}
+                />
+                {bottomDivider && <Divider />}
+            </>
         );
     }
 }

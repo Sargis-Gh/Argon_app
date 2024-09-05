@@ -56,13 +56,20 @@ class PersonDetailsScreen extends React.Component {
         const { person, movieCredits, tvCredits } = this.state;
         return (
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {this.renderHeader(person, navigation)}
-                {this.renderAboutPerson(tvCredits, navigation, movieCredits, person)}
+                {this.renderHeader(person.profile_path, person.name, navigation)}
+                {this.renderAboutPerson(
+                    tvCredits,
+                    navigation,
+                    movieCredits,
+                    person.birthday,
+                    person.biography,
+                    person.popularity,
+                )}
             </ScrollView>
         );
     }
 
-    renderHeader = ({ profile_path, name }, navigation) => (
+    renderHeader = (profile_path, name, navigation) => (
         <View style={styles.headerContainer}>
             <FastImage
                 style={styles.image}
@@ -73,9 +80,7 @@ class PersonDetailsScreen extends React.Component {
                     delayPressIn={100}
                     activeOpacity={0.8}
                     style={styles.backIcon}
-                    onPress={() => {
-                        navigationGoBack(navigation);
-                    }}>
+                    onPress={() => navigationGoBack(navigation)}>
                     <Icons.Left />
                 </TouchableOpacity>
                 {!!name && <Text style={styles.name}>{name}</Text>}
@@ -84,12 +89,7 @@ class PersonDetailsScreen extends React.Component {
         </View>
     );
 
-    renderAboutPerson = (
-        tvCredits,
-        navigation,
-        movieCredits,
-        { biography, birthday, popularity },
-    ) => {
+    renderAboutPerson = (tvCredits, navigation, movieCredits, birthday, biography, popularity) => {
         const hasTVCredits = !!tvCredits?.cast?.length;
         const hasMovieCredits = !!movieCredits?.cast?.length;
         const hasPopularityOrBirthday = !!popularity || !!birthday;
@@ -171,24 +171,24 @@ class PersonDetailsScreen extends React.Component {
             activeOpacity={1}
             delayPressIn={100}
             style={styles.item}
-            onPress={() => {
+            onPress={() =>
                 navigationPush(navigation, PageName.movieDetails, {
                     type,
                     id: item?.id,
                     title: t('actors', LanguageLocalizationNSKey.common),
-                });
-            }}>
+                })
+            }>
             <FastImage
-                style={styles.itemImage}
                 defaultSource={DefaultSource.film}
                 resizeMode={FastImage.resizeMode.cover}
+                style={styles.itemImage(!!item?.vote_average)}
                 source={{ uri: buildImageUrl(item?.backdrop_path) }}>
-                {(!!item?.vote_average && (
+                {!!item?.vote_average && (
                     <View style={styles.rating}>
                         <Icons.Rating />
                         <Text style={styles.title}>{item?.vote_average?.toFixed(1)}</Text>
                     </View>
-                )) || <View />}
+                )}
                 {!!item?.title && (
                     <View style={styles.details}>
                         <Text style={styles.title}>{item?.title}</Text>

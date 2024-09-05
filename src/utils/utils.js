@@ -25,19 +25,16 @@ export const buildApiUrl = (string, id) =>
 
 export const getIsFirstLaunch = async () => {
     const hasLaunched = JSON.parse(await getItem(AsyncStorageKeys.isFirstLaunch));
-    if (!hasLaunched) {
-        setItem(AsyncStorageKeys.isFirstLaunch, JSON.stringify(false));
-        return false;
-    }
-    return true;
+    if (hasLaunched) return true;
+    setItem(AsyncStorageKeys.isFirstLaunch, JSON.stringify(false));
+    return false;
 };
 
 export const getUniqueElements = (arr) => {
     const uniqueObjects = new Map();
     arr.forEach((item) => {
-        if (!uniqueObjects.has(item.id)) {
-            uniqueObjects.set(item.id, item);
-        }
+        if (uniqueObjects.has(item.id)) return;
+        uniqueObjects.set(item.id, item);
     });
     return Array.from(uniqueObjects.values()).slice(0, CarouselItemCountLimit);
 };

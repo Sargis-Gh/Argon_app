@@ -48,15 +48,13 @@ class HomeScreen extends React.Component {
                     data={data}
                     keyExtractor={(item) => item?.title}
                     ListFooterComponent={<View style={styles.listFooterComponent} />}
-                    renderItem={({ item }) =>
-                        this.renderCarousel(item?.data, navigation, item?.title)
-                    }
+                    renderItem={this.renderCarousel}
                 />
             </View>
         );
     }
 
-    renderHeader = (navigation) => (
+    renderHeader = (navigation) => {
         <View style={styles.headerContainer}>
             <TouchableOpacity
                 delayPressIn={100}
@@ -65,20 +63,21 @@ class HomeScreen extends React.Component {
                 <Icons.Menu />
             </TouchableOpacity>
             <Text style={styles.title}>{t('title', LanguageLocalizationNSKey.home)}</Text>
-        </View>
-    );
+        </View>;
+    };
 
-    renderCarousel = (data, navigation, title) => {
-        const isStandard = HomeScreenDataTitles[1] !== title;
+    renderCarousel = ({ item }) => {
+        const { navigation } = this.props;
+        const isStandard = HomeScreenDataTitles[1] !== item?.title;
         const renderItem = (isStandard && this.renderStandardItem) || this.renderNonStandardItem;
-        const bottomDivider = HomeScreenDataTitles[HomeScreenDataTitles.length - 1] !== title;
+        const bottomDivider = HomeScreenDataTitles[HomeScreenDataTitles.length - 1] !== item?.title;
         return (
             <CustomCarousel
-                title={title}
+                title={item?.title}
                 navigation={navigation}
                 isStandard={isStandard}
                 bottomDivider={bottomDivider}
-                data={getUniqueElements(data)}
+                data={getUniqueElements(item?.data)}
                 renderItem={renderItem}
             />
         );
@@ -89,13 +88,13 @@ class HomeScreen extends React.Component {
             activeOpacity={1}
             delayPressIn={100}
             style={styles.carouselItem}
-            onPress={() => {
+            onPress={() =>
                 navigationPush(navigation, PageName.movieDetails, {
                     id: item?.id,
                     type: CreditType.movie,
                     title: t('title', LanguageLocalizationNSKey.home),
-                });
-            }}>
+                })
+            }>
             <FastImage
                 style={styles.standardItem}
                 defaultSource={DefaultSource.film}
@@ -124,12 +123,12 @@ class HomeScreen extends React.Component {
             activeOpacity={1}
             delayPressIn={100}
             style={styles.carouselItem}
-            onPress={() => {
+            onPress={() =>
                 navigationPush(navigation, PageName.movieDetails, {
                     id: item?.id,
                     type: CreditType.movie,
-                });
-            }}>
+                })
+            }>
             <FastImage
                 style={styles.nonStandardItem}
                 defaultSource={DefaultSource.film}

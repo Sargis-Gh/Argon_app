@@ -9,7 +9,7 @@ import MyStack from './src/navigation/stack/StackNavigator';
 import { detectAndInitializeLanguage } from './src/localization/i18n';
 import { BackHandlerEvents, PageName } from './src/constants/constants';
 
-import { navigationRef } from './src/navigation/navigation';
+import { navigationRef, getCurrentRouteName } from './src/navigation/navigation';
 
 class App extends React.Component {
     state = {
@@ -35,9 +35,7 @@ class App extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this.backHandler) {
-            this.backHandler.remove();
-        }
+        this.backHandler?.remove();
     }
 
     render() {
@@ -55,25 +53,21 @@ class App extends React.Component {
     }
 
     handleBackPress = () => {
-        const currentRouteName = this.getCurrentRouteName();
+        const currentRouteName = getCurrentRouteName();
+        console.log(currentRouteName);
         switch (currentRouteName) {
             case PageName.home:
-            case PageName.signIn:
+                BackHandler.exitApp();
+                return true;
             case PageName.onboarding:
+                BackHandler.exitApp();
+                return true;
+            case PageName.signIn:
+                navigationRef.navigate(PageName.tabs);
                 return true;
             default:
                 return false;
         }
-    };
-
-    getCurrentRouteName = () => {
-        const state = navigationRef.current?.getRootState();
-        if (!state) return null;
-        let route = state.routes[state.index];
-        while (route.state && route.state.index !== undefined) {
-            route = route.state.routes[route.state.index];
-        }
-        return route.name;
     };
 }
 

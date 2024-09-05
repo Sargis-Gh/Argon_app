@@ -6,7 +6,7 @@ import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
-import { buildImageUrl } from '../../utils/utils';
+import { buildImageUrl, getUniqueElements } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
 import { getData } from '../../providers/movieDetails';
 import { genericErrorHandling } from '../../utils/errorHandlers';
@@ -41,9 +41,7 @@ class MovieDetailsScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this.focusListener) {
-            this.focusListener();
-        }
+        this.focusListener?.();
     }
 
     render() {
@@ -83,9 +81,7 @@ class MovieDetailsScreen extends React.Component {
                     delayPressIn={100}
                     activeOpacity={0.8}
                     style={styles.backIcon}
-                    onPress={() => {
-                        navigationGoBack(navigation);
-                    }}>
+                    onPress={() => navigationGoBack(navigation)}>
                     <Icons.Left fill={Styles.white} />
                 </TouchableOpacity>
                 {!playing && !!trailer?.key && !!details?.poster_path && (
@@ -127,13 +123,13 @@ class MovieDetailsScreen extends React.Component {
         navigation,
         { title, runtime, vote_average, release_date, overview, genres },
     ) => {
-        const hasRuntimeOrVoteAverage = !!runtime || !!vote_average;
-        const hasReleaseDateOrGenres = !!release_date || !!genres?.length;
         return (
             <View style={styles.aboutMovieContainer}>
                 {!!title && <Text style={styles.title}>{title}</Text>}
-                {hasRuntimeOrVoteAverage && this.renderRuntimeOrVoteAverage(runtime, vote_average)}
-                {hasReleaseDateOrGenres && this.renderReleaseDateOrGenres(release_date, genres)}
+                {(!!runtime || !!vote_average) &&
+                    this.renderRuntimeOrVoteAverage(runtime, vote_average)}
+                {(!!release_date || !!genres?.length) &&
+                    this.renderReleaseDateOrGenres(release_date, genres)}
                 {!!overview &&
                     this.renderSubItem(
                         t('synopsis', LanguageLocalizationNSKey.common),
@@ -148,22 +144,25 @@ class MovieDetailsScreen extends React.Component {
     renderRuntimeOrVoteAverage = (runtime, vote_average) => (
         <>
             <View style={styles.minutesAndRatings}>
-                {!!runtime && (
-                    <>
-                        <Icons.Schedule />
-                        <Text style={styles.text}>
-                            {runtime} {t('minutes', LanguageLocalizationNSKey.common)}
-                        </Text>
-                    </>
-                )}
-                {!!vote_average && (
-                    <>
-                        <Icons.StarHalf />
-                        <Text style={styles.text}>{vote_average?.toFixed(1)}</Text>
-                    </>
-                )}
+                {!!runtime &&
+                    this.renderRuntimeOrVoteAverageItem(
+                        <Icons.Schedule />,
+                        runtime + t('minutes', LanguageLocalizationNSKey.common),
+                    )}
+                {!!vote_average &&
+                    this.renderRuntimeOrVoteAverageItem(
+                        <Icons.StarHalf />,
+                        vote_average?.toFixed(1),
+                    )}
             </View>
             <Divider />
+        </>
+    );
+
+    renderRuntimeOrVoteAverageItem = (icon, text) => (
+        <>
+            {icon}
+            <Text style={styles.text}>{text}</Text>
         </>
     );
 
@@ -226,9 +225,9 @@ class MovieDetailsScreen extends React.Component {
                 <Text style={styles.subTitle}>{title}</Text>
                 <FlatList
                     horizontal
+                    data={getUniqueElements(data)}
                     keyExtractor={(item) => item?.id}
                     showsHorizontalScrollIndicator={false}
-                    data={data.slice(0, CarouselItemCountLimit)}
                     renderItem={({ item }) => this.renderPerson(item, title, navigation)}
                 />
             </>
@@ -239,9 +238,9 @@ class MovieDetailsScreen extends React.Component {
             activeOpacity={1}
             delayPressIn={100}
             style={styles.personContainer}
-            onPress={() => {
-                navigationPush(navigation, PageName.personDetails, { id: person?.id, title });
-            }}>
+            onPress={() =>
+                navigationPush(navigation, PageName.personDetails, { id: person?.id, title })
+            }>
             <View style={styles.personImageBackground}>
                 <FastImage
                     style={styles.personImage}

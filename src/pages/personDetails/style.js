@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         backgroundColor: Styles.appBackground,
     },
-    itemImage: {
+    itemImage: (hasRating) => ({
         flex: 1,
         padding: 16,
         borderRadius: 28,
-        justifyContent: Styles.spaceBetween,
-    },
+        justifyContent: (hasRating && Styles.spaceBetween) || Styles.flexEnd,
+    }),
     rating: {
         padding: 16,
         columnGap: 4,

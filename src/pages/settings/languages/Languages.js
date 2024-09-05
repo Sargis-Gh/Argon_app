@@ -63,7 +63,7 @@ class Languages extends React.Component {
                             {icon}
                             <Text style={styles.languageButtonText}>{text}</Text>
                         </TouchableOpacity>
-                        {isSelected && <View style={styles.checked}></View>}
+                        {isSelected && <View style={styles.checked} />}
                     </View>
                 ))}
             </View>

@@ -2,6 +2,8 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 
 export const navigationRef = createNavigationContainerRef();
 
+export const getCurrentRouteName = () => navigationRef.getCurrentRoute().name;
+
 /*
  * The refresh current scene functionality is missing from the version 6 navigation library.
  * It's a custom way to support refreshing the current scene without reloading component

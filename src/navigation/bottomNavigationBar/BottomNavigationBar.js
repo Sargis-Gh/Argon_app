@@ -32,7 +32,7 @@ class BottomTabNavigator extends React.Component {
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: styles.tabBarStyle,
-                    tabBarBackground: () => <View style={styles.container}></View>,
+                    tabBarBackground: () => <View style={styles.container} />,
                 }}>
                 <BottomTab.Screen
                     name={PageName.drawer}
@@ -70,8 +70,8 @@ class BottomTabNavigator extends React.Component {
                     options={{
                         tabBarButton: ({ onPress }) => (
                             <TouchableOpacity
-                                delayPressIn={100}
                                 activeOpacity={1}
+                                delayPressIn={100}
                                 style={styles.touchableContent}
                                 onPress={onPress}>
                                 <Icons.QRIcon fill={Styles.appBackground} />
