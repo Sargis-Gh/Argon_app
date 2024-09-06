@@ -19,7 +19,7 @@ class BottomTabNavigator extends React.Component {
         return (
             <Text
                 style={{
-                    color: (focused && Styles.purple) || Styles.grey,
+                    color: (focused && Styles.appBackground) || Styles.grey,
                 }}>
                 {pageName}
             </Text>
@@ -32,14 +32,15 @@ class BottomTabNavigator extends React.Component {
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: styles.tabBarStyle,
-                    tabBarBackground: () => <View style={styles.container}></View>,
+                    tabBarBackground: () => <View style={styles.container} />,
                 }}>
                 <BottomTab.Screen
                     name={PageName.drawer}
                     component={DrawerNavigator}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Home fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Home fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
@@ -52,15 +53,15 @@ class BottomTabNavigator extends React.Component {
                     name={PageName.movies}
                     component={MoviesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Movie fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Movie fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('movies', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
@@ -70,9 +71,10 @@ class BottomTabNavigator extends React.Component {
                         tabBarButton: ({ onPress }) => (
                             <TouchableOpacity
                                 activeOpacity={1}
+                                delayPressIn={100}
                                 style={styles.touchableContent}
                                 onPress={onPress}>
-                                <Icons.QRIcon />
+                                <Icons.QRIcon fill={Styles.appBackground} />
                             </TouchableOpacity>
                         ),
                     }}
@@ -81,30 +83,32 @@ class BottomTabNavigator extends React.Component {
                     name={PageName.favorites}
                     component={FavoritesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Favorite fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Favorite
+                                fill={(focused && Styles.appBackground) || Styles.grey}
+                            />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('favorites', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
                 <BottomTab.Screen
                     name={PageName.series}
                     component={SeriesScreen}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Series fill={(focused && Styles.purple) || Styles.grey} />
+                            <Icons.Series fill={(focused && Styles.appBackground) || Styles.grey} />
                         ),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('series', LanguageLocalizationNSKey.bottomTab),
                                 focused,
                             ),
-                        unmountOnBlur: true,
                     }}
                 />
             </BottomTab.Navigator>

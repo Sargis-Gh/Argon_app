@@ -1,18 +1,33 @@
 {
   "images" : [
     {
-      "filename" : "Onboarding-2.png",
+      "filename" : "LaunchImage~iphone-320x480.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Onboarding-2@2x.png",
+      "filename" : "LaunchImage-568h@2x~iphone_640x1136.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Onboarding-2@3x.png",
+      "filename" : "LaunchImage-1125@3x~iphoneX-portrait_1125x2436.png",
       "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "LaunchImage-568h@2x~iphone_640x1136 1.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "LaunchImage-828@2x~iphoneXr-portrait_828x1792.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "LaunchImage-1242@3x~iphoneXsMax-portrait_1242x2688.png",
+      "idiom" : "iphone",
       "scale" : "3x"
     }
   ],

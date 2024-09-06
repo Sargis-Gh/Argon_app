@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         backgroundColor: Styles.lightGrey,
     },
     activeDotStyle: {
-        backgroundColor: Styles.purple,
+        backgroundColor: Styles.appBackground,
     },
     buttonContainer: {
         paddingBottom: 20,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 10,
         alignItems: Styles.center,
-        backgroundColor: Styles.purple,
+        backgroundColor: Styles.appBackground,
     },
     getStartedText: {
         fontSize: 18,
@@ -41,15 +41,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: Styles.purple,
+        paddingTop: 12,
+        color: Styles.appBackground,
         fontFamily: Styles.openSans,
         fontWeight: Styles.fontWeightBold,
     },
     subtitle: {
         padding: 16,
         fontSize: 15,
-        color: Styles.purple,
         textAlign: Styles.center,
+        color: Styles.appBackground,
         fontFamily: Styles.openSans,
     },
 });

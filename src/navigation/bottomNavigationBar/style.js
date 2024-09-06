@@ -13,11 +13,11 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         shadowRadius: 4,
         borderRadius: 35,
-        shadowOpacity: 0.3,
+        shadowOpacity: 1,
         ...Styles.contentCenter,
         shadowColor: Styles.grey,
-        borderColor: Styles.purple,
         backgroundColor: Styles.white,
+        borderColor: Styles.appBackground,
         shadowOffset: { width: 0, height: 1 },
     },
     tabBarStyle: {

@@ -5,7 +5,7 @@ import styles from './style';
 
 class FavoritesScreen extends React.Component {
     render() {
-        return <View style={styles.container}></View>;
+        return <View style={styles.container} />;
     }
 }
 

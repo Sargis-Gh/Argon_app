@@ -1,3 +1,15 @@
+import { getItem, setItem } from './asyncStorage';
+import { getCurrentLanguage } from '../localization/i18n';
+import {
+    PAGE,
+    API_KEY,
+    BASE_URL,
+    LANGUAGE,
+    IMAGE_BASE_URL,
+    AsyncStorageKeys,
+    CarouselItemCountLimit,
+} from '../constants/constants';
+
 export const stringFormat = (string, values) => {
     values = [].concat(values || []);
     for (const value of values) {
@@ -6,6 +18,23 @@ export const stringFormat = (string, values) => {
     return string;
 };
 
-export const removeTags = (string) => {
-    return string?.replace(/<\/?p>|<\/?b>/g, '');
+export const buildImageUrl = (string) => IMAGE_BASE_URL + string;
+
+export const buildApiUrl = (string, id) =>
+    BASE_URL + stringFormat(string, id) + LANGUAGE + getCurrentLanguage() + PAGE + API_KEY;
+
+export const getIsFirstLaunch = async () => {
+    const hasLaunched = JSON.parse(await getItem(AsyncStorageKeys.isFirstLaunch));
+    if (hasLaunched) return true;
+    setItem(AsyncStorageKeys.isFirstLaunch, JSON.stringify(false));
+    return false;
+};
+
+export const getUniqueElements = (arr) => {
+    const uniqueObjects = new Map();
+    arr.forEach((item) => {
+        if (uniqueObjects.has(item.id)) return;
+        uniqueObjects.set(item.id, item);
+    });
+    return Array.from(uniqueObjects.values()).slice(0, CarouselItemCountLimit);
 };

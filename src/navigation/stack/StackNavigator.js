@@ -4,53 +4,25 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { PageName } from '../../constants/constants';
 import SignInScreen from '../../pages/signIn/SignInScreen';
 import Onboarding from '../../pages/onboarding/OnboardingScreen';
-import MovieDetailsScreen from '../../pages/movieDetails/MovieDetailsScreen';
 import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
+import MovieDetailsScreen from '../../pages/movieDetails/MovieDetailsScreen';
+import PersonDetailsScreen from '../../pages/personDetails/PersonDetailsScreen';
 
 const Stack = createStackNavigator();
 
-/*
- * Add loading screen
- */
-const StackNavigation = () => {
+const StackNavigation = (props) => {
+    const { initialRouteName } = props;
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
             }}
-            initialRouteName={PageName.onboarding}>
-            <Stack.Screen
-                name={PageName.onboarding}
-                component={Onboarding}
-                options={({ navigation }) => ({
-                    onboardingScreenProps: { navigation },
-                })}
-            />
-            <Stack.Screen
-                name={PageName.sign}
-                component={SignInScreen}
-                options={({ navigation }) => ({
-                    signScreenProps: { navigation },
-                    gestureEnabled: false,
-                })}
-            />
-            <Stack.Screen
-                name={PageName.tabs}
-                component={BottomTabNavigator}
-                options={({ navigation }) => ({
-                    bottomTabNavigatorProps: { navigation },
-                    gestureEnabled: false,
-                })}
-            />
-            <Stack.Screen
-                name={PageName.details}
-                component={MovieDetailsScreen}
-                options={({ navigation }) => ({
-                    movieDetailsScreenProps: { navigation },
-                    gestureEnabled: false,
-                })}
-            />
-            {/* Loading Screen */}
+            initialRouteName={initialRouteName}>
+            <Stack.Screen name={PageName.signIn} component={SignInScreen} />
+            <Stack.Screen name={PageName.onboarding} component={Onboarding} />
+            <Stack.Screen name={PageName.tabs} component={BottomTabNavigator} />
+            <Stack.Screen name={PageName.movieDetails} component={MovieDetailsScreen} />
+            <Stack.Screen name={PageName.personDetails} component={PersonDetailsScreen} />
         </Stack.Navigator>
     );
 };

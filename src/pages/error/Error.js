@@ -20,7 +20,10 @@ class Error extends React.Component {
                         {t('errorMessageBody', LanguageLocalizationNSKey.common)}
                     </Text>
                 </View>
-                <TouchableOpacity style={styles.tryAgainButton} onPress={resetError}>
+                <TouchableOpacity
+                    delayPressIn={100}
+                    style={styles.tryAgainButton}
+                    onPress={resetError}>
                     <Text style={styles.buttonText}>
                         {t('tryAgain', LanguageLocalizationNSKey.common)}
                     </Text>

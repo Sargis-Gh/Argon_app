@@ -56,13 +56,14 @@ class Languages extends React.Component {
                 {buttonsData.map(({ text, icon, isSelected, selectLanguage }) => (
                     <View key={text} style={styles.languageButtonContent}>
                         <TouchableOpacity
-                            style={styles.languageButton}
+                            delayPressIn={100}
                             activeOpacity={0.5}
+                            style={styles.languageButton}
                             onPress={selectLanguage}>
                             {icon}
                             <Text style={styles.languageButtonText}>{text}</Text>
                         </TouchableOpacity>
-                        {isSelected && <View style={styles.checked}></View>}
+                        {isSelected && <View style={styles.checked} />}
                     </View>
                 ))}
             </View>

@@ -1,42 +1,23 @@
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import { Text, View, SafeAreaView, TouchableOpacity, BackHandler } from 'react-native';
+import { Text, View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import LoginForm from './components/loginForm/LoginForm';
-import {
-    Styles,
-    AppWords,
-    BackHandlerEvents,
-    LanguageLocalizationNSKey,
-} from '../../constants/constants';
+import { Styles, AppWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class SignInScreen extends React.Component {
-    componentDidMount() {
-        BackHandler.addEventListener(BackHandlerEvents, this.handleBackPress);
-    }
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener(BackHandlerEvents.hardwareBackPress, this.handleBackPress);
-    }
-
     render() {
         return (
-            <LinearGradient
-                colors={[Styles.lightBlue, Styles.darkBlue]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}>
-                <SafeAreaView>
-                    <View style={styles.container}>{this.renderBody()}</View>
-                </SafeAreaView>
-            </LinearGradient>
+            <KeyboardAvoidingView style={styles.container} behavior={Styles.padding}>
+                {this.renderBody()}
+            </KeyboardAvoidingView>
         );
     }
 
     renderSignInWith = (icon, text) => (
-        <TouchableOpacity style={styles.signInWith}>
+        <TouchableOpacity style={styles.signInWith} delayPressIn={100}>
             {icon}
             <Text style={styles.headerText}>{text}</Text>
         </TouchableOpacity>
@@ -63,10 +44,6 @@ class SignInScreen extends React.Component {
                 </View>
             </View>
         );
-    };
-
-    handleBackPress = () => {
-        return true;
     };
 }
 

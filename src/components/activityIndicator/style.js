@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
-    loading: {
+    container: {
         flex: 1,
         ...Styles.contentCenter,
-        backgroundColor: Styles.purple,
+        backgroundColor: Styles.appBackground,
     },
 });
 

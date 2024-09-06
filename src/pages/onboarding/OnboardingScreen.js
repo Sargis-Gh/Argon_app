@@ -8,11 +8,10 @@ import { t } from '../../localization/i18n';
 import { OnboardingData } from '../../mockData/MockData';
 import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
 
-import { navigationNavigate } from '../../navigation/navigation';
+import { navigationReplace } from '../../navigation/navigation';
 
 class Onboarding extends React.Component {
     render() {
-        console.log(OnboardingData);
         return (
             <AppIntroSlider
                 bottomButton={true}
@@ -35,17 +34,20 @@ class Onboarding extends React.Component {
                 resizeMode={FastImage.resizeMode.stretch}
             />
             <Text style={styles.title}>{t(item.title, LanguageLocalizationNSKey.onboarding)}</Text>
-            <Text style={styles.subtitle}>{item.text}</Text>
+            <Text style={styles.subtitle}>
+                {t(item.text, LanguageLocalizationNSKey.onboarding)}
+            </Text>
         </View>
     );
 
     doneButton = () => (
         <TouchableOpacity
+            delayPressIn={100}
+            activeOpacity={0.8}
             style={styles.getStarted}
-            activeOpacity={0.7}
             onPress={() => {
                 const { navigation } = this.props;
-                navigationNavigate(navigation, PageName.sign);
+                navigationReplace(navigation, PageName.signIn);
             }}>
             <Text style={styles.getStartedText}>
                 {t('getStarted', LanguageLocalizationNSKey.onboarding)}

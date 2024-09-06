@@ -3,25 +3,26 @@ import { Text, View, TouchableOpacity } from 'react-native';
 
 import styles from './style';
 import { Icons } from '../../constants/Icons';
+import { Styles } from '../../constants/constants';
 
-import { navigationNavigate } from '../../navigation/navigation';
+import { navigationGoBack } from '../../navigation/navigation';
 
 class NavigationBar extends React.Component {
     render() {
-        const { text } = this.props;
+        const { title } = this.props;
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={this.onPress}>
-                    <Icons.Left />
+                <TouchableOpacity delayPressIn={100} activeOpacity={0.8} onPress={this.onPress}>
+                    <Icons.Left fill={Styles.appBackground} />
                 </TouchableOpacity>
-                <Text style={styles.headerText}>{text}</Text>
+                <Text style={styles.headerText}>{title}</Text>
             </View>
         );
     }
 
     onPress = () => {
-        const { navigation, pageName } = this.props;
-        navigationNavigate(navigation, pageName);
+        const { navigation } = this.props;
+        navigationGoBack(navigation);
     };
 }
 

@@ -4,7 +4,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { EnLanguageResources } from './translations/en';
 import { RuLanguageResources } from './translations/ru';
-import { AsyncStorageKeys, LanguageLocalizationKey, PlatformName } from '../constants/constants';
+import { genericErrorHandling } from '../utils/errorHandlers';
+import {
+    Language,
+    PlatformName,
+    AsyncStorageKeys,
+    LanguageLocalizationKey,
+} from '../constants/constants';
 
 const resources = {
     [LanguageLocalizationKey.en]: EnLanguageResources,
@@ -17,25 +23,32 @@ const setI18nConfig = (currentLocale = LanguageLocalizationKey.en) => {
         return;
     }
     i18n.init({
+        resources,
+        debug: true,
+        lng: currentLocale,
+        returnObjects: true,
         compatibilityJSON: 'v3',
         fallbackLng: LanguageLocalizationKey.en,
-        lng: currentLocale,
-        debug: true,
-        resources,
-        returnObjects: true,
     });
 };
 
 const getDeviceLanguage = () => {
     try {
-        let deviceLanguage =
-            (Platform.OS === PlatformName.ios &&
-                NativeModules.SettingsManager.settings.AppleLocale) ||
-            NativeModules.SettingsManager.settings.AppleLanguages[0] ||
-            NativeModules.I18nManager.localeIdentifier;
+        let deviceLanguage = Language.en;
+
+        if (PlatformName.ios === Platform.OS) {
+            deviceLanguage =
+                NativeModules.SettingsManager.settings.AppleLocale ||
+                NativeModules.SettingsManager.settings.AppleLanguages?.[0] ||
+                Language.en;
+        } else if (PlatformName.android === Platform.OS) {
+            deviceLanguage = NativeModules.I18nManager.localeIdentifier || Language.en;
+        }
+
         return deviceLanguage.split('_')[0];
-    } catch (_) {
-        return LanguageLocalizationKey.en;
+    } catch (error) {
+        genericErrorHandling(error);
+        return Language.en;
     }
 };
 
@@ -46,7 +59,8 @@ export const detectAndInitializeLanguage = async () => {
         return;
     }
     const deviceLanguage = getDeviceLanguage();
-    const language = LanguageLocalizationKey[deviceLanguage];
+    const language = LanguageLocalizationKey[deviceLanguage] || LanguageLocalizationKey.en;
+
     await AsyncStorage.setItem(AsyncStorageKeys.language, language);
     setI18nConfig(language);
 };
@@ -55,8 +69,8 @@ export const changeLanguage = (currentLocale = LanguageLocalizationKey.en) => {
     i18n.changeLanguage(currentLocale);
 };
 
-export function t(name, key = 'ns', params = {}) {
-    return i18n.t(name, { ...params, ns: key });
-}
+export const t = (name, key = 'ns', params = {}) => i18n.t(name, { ...params, ns: key });
+
+export const getCurrentLanguage = () => i18n.language.slice(0, 2);
 
 export default i18n;

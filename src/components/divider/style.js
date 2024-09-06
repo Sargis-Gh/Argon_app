@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     container: {
         height: 1,
         width: Styles.fullSize,
-        backgroundColor: Styles.greyWithalpha,
+        backgroundColor: Styles.greyWithOpacity,
     },
 });
 
