@@ -1,0 +1,9 @@
+{
+    "title": "TV Series",
+    "texts": {
+        "onTheAir": "On The Air",
+        "airingToDay": "Airing To Day",
+        "topRatedSeries": "Top Rated Series",
+        "popularTVSeries": "Popular TV Series"
+    }
+}

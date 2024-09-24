@@ -1,0 +1,26 @@
+{
+    "title": "Movies...",
+    "texts": {
+        "war": "War",
+        "crime": "Crime",
+        "drama": "Drama",
+        "music": "Music",
+        "horror": "Horror",
+        "action": "Action",
+        "comedy": "Comedy",
+        "family": "Family",
+        "fantasy": "Fantasy",
+        "history": "History",
+        "western": "Western",
+        "mystery": "Mystery",
+        "romance": "Romance",
+        "tvMovie": "TV Movie",
+        "thriller": "Thriller",
+        "adventure": "Adventure",
+        "animation": "Animation",
+        "documentary": "Documentary",
+        "notFound": "Result not found",
+        "scienceFiction": "ScienceFiction",
+        "sherlockHolmes": "Sherlock Holmes"
+    }
+}

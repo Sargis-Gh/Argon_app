@@ -21,7 +21,7 @@ export const getData = async (id, type) => {
     }) || {
         videos: Endpoints.tvVideos,
         credits: Endpoints.tvCredits,
-        details: Endpoints.tvShowsDetails,
+        details: Endpoints.tvSeriesDetails,
     };
 
     return getDetails(endpoints, id);

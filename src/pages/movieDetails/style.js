@@ -15,12 +15,11 @@ const styles = StyleSheet.create({
     backIcon: {
         top: 16,
         left: 16,
-        width: 40,
+        width: 36,
         aspectRatio: 1,
         borderRadius: 20,
         ...Styles.contentCenter,
         position: Styles.absolute,
-        backgroundColor: Styles.blackWithOpacity,
     },
     image: {
         height: 225,
@@ -96,8 +95,8 @@ const styles = StyleSheet.create({
         width: DEVICE_SETTINGS.windowWidth / 4.5,
     },
     name: {
-        paddingHorizontal: 8,
         color: Styles.white,
+        paddingHorizontal: 8,
         textAlign: Styles.center,
         fontFamily: Styles.openSans,
     },
@@ -111,6 +110,11 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
         position: Styles.absolute,
         backgroundColor: Styles.blackWithOpacity,
+    },
+    favoriteButton: {
+        top: 16,
+        right: 16,
+        position: Styles.absolute,
     },
 });
 

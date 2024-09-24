@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 
-import activeTabName from './activeTabNameReducer';
+import userReducer from './authReducer';
+import settingsReducer from './settingsReducer';
 
 export default combineReducers({
-    activeTabName,
+    user: userReducer,
+    settings: settingsReducer,
 });

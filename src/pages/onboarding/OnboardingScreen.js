@@ -47,7 +47,7 @@ class Onboarding extends React.Component {
             style={styles.getStarted}
             onPress={() => {
                 const { navigation } = this.props;
-                navigationReplace(navigation, PageName.signIn);
+                navigationReplace(navigation, PageName.auth);
             }}>
             <Text style={styles.getStartedText}>
                 {t('getStarted', LanguageLocalizationNSKey.onboarding)}

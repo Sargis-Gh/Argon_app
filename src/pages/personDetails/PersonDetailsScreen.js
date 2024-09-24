@@ -123,8 +123,8 @@ class PersonDetailsScreen extends React.Component {
                     this.renderCarousel(
                         navigation,
                         tvCredits?.cast,
-                        CreditType.tvShow,
-                        t('tvShowsFeaturing', LanguageLocalizationNSKey.personDetails),
+                        CreditType.tvSeries,
+                        t('tvSeriesFeaturing', LanguageLocalizationNSKey.personDetails),
                     )}
                 {(hasMovieCredits || hasTVCredits) && <Divider />}
                 {!!biography && (
@@ -154,7 +154,7 @@ class PersonDetailsScreen extends React.Component {
         <>
             <Text style={styles.carouselTitle}>{title}</Text>
             <Carousel
-                loop={true}
+                loop={false}
                 autoFillData={false}
                 pagingEnabled={true}
                 mode={Styles.parallax}

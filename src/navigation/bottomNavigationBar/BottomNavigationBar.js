@@ -85,7 +85,7 @@ class BottomTabNavigator extends React.Component {
                     options={{
                         unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
-                            <Icons.Favorite
+                            <Icons.FavoriteBottom
                                 fill={(focused && Styles.appBackground) || Styles.grey}
                             />
                         ),

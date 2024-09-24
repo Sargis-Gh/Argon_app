@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TextInput } from 'react-native';
 
 import styles from './style';
-import { Styles } from '../../constants/constants';
+import { Styles, TextInputOptions } from '../../constants/constants';
 
 class CustomTextInput extends React.Component {
     render() {
@@ -11,6 +11,7 @@ class CustomTextInput extends React.Component {
             value,
             onChangeText,
             placeholderText,
+            needIcon = true,
             iconRight = false,
             secureTextEntry = false,
             style = styles.container,
@@ -18,16 +19,19 @@ class CustomTextInput extends React.Component {
         } = this.props;
         return (
             <View style={style}>
-                {!iconRight && Icon}
+                {!iconRight && needIcon && Icon}
                 <TextInput
                     value={value}
                     style={textStyle}
+                    spellCheck={false}
+                    autoCorrect={false}
                     onChangeText={onChangeText}
                     placeholder={placeholderText}
                     secureTextEntry={secureTextEntry}
                     placeholderTextColor={Styles.grey}
+                    textContentType={TextInputOptions.oneTimeCode}
                 />
-                {iconRight && Icon}
+                {iconRight && needIcon && Icon}
             </View>
         );
     }

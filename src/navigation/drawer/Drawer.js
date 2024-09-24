@@ -6,13 +6,17 @@ import { Icons } from '../../constants/Icons';
 import HomeScreen from '../../pages/home/HomeScreen';
 import SettingsScreen from '../../pages/settings/SettingsScreen';
 import { LanguageLocalizationNSKey, PageName } from '../../constants/constants';
+import TermsAndConditions from '../../pages/termsAndConditions/TermsAndConditions';
+import CustomDrawerContent from '../../components/customDrawerContent/CustomDrawerContent';
 
 const Drawer = createDrawerNavigator();
 
 class DrawerNavigator extends React.Component {
     render() {
         return (
-            <Drawer.Navigator initialRouteName={t('title', LanguageLocalizationNSKey.home)}>
+            <Drawer.Navigator
+                drawerContent={(props) => <CustomDrawerContent {...props} />}
+                initialRouteName={t('title', LanguageLocalizationNSKey.home)}>
                 <Drawer.Screen
                     name={PageName.home}
                     component={HomeScreen}
@@ -29,6 +33,15 @@ class DrawerNavigator extends React.Component {
                     options={{
                         drawerIcon: Icons.Settings,
                         title: t('title', LanguageLocalizationNSKey.settings),
+                    }}
+                />
+                <Drawer.Screen
+                    name={PageName.termsAndConditions}
+                    component={TermsAndConditions}
+                    options={{
+                        headerShown: false,
+                        drawerIcon: Icons.TermsAndConditions,
+                        title: t('termsAndConditions', LanguageLocalizationNSKey.common),
                     }}
                 />
             </Drawer.Navigator>

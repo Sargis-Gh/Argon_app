@@ -1,9 +1,17 @@
 import { Dimensions, NativeModules, Platform } from 'react-native';
 
+export const ReduxTypes = {
+    signOut: 'signOutT',
+    setFavorites: 'setFavorites',
+    getFavorites: 'getFavorites',
+    setLaunchDetails: 'setLaunchDetails',
+    setFavoriteViewType: 'setFavoriteViewType',
+};
+
 export const PageName = {
     qr: 'QR',
     home: 'Home',
-    signIn: 'SignIn',
+    auth: 'Auth',
     movies: 'Movies',
     drawer: 'Drawer',
     series: 'Series',
@@ -15,6 +23,7 @@ export const PageName = {
     onboarding: 'Onboarding',
     movieDetails: 'MovieDetails',
     personDetails: 'PersonDetails',
+    termsAndConditions: 'TermsAndConditions',
 };
 
 export const Styles = {
@@ -43,20 +52,26 @@ export const Styles = {
     black: 'rgb(0, 0, 0)',
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
+    darkBlue: 'rgb(33, 31, 48)',
     white: 'rgb(255, 255, 255)',
     grey: 'rgba(188, 188, 188, 1)',
-    appBackground: 'rgb(35, 35, 35)',
+    lightRed: 'rgba(235, 87, 87, 1)',
+    appBackground: 'rgb(23, 23, 23)',
+    lightBackground: 'rgb(40, 40, 40)',
     lightGrey: 'rgba(202, 209, 215, 1)',
     articleColor: 'rgba(94, 114, 228, 1)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
     textInputGrey: 'rgba(173, 181, 189, 1)',
     bottomContainerColor: 'rgb(244, 245, 247)',
-    greyWithOpacity: 'rgba(218, 218, 218, 0.2)',
+    greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
     row: 'row',
+    none: 'none',
+    flex: 'flex',
     large: 'large',
+    column: 'column',
     center: 'center',
     fullSize: '100%',
     padding: 'padding',
@@ -71,6 +86,11 @@ export const Styles = {
     contentCenter: {
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    contentFlexEnd: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
     },
 
     fontWeightFamilyColor: {
@@ -88,10 +108,9 @@ export const Styles = {
 };
 
 export const AppWords = {
+    guest: 'guest',
     focus: 'focus',
     ended: 'ended',
-    google: 'GOOGLE',
-    gitHub: 'GITHUB',
     trailer: 'Trailer',
 };
 
@@ -106,9 +125,11 @@ export const Language = {
 
 export const LanguageLocalizationNSKey = {
     home: 'home',
-    signIn: 'signIn',
+    auth: 'auth',
+    movies: 'movies',
     common: 'common',
     profile: 'profile',
+    tvSeries: 'tvSeries',
     settings: 'settings',
     bottomTab: 'bottomTab',
     onboarding: 'onboarding',
@@ -146,9 +167,9 @@ export const BackHandlerEvents = {
 };
 
 export const AsyncStorageKeys = {
+    settings: 'settings',
     language: 'language',
-    favorites: 'favorites',
-    isFirstLaunch: 'isFirstLaunch',
+    launchData: 'launchData',
 };
 
 export const DefaultSource = {
@@ -159,10 +180,13 @@ export const DefaultSource = {
 export const CarouselItemCountLimit = 20;
 
 export const PAGE = '&page=1';
-export const LANGUAGE = '?language=';
+export const QUERY = '&query=';
+export const LANGUAGE = '&language=';
+export const WITH_GENRE = '&with_genres=%S';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-export const API_KEY = '&api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+export const API_KEY = '?api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+export const TermsAndConditionsUrl = 'https://shortly.film/terms-and-conditions-filmmaker/';
 
 export const Endpoints = {
     // Home Page
@@ -176,8 +200,8 @@ export const Endpoints = {
     movieVideos: '/movie/%S/videos',
     movieCredits: '/movie/%S/credits',
 
-    // TV Shows Details
-    tvShowsDetails: '/tv/%S',
+    // TV Series Details
+    tvSeriesDetails: '/tv/%S',
     tvVideos: '/tv/%S/videos',
     tvCredits: '/tv/%S/credits',
 
@@ -185,6 +209,16 @@ export const Endpoints = {
     personDetails: '/person/%S',
     personTVCredits: '/person/%S/tv_credits',
     personMovieCredits: '/person/%S/movie_credits',
+
+    // Movie Page
+    movies: '/discover/movie',
+    searchMovie: '/search/movie',
+
+    // TV Series
+    onTheAir: '/tv/on_the_air',
+    popularTVSeries: '/tv/popular',
+    airingToDay: '/tv/airing_today',
+    topRatedSeries: '/tv/top_rated',
 };
 
 export const PromiseStatus = {
@@ -198,7 +232,98 @@ export const KnownForDepartment = {
 
 export const CreditType = {
     movie: 'movie',
-    tvShow: 'tvShow',
+    tvSeries: 'tvSeries',
 };
 
+export const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{9,})/;
+
 export const HomeScreenDataTitles = ['topRated', 'nowPlaying', 'popular', 'upcoming'];
+
+export const SeriesScreenDataTitles = [
+    'onTheAir',
+    'airingToDay',
+    'topRatedSeries',
+    'popularTVSeries',
+];
+
+export const StoreData = {
+    isFirstLaunch: false,
+    users: [
+        {
+            id: 'guest',
+            isSignIn: false,
+            firstName: 'guest',
+        },
+    ],
+    favorites: {
+        guest: {
+            movie: [],
+            tvSeries: [],
+        },
+    },
+};
+
+export const TextInputOptions = {
+    oneTimeCode: 'oneTimeCode',
+};
+
+export const AuthPageWords = {
+    guest: 'guest',
+    signIn: 'signIn',
+    signUp: 'signUp',
+    signOut: 'signOut',
+    enterEmail: 'enterEmail',
+    enterPassword: 'enterPassword',
+    enterLastName: 'enterLastName',
+    enterFirstName: 'enterFirstName',
+    invalidPassword: 'invalidPassword',
+    invalidEmailFormat: 'invalidEmailFormat',
+    accountAlreadyExists: 'accountAlreadyExists',
+    invalidEmailOrPassword: 'invalidEmailOrPassword',
+    errorOccurredDuringSignIn: 'errorOccurredDuringSignIn',
+    errorOccurredDuringSignUp: 'errorOccurredDuringSignUp',
+};
+
+export const FavoritePageWords = {
+    row: 'row',
+    keyOne: '-',
+    keyTwo: '+',
+    delimiter: ', ',
+    movie: 'movies',
+    remove: 'remove',
+    column: 'column',
+    series: 'series',
+    favorites: 'favorites',
+    viewDetails: 'viewDetails',
+    cardDisplayType: 'cardDisplayType',
+};
+
+export const MoviesPageWords = {
+    movieGenres: [
+        { id: 80, name: 'crime' },
+        { id: 18, name: 'drama' },
+        { id: 27, name: 'horror' },
+        { id: 28, name: 'action' },
+        { id: 35, name: 'comedy' },
+        { id: 10752, name: 'war' },
+        { id: 14, name: 'fantasy' },
+        { id: 36, name: 'history' },
+        { id: 37, name: 'western' },
+        { id: 10402, name: 'music' },
+        { id: 53, name: 'thriller' },
+        { id: 9648, name: 'mystery' },
+        { id: 12, name: 'adventure' },
+        { id: 16, name: 'animation' },
+        { id: 10751, name: 'family' },
+        { id: 10749, name: 'romance' },
+        { id: 10770, name: 'tvMovie' },
+        { id: 99, name: 'documentary' },
+        { id: 878, name: 'scienceFiction' },
+    ],
+};
+
+export const ReturnKeyType = {
+    search: 'search',
+};

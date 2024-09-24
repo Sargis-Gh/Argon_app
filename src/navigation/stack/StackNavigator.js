@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { PageName } from '../../constants/constants';
-import SignInScreen from '../../pages/signIn/SignInScreen';
+import AuthScreen from '../../pages/auth/AuthScreen';
 import Onboarding from '../../pages/onboarding/OnboardingScreen';
 import BottomTabNavigator from '../bottomNavigationBar/BottomNavigationBar';
 import MovieDetailsScreen from '../../pages/movieDetails/MovieDetailsScreen';
@@ -18,7 +18,7 @@ const StackNavigation = (props) => {
                 headerShown: false,
             }}
             initialRouteName={initialRouteName}>
-            <Stack.Screen name={PageName.signIn} component={SignInScreen} />
+            <Stack.Screen name={PageName.auth} component={AuthScreen} />
             <Stack.Screen name={PageName.onboarding} component={Onboarding} />
             <Stack.Screen name={PageName.tabs} component={BottomTabNavigator} />
             <Stack.Screen name={PageName.movieDetails} component={MovieDetailsScreen} />

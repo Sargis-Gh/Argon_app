@@ -13,7 +13,7 @@ class NavigationBar extends React.Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity delayPressIn={100} activeOpacity={0.8} onPress={this.onPress}>
-                    <Icons.Left fill={Styles.appBackground} />
+                    <Icons.Back fill={Styles.appBackground} />
                 </TouchableOpacity>
                 <Text style={styles.headerText}>{title}</Text>
             </View>

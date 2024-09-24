@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         borderRadius: 20,
         ...Styles.contentCenter,
-        backgroundColor: Styles.blackWithOpacity,
     },
     name: {
         fontSize: 30,

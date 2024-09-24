@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
@@ -6,19 +7,20 @@ import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
-import { buildImageUrl, getUniqueElements } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
 import { getData } from '../../providers/movieDetails';
+import { setFavorites } from '../../redux/action/authAction';
 import { genericErrorHandling } from '../../utils/errorHandlers';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
+import { buildImageUrl, getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
     AppWords,
     PageName,
+    CreditType,
     DefaultSource,
     KnownForDepartment,
-    CarouselItemCountLimit,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -35,13 +37,7 @@ class MovieDetailsScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.focusListener = this.props.navigation.addListener(AppWords.focus, () => {
-            this.initData();
-        });
-    }
-
-    componentWillUnmount() {
-        this.focusListener?.();
+        this.initData();
     }
 
     render() {
@@ -73,6 +69,7 @@ class MovieDetailsScreen extends React.Component {
 
     renderHeader = (details, trailer, navigation) => {
         const { playing } = this.state;
+        const item = this.isItemFavorite();
         return (
             <View style={styles.headerContainer}>
                 {(playing && this.renderIframe(trailer?.key)) ||
@@ -93,6 +90,13 @@ class MovieDetailsScreen extends React.Component {
                         <Icons.PlayCircle />
                     </TouchableOpacity>
                 )}
+                <TouchableOpacity
+                    delayPressIn={100}
+                    activeOpacity={0.8}
+                    style={styles.favoriteButton}
+                    onPress={() => this.handleFavoriteButtonClick(item)}>
+                    {(item.isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
+                </TouchableOpacity>
             </View>
         );
     };
@@ -270,6 +274,31 @@ class MovieDetailsScreen extends React.Component {
         setTimeout(this.initData, 400);
     };
 
+    handleFavoriteButtonClick = (item) => {
+        const { details } = this.state;
+        const {
+            setFavorites,
+            user: {
+                favorites,
+                details: { id },
+            },
+        } = this.props;
+        changeFavoriteStatus(item.isFavorite, id, favorites, setFavorites, details, item.type);
+    };
+
+    isItemFavorite = () => {
+        const {
+            user: { favorites },
+            route: {
+                params: { id, type },
+            },
+        } = this.props;
+        if (CreditType.movie === type) {
+            return { isFavorite: favorites.movie.find((item) => id === item.id), type };
+        }
+        return { isFavorite: favorites.tvSeries.find((item) => id === item.id), type };
+    };
+
     initData = async () => {
         const {
             route: {
@@ -293,4 +322,12 @@ class MovieDetailsScreen extends React.Component {
     };
 }
 
-export default MovieDetailsScreen;
+const mapStateToProps = (state) => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    setFavorites: (updatedFavorites) => dispatch(setFavorites(updatedFavorites)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetailsScreen);

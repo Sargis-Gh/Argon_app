@@ -1,0 +1,26 @@
+{
+    "title": "Фильмы...",
+    "texts": {
+        "war": "Война",
+        "drama": "Драма",
+        "music": "Музыка",
+        "horror": "Ужасы",
+        "action": "Боевик",
+        "comedy": "Комедия",
+        "crime": "Криминал",
+        "history": "История",
+        "western": "Вестерн",
+        "mystery": "Мистика",
+        "family": "Семейный",
+        "fantasy": "Фэнтези",
+        "thriller": "Триллер",
+        "romance": "Романтика",
+        "animation": "Анимация",
+        "adventure": "Приключения",
+        "documentary": "Документальный",
+        "tvMovie": "Телевизионный фильм",
+        "sherlockHolmes": "Шерлок Холмс",
+        "notFound": "Результат не найден",
+        "scienceFiction": "Научная фантастика"
+    }
+}

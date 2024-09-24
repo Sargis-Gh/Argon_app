@@ -1,6 +1,9 @@
 {
+    "row": "Row",
     "genre": "Genre",
     "retry": "Retry",
+    "column": "Column",
+    "remove": "Remove",
     "search": "Search",
     "actors": "Actors",
     "popular": "Popular",
@@ -15,6 +18,8 @@
     "viewDetails": "Details",
     "nowPlaying": "Now Playing",
     "releaseDate": "Release Date",
+    "cardDisplayType": "Card display type",
+    "termsAndConditions": "Terms & Condition",
     "errorMessageHeader": "Something went wrong",
     "errorMessageBody": "Unfortunately we have encountered an unexpected issue. Please try again or contact us.",
     "errorMessageRetry": "The internet connection appears to be offline. Please, make sure your device is connected and try again."
