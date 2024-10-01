@@ -1,8 +1,8 @@
 import { ReduxTypes } from '../../constants/constants';
 
-export const setLaunchDetails = (details, favorites) => ({
-    payload: { details, favorites },
-    type: ReduxTypes.setLaunchDetails,
+export const setUser = (user) => ({
+    payload: user,
+    type: ReduxTypes.setUser,
 });
 
 export const performSignOut = () => ({

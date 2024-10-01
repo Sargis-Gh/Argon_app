@@ -9,16 +9,12 @@ const styles = StyleSheet.create({
         paddingTop: DEVICE_SETTINGS.statusBarHeight,
         paddingBottom: DEVICE_SETTINGS.homeIndicatorHeight,
     },
-    headerContainer: {
-        ...Styles.contentCenter,
-        backgroundColor: Styles.greyWithOpacity,
-    },
     aboutContainer: {
         rowGap: 16,
         marginTop: 16,
     },
     image: {
-        height: 320,
+        height: 340,
         width: DEVICE_SETTINGS.windowWidth,
         justifyContent: Styles.spaceBetween,
     },

@@ -43,7 +43,7 @@ class Onboarding extends React.Component {
     doneButton = () => (
         <TouchableOpacity
             delayPressIn={100}
-            activeOpacity={0.8}
+            activeOpacity={0.4}
             style={styles.getStarted}
             onPress={() => {
                 const { navigation } = this.props;

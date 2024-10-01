@@ -1,10 +1,10 @@
 import { Dimensions, NativeModules, Platform } from 'react-native';
 
 export const ReduxTypes = {
+    setUser: 'setUser',
     signOut: 'signOutT',
+    setGenres: 'setGenres',
     setFavorites: 'setFavorites',
-    getFavorites: 'getFavorites',
-    setLaunchDetails: 'setLaunchDetails',
     setFavoriteViewType: 'setFavoriteViewType',
 };
 
@@ -23,6 +23,7 @@ export const PageName = {
     onboarding: 'Onboarding',
     movieDetails: 'MovieDetails',
     personDetails: 'PersonDetails',
+    privacyPolicy: 'Privacy Policy',
     termsAndConditions: 'TermsAndConditions',
 };
 
@@ -48,20 +49,21 @@ export const Styles = {
     transparent: 'transparent',
 
     // Colors
-    green: '#77BB41',
     black: 'rgb(0, 0, 0)',
     red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
+    green: 'rgb(120, 187, 65)',
+    grey: 'rgb(188, 188, 188)',
     darkBlue: 'rgb(33, 31, 48)',
     white: 'rgb(255, 255, 255)',
-    grey: 'rgba(188, 188, 188, 1)',
+    darkGrey: 'rgb(82, 95, 127)',
+    lightGrey: 'rgb(202, 209, 215)',
     lightRed: 'rgba(235, 87, 87, 1)',
     appBackground: 'rgb(23, 23, 23)',
+    articleColor: 'rgb(94, 114, 228)',
     lightBackground: 'rgb(40, 40, 40)',
-    lightGrey: 'rgba(202, 209, 215, 1)',
-    articleColor: 'rgba(94, 114, 228, 1)',
+    textInputGrey: 'rgb(173, 181, 189)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
-    textInputGrey: 'rgba(173, 181, 189, 1)',
     bottomContainerColor: 'rgb(244, 245, 247)',
     greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
@@ -111,6 +113,7 @@ export const AppWords = {
     guest: 'guest',
     focus: 'focus',
     ended: 'ended',
+    imdb: ' (IMDB)',
     trailer: 'Trailer',
 };
 
@@ -167,9 +170,10 @@ export const BackHandlerEvents = {
 };
 
 export const AsyncStorageKeys = {
+    users: 'users',
+    genres: 'genres',
     settings: 'settings',
     language: 'language',
-    launchData: 'launchData',
 };
 
 export const DefaultSource = {
@@ -219,6 +223,12 @@ export const Endpoints = {
     popularTVSeries: '/tv/popular',
     airingToDay: '/tv/airing_today',
     topRatedSeries: '/tv/top_rated',
+
+    // Genres
+    genres: '/genre/movie/list',
+
+    // Similar
+    similar: '/movie/%S/similar',
 };
 
 export const PromiseStatus = {
@@ -248,20 +258,12 @@ export const SeriesScreenDataTitles = [
     'popularTVSeries',
 ];
 
-export const StoreData = {
-    isFirstLaunch: false,
-    users: [
-        {
-            id: 'guest',
-            isSignIn: false,
-            firstName: 'guest',
-        },
-    ],
-    favorites: {
-        guest: {
-            movie: [],
-            tvSeries: [],
-        },
+export const Users = {
+    guest: {
+        email: 'guest',
+        isSignIn: false,
+        firstName: 'guest',
+        favorites: { movie: [], tvSeries: [] },
     },
 };
 
@@ -290,7 +292,6 @@ export const FavoritePageWords = {
     row: 'row',
     keyOne: '-',
     keyTwo: '+',
-    delimiter: ', ',
     movie: 'movies',
     remove: 'remove',
     column: 'column',
@@ -298,30 +299,6 @@ export const FavoritePageWords = {
     favorites: 'favorites',
     viewDetails: 'viewDetails',
     cardDisplayType: 'cardDisplayType',
-};
-
-export const MoviesPageWords = {
-    movieGenres: [
-        { id: 80, name: 'crime' },
-        { id: 18, name: 'drama' },
-        { id: 27, name: 'horror' },
-        { id: 28, name: 'action' },
-        { id: 35, name: 'comedy' },
-        { id: 10752, name: 'war' },
-        { id: 14, name: 'fantasy' },
-        { id: 36, name: 'history' },
-        { id: 37, name: 'western' },
-        { id: 10402, name: 'music' },
-        { id: 53, name: 'thriller' },
-        { id: 9648, name: 'mystery' },
-        { id: 12, name: 'adventure' },
-        { id: 16, name: 'animation' },
-        { id: 10751, name: 'family' },
-        { id: 10749, name: 'romance' },
-        { id: 10770, name: 'tvMovie' },
-        { id: 99, name: 'documentary' },
-        { id: 878, name: 'scienceFiction' },
-    ],
 };
 
 export const ReturnKeyType = {

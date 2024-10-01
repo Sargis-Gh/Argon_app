@@ -3,7 +3,6 @@ import { Text } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 import styles from './style';
-import Divider from '../divider/Divider';
 import { t } from '../../localization/i18n';
 import { Styles, LanguageLocalizationNSKey } from '../../constants/constants';
 
@@ -15,7 +14,6 @@ class CustomCarousel extends React.Component {
             renderItem,
             navigation,
             isStandard = true,
-            bottomDivider = true,
         } = this.props;
         const baseOptions =
             (isStandard && styles.standardBaseOptions) || styles.nonStandardBaseOptions;
@@ -32,7 +30,6 @@ class CustomCarousel extends React.Component {
                     panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
                     renderItem={(item) => renderItem(item, navigation)}
                 />
-                {bottomDivider && <Divider />}
             </>
         );
     }

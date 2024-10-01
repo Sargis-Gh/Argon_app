@@ -5,11 +5,11 @@ import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { setUser } from './src/redux/action/userAction';
 import MyStack from './src/navigation/stack/StackNavigator';
-import { setFavoriteViewType } from './src/redux/action/settingsAction';
-import { setLaunchDetails } from './src/redux/action/authAction';
 import { getLaunchDetails, setAppSettings } from './src/utils/utils';
 import { detectAndInitializeLanguage } from './src/localization/i18n';
+import { setFavoriteViewType } from './src/redux/action/settingsAction';
 import { BackHandlerEvents, PageName } from './src/constants/constants';
 
 import { navigationRef, getCurrentRouteName } from './src/navigation/navigation';
@@ -26,10 +26,10 @@ class App extends React.Component {
             let isSignIn = false;
             let isFirstLaunch = true;
             try {
-                const { setLaunchDetails, setFavoriteViewType } = this.props;
+                const { setUser, setFavoriteViewType } = this.props;
                 await detectAndInitializeLanguage();
                 await setAppSettings(setFavoriteViewType);
-                const data = await getLaunchDetails(setLaunchDetails);
+                const data = await getLaunchDetails(setUser);
                 isSignIn = data?.isSignIn;
                 isFirstLaunch = data?.isFirstLaunch;
             } finally {
@@ -85,8 +85,8 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+    setUser: (details) => dispatch(setUser(details)),
     setFavoriteViewType: (updatedSettings) => dispatch(setFavoriteViewType(updatedSettings)),
-    setLaunchDetails: (details, favorites) => dispatch(setLaunchDetails(details, favorites)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

@@ -1,27 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import { TouchableOpacity, View, Text, FlatList } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { getHomeData } from '../../providers/home';
-import { setFavorites } from '../../redux/action/authAction';
+import { setFavorites } from '../../redux/action/userAction';
 import { genericErrorHandling } from '../../utils/errorHandlers';
+import CustomImage from '../../components/customImage/CustomImage';
 import CustomCarousel from '../../components/customCarousel/CustomCarousel';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
+import { favoritesFirst, getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
-import {
-    buildImageUrl,
-    favoritesFirst,
-    getUniqueElements,
-    changeFavoriteStatus,
-} from '../../utils/utils';
 import {
     PageName,
     CreditType,
-    DefaultSource,
     HomeScreenDataTitles,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
@@ -66,7 +60,7 @@ class HomeScreen extends React.Component {
         <View style={styles.headerContainer}>
             <TouchableOpacity
                 delayPressIn={100}
-                activeOpacity={0.8}
+                activeOpacity={0.4}
                 onPress={navigation.openDrawer}>
                 <Icons.Menu />
             </TouchableOpacity>
@@ -79,50 +73,38 @@ class HomeScreen extends React.Component {
         const isStandard = HomeScreenDataTitles[1] !== item?.title;
         const data = favoritesFirst(getUniqueElements(item?.data), this.isItemFavorite);
         const renderItem = (isStandard && this.renderStandardItem) || this.renderNonStandardItem;
-        const bottomDivider = HomeScreenDataTitles[HomeScreenDataTitles.length - 1] !== item?.title;
         return (
             <CustomCarousel
                 data={data}
                 title={item?.title}
                 navigation={navigation}
                 isStandard={isStandard}
-                bottomDivider={bottomDivider}
                 renderItem={renderItem}
             />
         );
     };
 
     renderStandardItem = ({ item }) => {
-        const { navigation } = this.props;
         const isFavorite = this.isItemFavorite(item?.id);
         return (
             <TouchableOpacity
                 activeOpacity={1}
                 delayPressIn={100}
                 style={styles.carouselItem}
-                onPress={() =>
-                    navigationNavigate(navigation, PageName.movieDetails, {
-                        id: item?.id,
-                        type: CreditType.movie,
-                        title: t('title', LanguageLocalizationNSKey.home),
-                    })
-                }>
-                <FastImage
-                    style={styles.standardItem}
-                    defaultSource={DefaultSource.film}
-                    resizeMode={FastImage.resizeMode.stretch}
-                    source={{ uri: buildImageUrl(item?.backdrop_path) }}>
+                onPress={() => this.openMovieDetails(item?.id, false)}>
+                <CustomImage source={item?.backdrop_path} style={styles.standardItem}>
                     <TouchableOpacity
                         delayPressIn={100}
-                        activeOpacity={0.8}
+                        activeOpacity={0.4}
                         style={styles.standardFavoriteIcon}
                         onPress={() => this.handleFavoriteButtonClick(item)}>
                         {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
                     </TouchableOpacity>
                     <TouchableOpacity
                         delayPressIn={100}
-                        activeOpacity={0.8}
-                        style={styles.standardItemDetails}>
+                        activeOpacity={0.4}
+                        style={styles.standardItemDetails}
+                        onPress={() => this.openMovieDetails(item?.id, true)}>
                         <Icons.Play />
                         <View>
                             <Text style={styles.continue}>
@@ -133,31 +115,21 @@ class HomeScreen extends React.Component {
                             </Text>
                         </View>
                     </TouchableOpacity>
-                </FastImage>
+                </CustomImage>
             </TouchableOpacity>
         );
     };
 
     renderNonStandardItem = ({ item }) => {
-        const { navigation } = this.props;
         const isFavorite = this.isItemFavorite(item?.id);
         return (
             <TouchableOpacity
                 activeOpacity={1}
                 delayPressIn={100}
                 style={styles.carouselItem}
-                onPress={() =>
-                    navigationNavigate(navigation, PageName.movieDetails, {
-                        id: item?.id,
-                        type: CreditType.movie,
-                    })
-                }>
-                <FastImage
-                    style={styles.nonStandardItem}
-                    defaultSource={DefaultSource.film}
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={{ uri: buildImageUrl(item?.backdrop_path) }}>
-                    <View style={styles.nonStandardRatingFavorite(!!item?.vote_average)}>
+                onPress={() => this.openMovieDetails(item?.id, false)}>
+                <CustomImage source={item?.backdrop_path} style={styles.nonStandardItem}>
+                    <View style={styles.nonStandardRatingFavorite(item?.vote_average)}>
                         {!!item?.vote_average && (
                             <View style={styles.rating}>
                                 <Icons.StarHalf />
@@ -168,7 +140,7 @@ class HomeScreen extends React.Component {
                         )}
                         <TouchableOpacity
                             delayPressIn={100}
-                            activeOpacity={0.8}
+                            activeOpacity={0.4}
                             onPress={() => this.handleFavoriteButtonClick(item)}>
                             {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
                         </TouchableOpacity>
@@ -178,7 +150,7 @@ class HomeScreen extends React.Component {
                             <Text style={styles.subTitle}>{item?.title}</Text>
                         </View>
                     )}
-                </FastImage>
+                </CustomImage>
             </TouchableOpacity>
         );
     };
@@ -192,12 +164,9 @@ class HomeScreen extends React.Component {
         const isFavorite = this.isItemFavorite(item?.id);
         const {
             setFavorites,
-            user: {
-                favorites,
-                details: { id },
-            },
+            user: { email },
         } = this.props;
-        changeFavoriteStatus(isFavorite, id, favorites, setFavorites, item, CreditType.movie);
+        changeFavoriteStatus(item, CreditType.movie, email, isFavorite, setFavorites);
     };
 
     isItemFavorite = (id) => {
@@ -205,6 +174,16 @@ class HomeScreen extends React.Component {
             user: { favorites },
         } = this.props;
         return !!favorites.movie.find((item) => id === item.id);
+    };
+
+    openMovieDetails = (id, playing) => {
+        const { navigation } = this.props;
+        navigationNavigate(navigation, PageName.movieDetails, {
+            id,
+            playing,
+            type: CreditType.movie,
+            title: t('title', LanguageLocalizationNSKey.home),
+        });
     };
 
     initData = async () => {

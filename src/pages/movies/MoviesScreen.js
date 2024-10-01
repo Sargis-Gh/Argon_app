@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 
 import styles from './style';
-import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { favoritesFirst } from '../../utils/utils';
+import { setGenres } from '../../redux/action/genresAction';
+import { getItem, setItem } from '../../utils/asyncStorage';
 import ResultItem from './components/resultItem/ResultItem';
-import { setFavorites } from '../../redux/action/authAction';
+import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
-import { getMovies, searchMovies } from '../../providers/movies';
+import { getCurrentLanguage, t } from '../../localization/i18n';
 import { genericErrorHandling } from '../../utils/errorHandlers';
+import { getGenres, getMovies, searchMovies } from '../../providers/movies';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
@@ -18,7 +20,7 @@ import {
     AppWords,
     CreditType,
     ReturnKeyType,
-    MoviesPageWords,
+    AsyncStorageKeys,
     FavoritePageWords,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
@@ -31,7 +33,7 @@ class MoviesScreen extends React.Component {
         searchData: [],
         notFound: false,
         wrongData: false,
-        currentGenreItem: MoviesPageWords.movieGenres[0].id,
+        currentGenreItem: '',
     };
 
     componentDidMount() {
@@ -91,18 +93,23 @@ class MoviesScreen extends React.Component {
         );
     };
 
-    renderGenresList = () => (
-        <FlatList
-            horizontal
-            style={styles.genresList}
-            key={FavoritePageWords.keyTwo}
-            keyExtractor={(item) => item.id}
-            data={MoviesPageWords.movieGenres}
-            showsHorizontalScrollIndicator={false}
-            ListFooterComponent={<View style={styles.lastElement} />}
-            renderItem={this.renderGenreItem}
-        />
-    );
+    renderGenresList = () => {
+        const {
+            genres: { data },
+        } = this.props;
+        return (
+            <FlatList
+                horizontal
+                data={data}
+                style={styles.genresList}
+                key={FavoritePageWords.keyTwo}
+                keyExtractor={(item) => item.id}
+                showsHorizontalScrollIndicator={false}
+                ListFooterComponent={<View style={styles.lastElement} />}
+                renderItem={this.renderGenreItem}
+            />
+        );
+    };
 
     renderGenreItem = ({ item }) => {
         const { currentGenreItem } = this.state;
@@ -110,12 +117,10 @@ class MoviesScreen extends React.Component {
         return (
             <TouchableOpacity
                 delayPressIn={100}
-                activeOpacity={0.8}
+                activeOpacity={0.4}
                 style={styles.genreItem}
                 onPress={() => this.changeGenre(item.id)}>
-                <Text style={styles.genreItemText(isCurrent)}>
-                    {t(`texts.${item.name}`, LanguageLocalizationNSKey.movies)}
-                </Text>
+                <Text style={styles.genreItemText(isCurrent)}>{item.name}</Text>
                 {isCurrent && <View style={styles.genreItemLine} />}
             </TouchableOpacity>
         );
@@ -141,17 +146,13 @@ class MoviesScreen extends React.Component {
         const {
             navigation,
             setFavorites,
-            user: {
-                favorites,
-                details: { id },
-            },
+            user: { email },
         } = this.props;
         const isFavorite = this.isItemFavorite(item.id);
         return (
             <MovieItem
                 item={item}
-                userId={id}
-                favorites={favorites}
+                email={email}
                 navigation={navigation}
                 type={CreditType.movie}
                 isFavorite={isFavorite}
@@ -178,16 +179,12 @@ class MoviesScreen extends React.Component {
         const {
             navigation,
             setFavorites,
-            user: {
-                favorites,
-                details: { id },
-            },
+            user: { email },
         } = this.props;
         return (
             <ResultItem
                 item={item}
-                userId={id}
-                favorites={favorites}
+                email={email}
                 navigation={navigation}
                 type={CreditType.movie}
                 isFavorite={isFavorite}
@@ -239,14 +236,39 @@ class MoviesScreen extends React.Component {
         }
     };
 
-    initData = async () => {
-        const { currentGenreItem } = this.state;
+    getGenre = async () => {
+        const currentLanguage = getCurrentLanguage();
+        const {
+            setGenres,
+            genres: { data, language },
+        } = this.props;
+        if (data?.length && currentLanguage === language) return data[0]?.id;
+        const storedGenres = await getItem(AsyncStorageKeys.genres);
+        if (storedGenres && storedGenres?.language === currentLanguage) {
+            setGenres({ data: storedGenres?.data, language: currentLanguage });
+            return storedGenres?.data[0]?.id;
+        }
         try {
-            const data = await getMovies(currentGenreItem);
+            const data = await getGenres();
+            setGenres({ data, language: currentLanguage });
+            setItem(AsyncStorageKeys.genres, { data, language: currentLanguage });
+            return data[0]?.id;
+        } catch (error) {
+            genericErrorHandling(error);
+        }
+    };
+
+    initData = async () => {
+        try {
+            const genreItem = await this.getGenre();
+            const { currentGenreItem } = this.state;
+            const item = currentGenreItem || genreItem;
+            const data = await getMovies(item);
             this.setState({
                 data,
                 loading: false,
                 wrongData: false,
+                currentGenreItem: item,
             });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
@@ -257,9 +279,11 @@ class MoviesScreen extends React.Component {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    genres: state.genres,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    setGenres: (updatedGenres) => dispatch(setGenres(updatedGenres)),
     setFavorites: (updatedFavorites) => dispatch(setFavorites(updatedFavorites)),
 });
 

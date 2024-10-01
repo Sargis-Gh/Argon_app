@@ -26,3 +26,8 @@ export const getData = async (id, type) => {
 
     return getDetails(endpoints, id);
 };
+
+export const getSimilarMovies = async (id) => {
+    const response = await axios.get(buildApiUrl(Endpoints.similar, id));
+    return response?.data?.results;
+};

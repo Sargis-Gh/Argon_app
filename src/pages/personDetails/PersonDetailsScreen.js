@@ -1,24 +1,18 @@
 import React from 'react';
-import FastImage from 'react-native-fast-image';
 import Carousel from 'react-native-reanimated-carousel';
 import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
+import { getUniqueElements } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
 import { getPersonDetails } from '../../providers/personDetails';
 import { genericErrorHandling } from '../../utils/errorHandlers';
-import { buildImageUrl, getUniqueElements } from '../../utils/utils';
+import CustomImage from '../../components/customImage/CustomImage';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
-import {
-    Styles,
-    PageName,
-    CreditType,
-    DefaultSource,
-    LanguageLocalizationNSKey,
-} from '../../constants/constants';
+import { Styles, PageName, CreditType, LanguageLocalizationNSKey } from '../../constants/constants';
 
 import { navigationGoBack, navigationPush } from '../../navigation/navigation';
 
@@ -70,23 +64,16 @@ class PersonDetailsScreen extends React.Component {
     }
 
     renderHeader = (profile_path, name, navigation) => (
-        <View style={styles.headerContainer}>
-            <FastImage
-                style={styles.image}
-                defaultSource={DefaultSource.person}
-                resizeMode={FastImage.resizeMode.contain}
-                source={{ uri: buildImageUrl(profile_path) }}>
-                <TouchableOpacity
-                    delayPressIn={100}
-                    activeOpacity={0.8}
-                    style={styles.backIcon}
-                    onPress={() => navigationGoBack(navigation)}>
-                    <Icons.Left />
-                </TouchableOpacity>
-                {!!name && <Text style={styles.name}>{name}</Text>}
-            </FastImage>
-            <Divider />
-        </View>
+        <CustomImage style={styles.image} source={profile_path}>
+            <TouchableOpacity
+                delayPressIn={100}
+                activeOpacity={0.4}
+                style={styles.backIcon}
+                onPress={() => navigationGoBack(navigation)}>
+                <Icons.Left />
+            </TouchableOpacity>
+            {!!name && <Text style={styles.name}>{name}</Text>}
+        </CustomImage>
     );
 
     renderAboutPerson = (tvCredits, navigation, movieCredits, birthday, biography, popularity) => {
@@ -178,14 +165,12 @@ class PersonDetailsScreen extends React.Component {
                     title: t('actors', LanguageLocalizationNSKey.common),
                 })
             }>
-            <FastImage
-                defaultSource={DefaultSource.film}
-                resizeMode={FastImage.resizeMode.cover}
-                style={styles.itemImage(!!item?.vote_average)}
-                source={{ uri: buildImageUrl(item?.backdrop_path) }}>
+            <CustomImage
+                source={item?.backdrop_path}
+                style={styles.itemImage(!!item?.vote_average)}>
                 {!!item?.vote_average && (
                     <View style={styles.rating}>
-                        <Icons.Rating />
+                        <Icons.StarHalf />
                         <Text style={styles.title}>{item?.vote_average?.toFixed(1)}</Text>
                     </View>
                 )}
@@ -194,7 +179,7 @@ class PersonDetailsScreen extends React.Component {
                         <Text style={styles.title}>{item?.title}</Text>
                     </View>
                 )}
-            </FastImage>
+            </CustomImage>
         </TouchableOpacity>
     );
 

@@ -74,7 +74,7 @@ class BottomTabNavigator extends React.Component {
                                 delayPressIn={100}
                                 style={styles.touchableContent}
                                 onPress={onPress}>
-                                <Icons.QRIcon fill={Styles.appBackground} />
+                                <Icons.QRIcon />
                             </TouchableOpacity>
                         ),
                     }}

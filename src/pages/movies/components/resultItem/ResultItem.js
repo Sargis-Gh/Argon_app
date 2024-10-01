@@ -1,11 +1,11 @@
 import React from 'react';
-import FastImage from 'react-native-fast-image';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import styles from './style';
 import { Icons } from '../../../../constants/Icons';
-import { DefaultSource, PageName } from '../../../../constants/constants';
-import { buildImageUrl, changeFavoriteStatus } from '../../../../utils/utils';
+import { PageName } from '../../../../constants/constants';
+import { changeFavoriteStatus } from '../../../../utils/utils';
+import CustomImage from '../../../../components/customImage/CustomImage';
 
 import { navigationNavigate } from '../../../../navigation/navigation';
 
@@ -23,19 +23,14 @@ class ResultItem extends React.Component {
                 delayPressIn={100}
                 style={styles.resultItem}
                 onPress={() => this.openMovieDetails(item?.id)}>
-                <FastImage
-                    style={styles.resultItemImage}
-                    defaultSource={DefaultSource.film}
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={{ uri: buildImageUrl(item?.poster_path) }}
-                />
+                <CustomImage style={styles.resultItemImage} source={item?.poster_path} />
                 <View style={styles.resultItemDetails}>
                     <Text style={styles.resultItemText}>{item?.title}</Text>
                     <Text style={styles.releaseDate}>{item?.release_date}</Text>
                 </View>
                 <TouchableOpacity
                     delayPressIn={100}
-                    activeOpacity={0.8}
+                    activeOpacity={0.4}
                     onPress={this.handleFavoriteButtonClick}>
                     {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
                 </TouchableOpacity>
@@ -44,8 +39,8 @@ class ResultItem extends React.Component {
     }
 
     handleFavoriteButtonClick = () => {
-        const { userId, favorites, setFavorites, item, type, isFavorite } = this.props;
-        changeFavoriteStatus(isFavorite, userId, favorites, setFavorites, item, type);
+        const { email, setFavorites, item, type, isFavorite } = this.props;
+        changeFavoriteStatus(item, type, email, isFavorite, setFavorites);
     };
 
     openMovieDetails = () => {

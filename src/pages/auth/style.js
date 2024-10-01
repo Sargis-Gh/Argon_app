@@ -21,6 +21,13 @@ const styles = StyleSheet.create({
         alignItems: Styles.center,
         backgroundColor: Styles.white,
     },
+    text: (isButton) => ({
+        fontSize: 14,
+        lineHeight: 19,
+        fontFamily: Styles.openSans,
+        fontWeight: Styles.fontWeightRegular,
+        color: (isButton && Styles.appBackground) || Styles.darkGrey,
+    }),
     bottomContainer: {
         padding: 20,
         paddingTop: 0,
@@ -56,7 +63,7 @@ const styles = StyleSheet.create({
         fontWeight: Styles.fontWeightRegular,
         color: (isActive && Styles.white) || Styles.textInputGrey,
     }),
-    authButton: {
+    authButton: (selected) => ({
         marginTop: 8,
         elevation: 3,
         borderRadius: 8,
@@ -67,9 +74,9 @@ const styles = StyleSheet.create({
         alignSelf: Styles.center,
         shadowColor: Styles.grey,
         alignItems: Styles.center,
-        backgroundColor: Styles.appBackground,
         shadowOffset: { width: 0, height: 2 },
-    },
+        backgroundColor: (selected && Styles.appBackground) || Styles.grey,
+    }),
     authButtonText: {
         fontSize: 18,
         color: Styles.white,
@@ -81,6 +88,20 @@ const styles = StyleSheet.create({
         alignSelf: Styles.flexStart,
         fontFamily: Styles.openSans,
     },
+    rowContainer: {
+        columnGap: 12,
+        marginBottom: 12,
+        alignItems: Styles.center,
+        flexDirection: Styles.row,
+        alignSelf: Styles.flexStart,
+    },
+    strengthText: (strong) => ({
+        fontSize: 14,
+        lineHeight: 19,
+        fontFamily: Styles.openSans,
+        fontWeight: Styles.fontWeightRegular,
+        color: (strong && Styles.green) || Styles.red,
+    }),
 });
 
 export default styles;

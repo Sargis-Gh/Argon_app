@@ -1,21 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
+import { favoritesFirst } from '../../utils/utils';
 import { getTVSerisData } from '../../providers/tvSeries';
-import { setFavorites } from '../../redux/action/authAction';
+import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
 import { genericErrorHandling } from '../../utils/errorHandlers';
-import { buildImageUrl, favoritesFirst } from '../../utils/utils';
+import CustomImage from '../../components/customImage/CustomImage';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     PageName,
     CreditType,
-    DefaultSource,
     SeriesScreenDataTitles,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
@@ -88,12 +87,7 @@ class SeriesScreen extends React.Component {
                 delayPressIn={100}
                 style={styles.item}
                 onPress={() => this.openMovieDetails(item?.id)}>
-                <FastImage
-                    style={styles.image}
-                    defaultSource={DefaultSource.film}
-                    resizeMode={FastImage.resizeMode.stretch}
-                    source={{ uri: buildImageUrl(item?.poster_path) }}
-                />
+                <CustomImage style={styles.image} source={item?.poster_path} />
             </TouchableOpacity>
         );
     };
@@ -102,17 +96,13 @@ class SeriesScreen extends React.Component {
         const {
             navigation,
             setFavorites,
-            user: {
-                favorites,
-                details: { id },
-            },
+            user: { email },
         } = this.props;
         const isFavorite = this.isItemFavorite(item.id);
         return (
             <MovieItem
                 item={item}
-                userId={id}
-                favorites={favorites}
+                email={email}
                 navigation={navigation}
                 isFavorite={isFavorite}
                 type={CreditType.tvSeries}

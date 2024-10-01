@@ -24,7 +24,7 @@ class WrongDataScreen extends React.Component {
                     </Text>
                     <TouchableOpacity
                         delayPressIn={100}
-                        activeOpacity={0.8}
+                        activeOpacity={0.4}
                         style={styles.button}
                         onPress={clickRetryButton}>
                         <Text style={styles.buttonText}>

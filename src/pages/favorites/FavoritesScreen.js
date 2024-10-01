@@ -1,25 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
-import { setFavorites } from '../../redux/action/authAction';
+import { setFavorites } from '../../redux/action/userAction';
+import CustomImage from '../../components/customImage/CustomImage';
 import { setFavoriteViewType } from '../../redux/action/settingsAction';
-import {
-    buildImageUrl,
-    saveFavorites,
-    saveAppSettings,
-    getUniqueElements,
-} from '../../utils/utils';
+import { saveAppSettings, getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
 import {
     Styles,
     PageName,
     CreditType,
-    DefaultSource,
     FavoritePageWords,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
@@ -58,7 +52,7 @@ class FavoritesScreen extends React.Component {
                 <Text style={styles.title}>{t('favorites', LanguageLocalizationNSKey.common)}</Text>
                 <TouchableOpacity
                     delayPressIn={100}
-                    activeOpacity={0.8}
+                    activeOpacity={0.4}
                     onPress={this.handleMenuButtonPress}>
                     {(display && <Icons.Close />) || <Icons.Apps />}
                 </TouchableOpacity>
@@ -79,7 +73,7 @@ class FavoritesScreen extends React.Component {
     renderSelectionButton = (isMovieButton, isMovie, text) => (
         <TouchableOpacity
             delayPressIn={100}
-            activeOpacity={0.8}
+            activeOpacity={0.4}
             style={styles.selectionButtonContainer(isMovie)}
             onPress={() => this.handleSelectionButtonPress(isMovieButton)}>
             {(isMovieButton && (
@@ -112,20 +106,18 @@ class FavoritesScreen extends React.Component {
     };
 
     renderSwipeFavoriteItem = ({ item }) => (
-        <Swipeable
-            overshootRight={false}
-            renderRightActions={() => this.renderRightActions(item.id)}>
+        <Swipeable overshootRight={false} renderRightActions={() => this.renderRightActions(item)}>
             {this.renderFavoriteItem({ item })}
         </Swipeable>
     );
 
-    renderRightActions = (itemId) => {
+    renderRightActions = (item) => {
         const { isMovie } = this.state;
         const type = (isMovie && CreditType.movie) || CreditType.tvSeries;
         return (
             <TouchableOpacity
                 style={styles.rightActionContainer}
-                onPress={() => this.removeItem(itemId, type)}>
+                onPress={() => this.removeItem(item, type)}>
                 <Text style={styles.deleteText}>
                     {t('remove', LanguageLocalizationNSKey.common)}
                 </Text>
@@ -139,12 +131,7 @@ class FavoritesScreen extends React.Component {
         } = this.props;
         return (
             <View style={styles.favoriteItem(favoriteIsRowView)}>
-                <FastImage
-                    defaultSource={DefaultSource.film}
-                    style={styles.image(favoriteIsRowView)}
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={{ uri: buildImageUrl(item?.img) }}
-                />
+                <CustomImage source={item?.img} style={styles.image(favoriteIsRowView)} />
                 <View style={styles.movieDetails(favoriteIsRowView)}>
                     <View style={styles.subDetails}>
                         {!!item?.rating && (
@@ -166,15 +153,15 @@ class FavoritesScreen extends React.Component {
                 </View>
                 {!favoriteIsRowView && (
                     <View style={styles.buttonsContainer}>
-                        {this.renderButton(FavoritePageWords.remove, item?.id, true)}
-                        {this.renderButton(FavoritePageWords.viewDetails, item?.id)}
+                        {this.renderButton(FavoritePageWords.remove, item, true)}
+                        {this.renderButton(FavoritePageWords.viewDetails, item)}
                     </View>
                 )}
             </View>
         );
     };
 
-    renderButton = (text, id, isRemove = false) => {
+    renderButton = (text, item, isRemove = false) => {
         const { isMovie } = this.state;
         const {
             settings: { favoriteIsRowView },
@@ -184,9 +171,9 @@ class FavoritesScreen extends React.Component {
         return (
             <TouchableOpacity
                 delayPressIn={100}
-                activeOpacity={0.8}
+                activeOpacity={0.4}
                 style={styles.button(favoriteIsRowView)}
-                onPress={() => onPress(id, type)}>
+                onPress={() => onPress(item, type)}>
                 <Text style={styles.buttonText(isRemove)}>
                     {t(text, LanguageLocalizationNSKey.common)}
                 </Text>
@@ -198,10 +185,12 @@ class FavoritesScreen extends React.Component {
         const { isMovie } = this.state;
         const {
             settings: { favoriteIsRowView },
-            user: { favorites },
+            user: {
+                favorites: { movie, tvSeries },
+            },
         } = this.props;
+        const data = (isMovie && movie) || tvSeries;
         const numColumns = (favoriteIsRowView && 1) || 2;
-        const data = (isMovie && favorites.movie) || favorites.tvSeries;
         const key = (favoriteIsRowView && FavoritePageWords.keyOne) || FavoritePageWords.keyTwo;
         const renderItem =
             (favoriteIsRowView && this.renderSwipeFavoriteItem) || this.renderFavoriteItem;
@@ -231,9 +220,7 @@ class FavoritesScreen extends React.Component {
         </TouchableOpacity>
     );
 
-    handleMenuButtonPress = () => {
-        this.setState((prevState) => ({ display: !prevState.display }));
-    };
+    handleMenuButtonPress = () => this.setState((prevState) => ({ display: !prevState.display }));
 
     handleSelectionButtonPress = (isMovieButton) => {
         const { isMovie } = this.state;
@@ -252,23 +239,15 @@ class FavoritesScreen extends React.Component {
         this.setState({ display: false });
     };
 
-    removeItem = (itemId, type) => {
+    removeItem = (item, type) => {
         const {
             setFavorites,
-            user: {
-                favorites,
-                details: { id },
-            },
+            user: { email },
         } = this.props;
-        if (CreditType.movie === type) {
-            favorites.movie = favorites.movie?.filter((item) => item.id !== itemId);
-        }
-        favorites.tvSeries = favorites.tvSeries?.filter((item) => item.id !== itemId);
-        setFavorites(favorites);
-        saveFavorites(id, favorites);
+        changeFavoriteStatus(item, type, email, true, setFavorites);
     };
 
-    openMovieDetails = (id, type) => {
+    openMovieDetails = ({ id }, type) => {
         const { navigation } = this.props;
         navigationNavigate(navigation, PageName.movieDetails, { id, type });
     };

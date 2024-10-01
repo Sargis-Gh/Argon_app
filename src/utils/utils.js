@@ -1,12 +1,12 @@
-import { getItem, removeItem, setItem } from './asyncStorage';
+import { getItem, setItem } from './asyncStorage';
 import { getCurrentLanguage } from '../localization/i18n';
 import {
     PAGE,
     QUERY,
+    Users,
     API_KEY,
     BASE_URL,
     LANGUAGE,
-    StoreData,
     WITH_GENRE,
     IMAGE_BASE_URL,
     AsyncStorageKeys,
@@ -23,12 +23,10 @@ export const stringFormat = (string, values) => {
 
 export const buildImageUrl = (string) => IMAGE_BASE_URL + string;
 
+export const buildSearchUrl = (string, query) => buildApiUrl(string) + QUERY + query;
+
 export const buildApiUrl = (string, id) =>
     BASE_URL + stringFormat(string, id) + API_KEY + LANGUAGE + getCurrentLanguage() + PAGE;
-
-export const buildSearchUrl = (string, query) => {
-    return buildApiUrl(string) + QUERY + query;
-};
 
 export const buildMoviesUrl = (string, id) =>
     buildApiUrl(string, id) + stringFormat(WITH_GENRE, id);
@@ -45,68 +43,58 @@ export const getUniqueElements = (arr, limitCount = true) => {
     );
 };
 
-const mergeFavorites = async (data, user) => {
+const mergeFavorites = (users, userKey) => {
     const mergeUnique = (arr1, arr2) => {
-        const merged = [...arr1, ...arr2];
-        return merged.filter(
-            (item, index, self) => index === self.findIndex((t) => t.id === item.id),
-        );
+        return [...new Set([...arr1, ...arr2])];
     };
-    const movie = mergeUnique(data.favorites.guest.movie, data.favorites[user.id].movie);
-    const tvSeries = mergeUnique(data.favorites.guest.tvSeries, data.favorites[user.id].tvSeries);
-    data.favorites.guest = { movie: [], tvSeries: [] };
-    await setItem(AsyncStorageKeys.launchData, data);
-    return { movie, tvSeries };
+    const movie = mergeUnique(users?.guest?.favorites?.movie, users[userKey]?.favorites?.movie);
+    const tvSeries = mergeUnique(
+        users?.guest?.favorites?.tvSeries,
+        users[userKey]?.favorites?.tvSeries,
+    );
+    users[userKey].favorites = { movie, tvSeries };
+    users.guest.favorites = { movie: [], tvSeries: [] };
+    setItem(AsyncStorageKeys.users, users);
 };
 
-export const signOut = async (id) => {
-    const data = await getItem(AsyncStorageKeys.launchData);
-    const user = data?.users?.find((item) => item?.id === id);
-    if (!user) return;
-    user.isSignIn = false;
-    setItem(AsyncStorageKeys.launchData, data);
+export const signOut = async (email) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    if (!users[email]) return;
+    users[email].isSignIn = false;
+    setItem(AsyncStorageKeys.users, users);
 };
 
-export const getLaunchDetails = async (setLaunchDetails) => {
-    const data = await getItem(AsyncStorageKeys.launchData);
-    if (!data) {
-        await setItem(AsyncStorageKeys.launchData, StoreData);
-        setLaunchDetails(StoreData.users[0], StoreData.favorites?.guest);
+export const getLaunchDetails = async (setUser) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    if (!users) {
+        setUser(Users.guest);
+        setItem(AsyncStorageKeys.users, Users);
         return { isFirstLaunch: true, isSignIn: false };
     }
-    const user = data?.users?.find((item) => item?.isSignIn === true);
+    const user = Object.values(users)?.find((item) => item?.isSignIn === true);
     if (!user) {
-        setLaunchDetails(data.users[0], data.favorites.guest);
+        setUser(users.guest);
         return { isFirstLaunch: false, isSignIn: false };
     }
-    const favorites = await mergeFavorites(data, user);
-    setLaunchDetails(user, favorites);
+    mergeFavorites(users, user.email);
+    setUser(user);
     return { isFirstLaunch: false, isSignIn: true };
 };
 
-export const foundUser = async (inputEmail, inputPassword) => {
-    const data = await getItem(AsyncStorageKeys.launchData);
-    const user = data?.users?.find(
-        (item) =>
-            item?.email === inputEmail && (!inputPassword || item?.password === inputPassword),
-    );
-    if (!user) return false;
-    const userIndex = data.users.findIndex((item) => item.email === inputEmail);
-    const favorites = await mergeFavorites(data, user);
-    data.favorites[user.id] = favorites;
-    data.users[userIndex].isSignIn = true;
-    data.favorites.guest = { movie: [], tvSeries: [] };
-    await setItem(AsyncStorageKeys.launchData, data);
-    return { user, favorites };
+export const foundUser = async (email, password) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    const user = users[email];
+    const isRegistered = users[email] && (!password || user?.password === password);
+    if (!isRegistered) return false;
+    user.isSignIn = true;
+    mergeFavorites(users, email);
+    return user;
 };
 
-export const saveFavorites = async (userId, favorites) => {
-    const data = await getItem(AsyncStorageKeys.launchData);
-    data.favorites[userId] = favorites;
-    setItem(AsyncStorageKeys.launchData, data);
-};
-
-export const changeFavoriteStatus = (isFavorite, userId, favorites, setFavorites, item, type) => {
+export const changeFavoriteStatus = async (item, type, email, isFavorite, setFavorites) => {
+    console.log(item);
+    const users = await getItem(AsyncStorageKeys.users);
+    const favorites = users[email]?.favorites;
     if (isFavorite) {
         const index = favorites[type].findIndex((movie) => item?.id === movie.id);
         favorites[type].splice(index, 1);
@@ -121,8 +109,9 @@ export const changeFavoriteStatus = (isFavorite, userId, favorites, setFavorites
         };
         favorites[type].push(newItem);
     }
+    console.log(favorites);
     setFavorites(favorites);
-    saveFavorites(userId, favorites);
+    setItem(AsyncStorageKeys.users, users);
 };
 
 export const favoritesFirst = (data, isItemFavorite) => {

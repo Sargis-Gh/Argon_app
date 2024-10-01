@@ -17,15 +17,16 @@ import LogOut from '../assets/icons/logOut';
 import Person from '../assets/icons/person';
 import Search from '../assets/icons/search';
 import Russia from '../assets/icons/russia';
-import Rating from '../assets/icons/rating';
 import Series from '../assets/icons/series';
 import Profile from '../assets/icons/profile';
+import Selected from '../assets/icons/selected';
 import Favorite from '../assets/icons/favorite';
 import Settings from '../assets/icons/settings';
 import Password from '../assets/icons/password';
 import Schedule from '../assets/icons/schedule';
 import NotFound from '../assets/icons/notFound';
 import StarHalf from '../assets/icons/starHalf';
+import WhiteStar from '../assets/icons/whiteStar';
 import ArrowDown from '../assets/icons/arrowDown';
 import PlayCircle from '../assets/icons/playCircle';
 import Visibility from '../assets/icons/visibility';
@@ -53,10 +54,10 @@ export const Icons = {
     Person,
     Search,
     Russia,
-    Rating,
     Series,
     USAflag,
     Profile,
+    Selected,
     StarHalf,
     Schedule,
     NotFound,
@@ -64,6 +65,7 @@ export const Icons = {
     Settings,
     Password,
     ArrowDown,
+    WhiteStar,
     PlayCircle,
     Visibility,
     NotFavorite,

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         height: 46,
         elevation: 3,
         columnGap: 8,
-        borderRadius: 3,
+        borderRadius: 4,
         shadowRadius: 3,
         shadowOpacity: 0.4,
         paddingHorizontal: 8,
@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
         lineHeight: 19,
         height: Styles.fullSize,
         fontFamily: Styles.openSans,
-        color: Styles.textInputGrey,
+        color: Styles.appBackground,
         backgroundColor: Styles.white,
+        fontWeight: Styles.fontWeightRegular,
     },
 });
 

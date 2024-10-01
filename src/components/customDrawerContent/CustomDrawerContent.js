@@ -7,7 +7,7 @@ import styles from './style';
 import { t } from '../../localization/i18n';
 import { signOut } from '../../utils/utils';
 import { Icons } from '../../constants/Icons';
-import { performSignOut } from '../../redux/action/authAction';
+import { performSignOut } from '../../redux/action/userAction';
 import { PageName, AuthPageWords, LanguageLocalizationNSKey } from '../../constants/constants';
 
 import { navigationReplace } from '../../navigation/navigation';
@@ -15,11 +15,9 @@ import { navigationReplace } from '../../navigation/navigation';
 class CustomDrawerContent extends React.Component {
     render() {
         const {
-            user: {
-                details: { firstName, lastName, id },
-            },
+            user: { firstName, lastName, email },
         } = this.props;
-        const isGuest = AuthPageWords.guest === id;
+        const isGuest = AuthPageWords.guest === email;
         const name = (isGuest && t('texts.guest', LanguageLocalizationNSKey.auth)) || firstName;
         return (
             <View {...this.props} style={styles.container}>
@@ -31,26 +29,37 @@ class CustomDrawerContent extends React.Component {
                 <View style={styles.drawerItems}>
                     <DrawerItemList {...this.props} />
                 </View>
-                <TouchableOpacity style={styles.logOutButton} onPress={this.signOut}>
-                    {(isGuest && this.renderFooter(AuthPageWords.signIn, <Icons.LogIn />)) ||
-                        this.renderFooter(AuthPageWords.signOut, <Icons.LogOut />)}
+                <TouchableOpacity
+                    style={styles.logOutButton}
+                    onPress={() => this.handleButtonPress(isGuest)}>
+                    {this.renderFooter(
+                        (isGuest && [AuthPageWords.signIn, <Icons.LogIn />]) || [
+                            AuthPageWords.signOut,
+                            <Icons.LogOut />,
+                        ],
+                    )}
                 </TouchableOpacity>
             </View>
         );
     }
 
-    renderFooter = (text, icon) => (
+    renderFooter = ([text, icon]) => (
         <>
             <Text style={styles.text}>{t(`texts.${text}`, LanguageLocalizationNSKey.auth)}</Text>
             {icon}
         </>
     );
 
-    signOut = async () => {
-        const { navigation, id, performSignOut } = this.props;
-        await signOut(id);
-        performSignOut();
+    handleButtonPress = async (isGuest) => {
+        const {
+            navigation,
+            performSignOut,
+            user: { email },
+        } = this.props;
         navigationReplace(navigation, PageName.auth);
+        if (isGuest) return;
+        await signOut(email);
+        performSignOut();
     };
 }
 
