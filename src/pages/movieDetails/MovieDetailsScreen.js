@@ -14,13 +14,13 @@ import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import { getData, getSimilarMovies } from '../../providers/movieDetails';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
+import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
+    stringFormat,
+    isItemFavorite,
     getUniqueElements,
     changeFavoriteStatus,
-    isItemFavorite,
-    stringFormat,
 } from '../../utils/utils';
-import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
     AppWords,
