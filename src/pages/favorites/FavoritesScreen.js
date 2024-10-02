@@ -234,9 +234,9 @@ class FavoritesScreen extends React.Component {
             settings: { favoriteIsRowView },
         } = this.props;
         if (checked) return;
-        saveAppSettings({ favoriteIsRowView: !favoriteIsRowView });
-        setFavoriteViewType(!favoriteIsRowView);
         this.setState({ display: false });
+        setFavoriteViewType(!favoriteIsRowView);
+        saveAppSettings({ favoriteIsRowView: !favoriteIsRowView });
     };
 
     removeItem = (item, type) => {

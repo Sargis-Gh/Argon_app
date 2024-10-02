@@ -158,13 +158,13 @@ class PersonDetailsScreen extends React.Component {
             activeOpacity={1}
             delayPressIn={100}
             style={styles.item}
-            onPress={() =>
+            onPress={() => {
                 navigationPush(navigation, PageName.movieDetails, {
                     type,
                     id: item?.id,
                     title: t('actors', LanguageLocalizationNSKey.common),
-                })
-            }>
+                });
+            }}>
             <CustomImage
                 source={item?.backdrop_path}
                 style={styles.itemImage(!!item?.vote_average)}>

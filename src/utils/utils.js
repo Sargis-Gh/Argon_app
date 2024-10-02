@@ -13,7 +13,7 @@ import {
     CarouselItemCountLimit,
 } from '../constants/constants';
 
-export const stringFormat = (string, values) => {
+export const stringFormat = (string, ...values) => {
     values = [].concat(values || []);
     for (const value of values) {
         string = string.replace('%S', value);
@@ -71,7 +71,7 @@ export const getLaunchDetails = async (setUser) => {
         setItem(AsyncStorageKeys.users, Users);
         return { isFirstLaunch: true, isSignIn: false };
     }
-    const user = Object.values(users)?.find((item) => item?.isSignIn === true);
+    const user = Object.values(users)?.find((item) => item?.isSignIn);
     if (!user) {
         setUser(users.guest);
         return { isFirstLaunch: false, isSignIn: false };
@@ -92,11 +92,10 @@ export const foundUser = async (email, password) => {
 };
 
 export const changeFavoriteStatus = async (item, type, email, isFavorite, setFavorites) => {
-    console.log(item);
     const users = await getItem(AsyncStorageKeys.users);
     const favorites = users[email]?.favorites;
     if (isFavorite) {
-        const index = favorites[type].findIndex((movie) => item?.id === movie.id);
+        const index = favorites[type].findIndex((movie) => movie.id === item?.id);
         favorites[type].splice(index, 1);
     } else {
         const newItem = {
@@ -109,16 +108,17 @@ export const changeFavoriteStatus = async (item, type, email, isFavorite, setFav
         };
         favorites[type].push(newItem);
     }
-    console.log(favorites);
     setFavorites(favorites);
     setItem(AsyncStorageKeys.users, users);
 };
 
-export const favoritesFirst = (data, isItemFavorite) => {
+export const isItemFavorite = (data, id) => !!data.find((item) => id === item?.id);
+
+export const favoritesFirst = (data, favoritesData) => {
     const favorites = [];
     const nonFavorites = [];
     data.forEach((item) => {
-        if (isItemFavorite(item.id)) {
+        if (isItemFavorite(favoritesData, item?.id)) {
             favorites.push(item);
             return;
         }

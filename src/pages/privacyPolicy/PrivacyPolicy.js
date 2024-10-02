@@ -4,17 +4,17 @@ import { t } from '../../localization/i18n';
 import WebViewComponent from '../../components/webViewComponent/WebViewComponent';
 import { LanguageLocalizationNSKey, TermsAndConditionsUrl } from '../../constants/constants';
 
-class TermsAndConditions extends React.Component {
+class PrivacyPolicy extends React.Component {
     render() {
         const { navigation } = this.props;
         return (
             <WebViewComponent
                 navigation={navigation}
                 uri={TermsAndConditionsUrl}
-                title={t('termsAndConditions', LanguageLocalizationNSKey.common)}
+                title={t('texts.privacyPolicy', LanguageLocalizationNSKey.auth)}
             />
         );
     }
 }
 
-export default TermsAndConditions;
+export default PrivacyPolicy;

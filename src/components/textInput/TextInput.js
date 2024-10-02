@@ -9,6 +9,7 @@ class CustomTextInput extends React.Component {
         const {
             Icon,
             value,
+            onBlur,
             onChangeText,
             placeholderText,
             needIcon = true,
@@ -22,6 +23,7 @@ class CustomTextInput extends React.Component {
                 {!iconRight && needIcon && Icon}
                 <TextInput
                     value={value}
+                    onBlur={onBlur}
                     style={textStyle}
                     spellCheck={false}
                     autoCorrect={false}

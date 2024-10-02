@@ -28,6 +28,7 @@ import NotFound from '../assets/icons/notFound';
 import StarHalf from '../assets/icons/starHalf';
 import WhiteStar from '../assets/icons/whiteStar';
 import ArrowDown from '../assets/icons/arrowDown';
+import FillClose from '../assets/icons/fillClose';
 import PlayCircle from '../assets/icons/playCircle';
 import Visibility from '../assets/icons/visibility';
 import NotFavorite from '../assets/icons/notFavorite';
@@ -65,6 +66,7 @@ export const Icons = {
     Settings,
     Password,
     ArrowDown,
+    FillClose,
     WhiteStar,
     PlayCircle,
     Visibility,

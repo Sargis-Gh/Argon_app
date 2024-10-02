@@ -7,12 +7,19 @@ import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import Divider from '../../components/divider/Divider';
-import { getData, getSimilarMovies } from '../../providers/movieDetails';
+import PersonItem from './components/personItem/PersonItem';
 import { setFavorites } from '../../redux/action/userAction';
+import SimilarItem from './components/similarItem/SimilarItem';
 import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
-import { getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
+import { getData, getSimilarMovies } from '../../providers/movieDetails';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
+import {
+    getUniqueElements,
+    changeFavoriteStatus,
+    isItemFavorite,
+    stringFormat,
+} from '../../utils/utils';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
@@ -23,9 +30,7 @@ import {
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
-import { navigationGoBack, navigationPush } from '../../navigation/navigation';
-import PersonItem from './components/personItem/PersonItem';
-import SimilarItem from './components/similarItem/SimilarItem';
+import { navigationGoBack } from '../../navigation/navigation';
 
 class MovieDetailsScreen extends React.Component {
     state = {
@@ -71,7 +76,13 @@ class MovieDetailsScreen extends React.Component {
 
     renderHeader = (details, trailer, navigation) => {
         const { playing } = this.state;
-        const item = this.isItemFavorite();
+        const {
+            user: { favorites },
+            route: {
+                params: { id, type },
+            },
+        } = this.props;
+        const isFavorite = isItemFavorite(favorites[type], id);
         return (
             <View style={styles.headerContainer}>
                 {(playing && this.renderIframe(trailer?.key)) ||
@@ -98,8 +109,8 @@ class MovieDetailsScreen extends React.Component {
                     delayPressIn={100}
                     activeOpacity={0.4}
                     style={styles.favoriteButton}
-                    onPress={() => this.handleFavoriteButtonClick(item)}>
-                    {(item.isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
+                    onPress={this.handleFavoriteButtonClick}>
+                    {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
                 </TouchableOpacity>
             </View>
         );
@@ -147,12 +158,20 @@ class MovieDetailsScreen extends React.Component {
                 {!!runtime &&
                     this.renderRuntimeOrVoteAverageItem(
                         <Icons.Schedule />,
-                        `${runtime} ${t('minutes', LanguageLocalizationNSKey.common)}`,
+                        stringFormat(
+                            AppWords.stringFormat,
+                            runtime,
+                            t('minutes', LanguageLocalizationNSKey.common),
+                        ),
                     )}
                 {!!vote_average &&
                     this.renderRuntimeOrVoteAverageItem(
                         <Icons.WhiteStar />,
-                        `${vote_average?.toFixed(1)} ${AppWords.imdb}`,
+                        stringFormat(
+                            AppWords.stringFormat,
+                            vote_average?.toFixed(1),
+                            AppWords.imdb,
+                        ),
                     )}
             </View>
             <Divider />
@@ -220,7 +239,7 @@ class MovieDetailsScreen extends React.Component {
     );
 
     renderCreditsItem = (data, navigation, title) =>
-        data?.length && (
+        !!data?.length && (
             <>
                 <Text style={styles.subTitle}>{title}</Text>
                 <FlatList
@@ -252,7 +271,7 @@ class MovieDetailsScreen extends React.Component {
     renderSimilarMoviesContainer = () => {
         const { similarMovies } = this.state;
         return (
-            similarMovies?.length && (
+            !!similarMovies?.length && (
                 <>
                     <Text style={styles.subTitle}>
                         {t('relatedMovies', LanguageLocalizationNSKey.common)}
@@ -287,27 +306,17 @@ class MovieDetailsScreen extends React.Component {
         setTimeout(this.initData, 400);
     };
 
-    handleFavoriteButtonClick = (item) => {
+    handleFavoriteButtonClick = () => {
+        const { details } = this.state;
         const {
             setFavorites,
-            user: { email },
-        } = this.props;
-        console.log('----', item);
-        changeFavoriteStatus(item, item.type, email, item.isFavorite, setFavorites);
-    };
-
-    isItemFavorite = () => {
-        let item = {};
-        const {
-            user: { favorites },
+            user: { email, favorites },
             route: {
                 params: { id, type },
             },
         } = this.props;
-        if (CreditType.movie === type) {
-            return { isFavorite: favorites.movie.find((item) => id === item.id), type };
-        }
-        return { isFavorite: favorites.tvSeries.find((item) => id === item.id), type };
+        const isFavorite = isItemFavorite(favorites[type], id);
+        changeFavoriteStatus(details, type, email, isFavorite, setFavorites);
     };
 
     initData = async () => {
@@ -316,8 +325,9 @@ class MovieDetailsScreen extends React.Component {
                 params: { id, type, playing },
             },
         } = this.props;
+        const isMovie = CreditType.movie === type;
         try {
-            const similarMovies = await getSimilarMovies(id);
+            const similarMovies = await getSimilarMovies(id, isMovie);
             const { details, credits, videos } = await getData(id, type);
             const trailer = videos?.results?.find((video) => AppWords.trailer === video?.type);
             this.setState({

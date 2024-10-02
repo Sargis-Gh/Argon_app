@@ -15,33 +15,20 @@ import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/con
 const BottomTab = createBottomTabNavigator();
 
 class BottomTabNavigator extends React.Component {
-    renderTabBarLabel = (pageName, focused) => {
-        return (
-            <Text
-                style={{
-                    color: (focused && Styles.appBackground) || Styles.grey,
-                }}>
-                {pageName}
-            </Text>
-        );
-    };
-
     render() {
         return (
             <BottomTab.Navigator
                 screenOptions={{
                     headerShown: false,
                     tabBarStyle: styles.tabBarStyle,
-                    tabBarBackground: () => <View style={styles.container} />,
+                    tabBarBackground: this.renderTabBarBackground,
                 }}>
                 <BottomTab.Screen
                     name={PageName.drawer}
                     component={DrawerNavigator}
                     options={{
                         unmountOnBlur: true,
-                        tabBarIcon: ({ focused }) => (
-                            <Icons.Home fill={(focused && Styles.appBackground) || Styles.grey} />
-                        ),
+                        tabBarIcon: ({ focused }) => this.renderIcon(focused, Icons.Home),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('home', LanguageLocalizationNSKey.bottomTab),
@@ -54,9 +41,7 @@ class BottomTabNavigator extends React.Component {
                     component={MoviesScreen}
                     options={{
                         unmountOnBlur: true,
-                        tabBarIcon: ({ focused }) => (
-                            <Icons.Movie fill={(focused && Styles.appBackground) || Styles.grey} />
-                        ),
+                        tabBarIcon: ({ focused }) => this.renderIcon(focused, Icons.Movie),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('movies', LanguageLocalizationNSKey.bottomTab),
@@ -68,15 +53,7 @@ class BottomTabNavigator extends React.Component {
                     name={PageName.qr}
                     component={QRScreen}
                     options={{
-                        tabBarButton: ({ onPress }) => (
-                            <TouchableOpacity
-                                activeOpacity={1}
-                                delayPressIn={100}
-                                style={styles.touchableContent}
-                                onPress={onPress}>
-                                <Icons.QRIcon />
-                            </TouchableOpacity>
-                        ),
+                        tabBarButton: ({ onPress }) => this.renderQRButton(onPress),
                     }}
                 />
                 <BottomTab.Screen
@@ -84,11 +61,7 @@ class BottomTabNavigator extends React.Component {
                     component={FavoritesScreen}
                     options={{
                         unmountOnBlur: true,
-                        tabBarIcon: ({ focused }) => (
-                            <Icons.FavoriteBottom
-                                fill={(focused && Styles.appBackground) || Styles.grey}
-                            />
-                        ),
+                        tabBarIcon: ({ focused }) => this.renderIcon(focused, Icons.FavoriteBottom),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('favorites', LanguageLocalizationNSKey.bottomTab),
@@ -101,9 +74,7 @@ class BottomTabNavigator extends React.Component {
                     component={SeriesScreen}
                     options={{
                         unmountOnBlur: true,
-                        tabBarIcon: ({ focused }) => (
-                            <Icons.Series fill={(focused && Styles.appBackground) || Styles.grey} />
-                        ),
+                        tabBarIcon: ({ focused }) => this.renderIcon(focused, Icons.Series),
                         tabBarLabel: ({ focused }) =>
                             this.renderTabBarLabel(
                                 t('series', LanguageLocalizationNSKey.bottomTab),
@@ -114,6 +85,31 @@ class BottomTabNavigator extends React.Component {
             </BottomTab.Navigator>
         );
     }
+
+    renderTabBarBackground = () => <View style={styles.container} />;
+
+    renderQRButton = (onPress) => (
+        <TouchableOpacity
+            activeOpacity={1}
+            delayPressIn={100}
+            style={styles.touchableContent}
+            onPress={onPress}>
+            <Icons.QRIcon />
+        </TouchableOpacity>
+    );
+
+    renderTabBarLabel = (pageName, focused) => (
+        <Text
+            style={{
+                color: (focused && Styles.appBackground) || Styles.grey,
+            }}>
+            {pageName}
+        </Text>
+    );
+
+    renderIcon = (focused, IconComponent) => (
+        <IconComponent fill={(focused && Styles.appBackground) || Styles.grey} />
+    );
 }
 
 export default BottomTabNavigator;

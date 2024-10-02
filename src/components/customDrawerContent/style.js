@@ -22,16 +22,29 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Styles.white,
     },
-    text: {
+    text: (isGuest) => ({
         fontSize: 18,
         fontFamily: Styles.openSans,
-        color: Styles.appBackground,
+        color: (isGuest && Styles.signInButtonColor) || Styles.red,
+    }),
+    userText: {
+        fontSize: 16,
+        lineHeight: 19,
+        fontFamily: Styles.openSans,
+        fontWeight: Styles.fontWeightBold,
     },
-    logOutButton: {
-        padding: 16,
-        flexDirection: Styles.row,
-        alignItems: Styles.center,
-        justifyContent: Styles.spaceBetween,
+    button: {
+        width: 90,
+        height: 43,
+        elevation: 4,
+        shadowRadius: 4,
+        borderRadius: 4,
+        shadowOpacity: 0.4,
+        marginHorizontal: 16,
+        ...Styles.contentCenter,
+        shadowColor: Styles.lightGrey,
+        backgroundColor: Styles.white,
+        shadowOffset: { width: 0, height: 0 },
     },
 });
 

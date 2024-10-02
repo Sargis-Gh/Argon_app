@@ -50,8 +50,8 @@ export const Styles = {
 
     // Colors
     black: 'rgb(0, 0, 0)',
-    red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
+    red: 'rgb(183, 28, 28)',
     green: 'rgb(120, 187, 65)',
     grey: 'rgb(188, 188, 188)',
     darkBlue: 'rgb(33, 31, 48)',
@@ -63,6 +63,7 @@ export const Styles = {
     articleColor: 'rgb(94, 114, 228)',
     lightBackground: 'rgb(40, 40, 40)',
     textInputGrey: 'rgb(173, 181, 189)',
+    signInButtonColor: 'rgb(27, 88, 135)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
     bottomContainerColor: 'rgb(244, 245, 247)',
     greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
@@ -113,8 +114,9 @@ export const AppWords = {
     guest: 'guest',
     focus: 'focus',
     ended: 'ended',
-    imdb: ' (IMDB)',
+    imdb: '(IMDB)',
     trailer: 'Trailer',
+    stringFormat: '%S %S',
 };
 
 export const LanguageLocalizationKey = {
@@ -227,8 +229,11 @@ export const Endpoints = {
     // Genres
     genres: '/genre/movie/list',
 
-    // Similar
-    similar: '/movie/%S/similar',
+    // Similar Movies
+    similarMovies: '/movie/%S/similar',
+
+    // Similar TV Series
+    similarTVSeries: '/tv/%S/similar',
 };
 
 export const PromiseStatus = {

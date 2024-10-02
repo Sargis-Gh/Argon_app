@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 
 import styles from './style';
+import { PageName } from '../../../../constants/constants';
 import CustomImage from '../../../../components/customImage/CustomImage';
 
 import { navigationPush } from '../../../../navigation/navigation';

@@ -4,7 +4,6 @@ import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
 import styles from './style';
 import { Icons } from '../../constants/Icons';
-import { favoritesFirst } from '../../utils/utils';
 import { setGenres } from '../../redux/action/genresAction';
 import { getItem, setItem } from '../../utils/asyncStorage';
 import ResultItem from './components/resultItem/ResultItem';
@@ -12,6 +11,7 @@ import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
 import { getCurrentLanguage, t } from '../../localization/i18n';
 import { genericErrorHandling } from '../../utils/errorHandlers';
+import { favoritesFirst, isItemFavorite } from '../../utils/utils';
 import { getGenres, getMovies, searchMovies } from '../../providers/movies';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
@@ -128,7 +128,12 @@ class MoviesScreen extends React.Component {
 
     renderMovies = () => {
         const { data } = this.state;
-        const sortedData = favoritesFirst(data, this.isItemFavorite);
+        const {
+            user: {
+                favorites: { movie },
+            },
+        } = this.props;
+        const sortedData = favoritesFirst(data, movie);
         return (
             <FlatList
                 numColumns={2}
@@ -146,9 +151,12 @@ class MoviesScreen extends React.Component {
         const {
             navigation,
             setFavorites,
-            user: { email },
+            user: {
+                email,
+                favorites: { movie },
+            },
         } = this.props;
-        const isFavorite = this.isItemFavorite(item.id);
+        const isFavorite = isItemFavorite(movie, item.id);
         return (
             <MovieItem
                 item={item}
@@ -175,12 +183,15 @@ class MoviesScreen extends React.Component {
     };
 
     renderResultItem = ({ item }) => {
-        const isFavorite = this.isItemFavorite(item.id);
         const {
             navigation,
             setFavorites,
-            user: { email },
+            user: {
+                email,
+                favorites: { movie },
+            },
         } = this.props;
+        const isFavorite = isItemFavorite(movie, item.id);
         return (
             <ResultItem
                 item={item}
@@ -202,13 +213,6 @@ class MoviesScreen extends React.Component {
         </View>
     );
 
-    isItemFavorite = (id) => {
-        const {
-            user: { favorites },
-        } = this.props;
-        return !!favorites.movie.find((item) => id === item.id);
-    };
-
     changeGenre = (item) => {
         const { currentGenreItem } = this.state;
         if (currentGenreItem === item) return;
@@ -223,12 +227,17 @@ class MoviesScreen extends React.Component {
 
     initSearchData = async () => {
         const { query } = this.state;
+        const {
+            user: {
+                favorites: { movie },
+            },
+        } = this.props;
         if (!query) return;
         try {
             const searchData = await searchMovies(query);
             this.setState({
                 notFound: !searchData.length,
-                searchData: favoritesFirst(searchData, this.isItemFavorite),
+                searchData: favoritesFirst(searchData, movie),
             });
         } catch (error) {
             this.setState({ wrongData: true });
@@ -236,7 +245,7 @@ class MoviesScreen extends React.Component {
         }
     };
 
-    getGenre = async () => {
+    getGenreItem = async () => {
         const currentLanguage = getCurrentLanguage();
         const {
             setGenres,
@@ -260,7 +269,7 @@ class MoviesScreen extends React.Component {
 
     initData = async () => {
         try {
-            const genreItem = await this.getGenre();
+            const genreItem = await this.getGenreItem();
             const { currentGenreItem } = this.state;
             const item = currentGenreItem || genreItem;
             const data = await getMovies(item);

@@ -27,7 +27,12 @@ class SimilarItem extends React.Component {
                     });
                 }}>
                 <CustomImage source={source} style={styles.image} />
-                <Text style={styles.text}>{`${title} (${date?.slice(0, 4)})`}</Text>
+                {title && (
+                    <Text style={styles.text()}>
+                        {title}
+                        <Text style={styles.text(true)}>{` (${date?.slice(0, 4)})`}</Text>
+                    </Text>
+                )}
             </TouchableOpacity>
         );
     }

@@ -18,46 +18,39 @@ class CustomDrawerContent extends React.Component {
             user: { firstName, lastName, email },
         } = this.props;
         const isGuest = AuthPageWords.guest === email;
+        const buttonText = (isGuest && AuthPageWords.signIn) || AuthPageWords.signOut;
         const name = (isGuest && t('texts.guest', LanguageLocalizationNSKey.auth)) || firstName;
         return (
             <View {...this.props} style={styles.container}>
                 <View style={styles.header}>
                     <Icons.Profile />
-                    <Text style={styles.text}>{name}</Text>
-                    <Text style={styles.text}>{lastName}</Text>
+                    <Text style={styles.userText}>{name}</Text>
+                    <Text style={styles.userText}>{lastName}</Text>
                 </View>
                 <View style={styles.drawerItems}>
                     <DrawerItemList {...this.props} />
                 </View>
                 <TouchableOpacity
-                    style={styles.logOutButton}
-                    onPress={() => this.handleButtonPress(isGuest)}>
-                    {this.renderFooter(
-                        (isGuest && [AuthPageWords.signIn, <Icons.LogIn />]) || [
-                            AuthPageWords.signOut,
-                            <Icons.LogOut />,
-                        ],
-                    )}
+                    delayPressIn={100}
+                    activeOpacity={0.4}
+                    style={styles.button}
+                    onPress={this.handleButtonPress}>
+                    <Text style={styles.text(isGuest)}>
+                        {t(`texts.${buttonText}`, LanguageLocalizationNSKey.auth)}
+                    </Text>
                 </TouchableOpacity>
             </View>
         );
     }
 
-    renderFooter = ([text, icon]) => (
-        <>
-            <Text style={styles.text}>{t(`texts.${text}`, LanguageLocalizationNSKey.auth)}</Text>
-            {icon}
-        </>
-    );
-
-    handleButtonPress = async (isGuest) => {
+    handleButtonPress = async () => {
         const {
             navigation,
             performSignOut,
             user: { email },
         } = this.props;
         navigationReplace(navigation, PageName.auth);
-        if (isGuest) return;
+        if (AuthPageWords.guest === email) return;
         await signOut(email);
         performSignOut();
     };

@@ -8,6 +8,7 @@ import { Icons } from '../../constants/Icons';
 import { foundUser } from '../../utils/utils';
 import { setUser } from '../../redux/action/userAction';
 import { getItem, setItem } from '../../utils/asyncStorage';
+import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomTextInput from '../../components/textInput/TextInput';
 import {
     Styles,
@@ -23,17 +24,13 @@ import { navigationNavigate, navigationReplace } from '../../navigation/navigati
 
 class AuthScreen extends React.Component {
     state = {
+        error: '',
         inputEmail: '',
-        emailError: '',
         selected: false,
-        lastNameError: '',
-        passwordError: '',
         inputLastName: '',
         inputPassword: '',
-        firstNameError: '',
         inputFirstName: '',
-        isSignInMode: false,
-        isPasswordStrong: false,
+        isSignInMode: true,
         currentButton: AuthPageWords.signIn,
     };
 
@@ -45,7 +42,7 @@ class AuthScreen extends React.Component {
                     activeOpacity={0.4}
                     style={styles.closeButton}
                     onPress={this.handleCloseButtonPress}>
-                    <Icons.Close />
+                    <Icons.FillClose />
                 </TouchableOpacity>
                 {this.renderBody()}
             </KeyboardAvoidingView>
@@ -64,44 +61,31 @@ class AuthScreen extends React.Component {
         </TouchableOpacity>
     );
 
-    renderAuthButton = (isSignInMode) => {
-        const { selected } = this.state;
-        const style = (isSignInMode && styles.authButton(true)) || styles.authButton(selected);
+    renderAuthButton = ([value, authFunction, text]) => (
+        <TouchableOpacity
+            disabled={!value}
+            delayPressIn={100}
+            activeOpacity={0.4}
+            style={styles.authButton(value)}
+            onPress={authFunction}>
+            <Text style={styles.authButtonText}>
+                {t(`texts.${text}`, LanguageLocalizationNSKey.auth)}
+            </Text>
+        </TouchableOpacity>
+    );
+
+    renderError = () => {
+        const { error } = this.state;
         return (
-            <TouchableOpacity
-                style={style}
-                delayPressIn={100}
-                activeOpacity={0.4}
-                disabled={!selected}
-                onPress={(isSignInMode && this.signIn) || this.signUp}>
-                <Text style={styles.authButtonText}>
-                    {t(
-                        (isSignInMode && 'texts.signIn') || 'texts.signUp',
-                        LanguageLocalizationNSKey.auth,
-                    )}
-                </Text>
-            </TouchableOpacity>
+            <Text style={styles.errorMessage}>
+                {(!!error && t(`texts.${error}`, LanguageLocalizationNSKey.auth)) || ''}
+            </Text>
         );
     };
 
-    renderError = (error) => (
-        <Text style={styles.errorMessage}>
-            {(!!error && t(`texts.${error}`, LanguageLocalizationNSKey.auth)) || ' '}
-        </Text>
-    );
-
     renderBody = () => {
-        const {
-            inputEmail,
-            emailError,
-            isSignInMode,
-            inputLastName,
-            inputPassword,
-            passwordError,
-            lastNameError,
-            firstNameError,
-            inputFirstName,
-        } = this.state;
+        const { inputEmail, isSignInMode, inputLastName, inputPassword, inputFirstName, selected } =
+            this.state;
         return (
             <View style={styles.body}>
                 <View style={styles.signInOrSignUp}>
@@ -123,37 +107,37 @@ class AuthScreen extends React.Component {
                             placeholderText={t('texts.firstName', LanguageLocalizationNSKey.auth)}
                             onChangeText={(text) => this.setState({ inputFirstName: text })}
                         />
-                        {this.renderError(firstNameError)}
                         <CustomTextInput
                             value={inputLastName}
                             placeholderText={t('texts.lastName', LanguageLocalizationNSKey.auth)}
                             onChangeText={(text) => this.setState({ inputLastName: text })}
                         />
-                        {this.renderError(lastNameError)}
                     </>
                 )}
                 <CustomTextInput
                     value={inputEmail}
                     Icon={<Icons.Mail />}
+                    onBlur={!isSignInMode && this.emailValidation}
                     placeholderText={t('texts.email', LanguageLocalizationNSKey.auth)}
                     onChangeText={(text) => this.setState({ inputEmail: text })}
                 />
-                {this.renderError(emailError)}
                 <CustomTextInput
                     value={inputPassword}
                     secureTextEntry={true}
                     Icon={<Icons.Password />}
+                    onBlur={!isSignInMode && this.passwordValidation}
                     placeholderText={t('texts.password', LanguageLocalizationNSKey.auth)}
-                    onChangeText={(text) => this.passwordChange(text)}
+                    onChangeText={(text) => this.setState({ inputPassword: text })}
                 />
-                {this.renderError(passwordError)}
-                {!isSignInMode && (
-                    <>
-                        {this.renderPasswordStrengthContainer()}
-                        {this.renderCheckBoxContainer()}
-                    </>
+                {!isSignInMode && <>{this.renderCheckBoxContainer()}</>}
+                {this.renderError()}
+                {this.renderAuthButton(
+                    (isSignInMode && [isSignInMode, this.signIn, AuthPageWords.signIn]) || [
+                        selected,
+                        this.signUp,
+                        AuthPageWords.signUp,
+                    ],
                 )}
-                {this.renderAuthButton(isSignInMode)}
             </View>
         );
     };
@@ -171,48 +155,38 @@ class AuthScreen extends React.Component {
                     {(selected && <Icons.Selected />) || <Icons.Selected fill={Styles.grey} />}
                 </TouchableOpacity>
                 <Text style={styles.text()}>
-                    {t('texts.agreeWith', LanguageLocalizationNSKey.auth)}
-                </Text>
-                <TouchableOpacity
-                    activeOpacity={0.4}
-                    style={styles.privacyPolicyButton}
-                    onPress={() => navigationNavigate(navigation, PageName.termsAndConditions)}>
-                    <Text style={styles.text(true)}>
+                    {t('texts.agreeWith', LanguageLocalizationNSKey.auth)}{' '}
+                    <Text
+                        style={styles.text(true)}
+                        onPress={() => navigationNavigate(navigation, PageName.privacyPolicy)}>
                         {t('texts.privacyPolicy', LanguageLocalizationNSKey.auth)}
                     </Text>
-                </TouchableOpacity>
-            </View>
-        );
-    };
-
-    renderPasswordStrengthContainer = () => {
-        const { isPasswordStrong } = this.state;
-        return (
-            <View style={styles.rowContainer}>
-                <Text style={styles.text()}>
-                    {t('texts.passwordStrength', LanguageLocalizationNSKey.auth)}
-                </Text>
-                <Text style={styles.strengthText(isPasswordStrong)}>
-                    {(isPasswordStrong && 'Strong') || 'Bad'}
                 </Text>
             </View>
         );
     };
 
-    passwordChange = (inputPassword) => {
-        const isPasswordStrong = PasswordRegex.test(inputPassword);
-        this.setState({ isPasswordStrong, inputPassword });
+    emailValidation = () => {
+        const { inputEmail } = this.state;
+        const error = (!EmailRegex.test(inputEmail) && AuthPageWords.invalidEmailFormat) || '';
+        this.setState({ error });
+    };
+
+    passwordValidation = () => {
+        const { inputPassword } = this.state;
+        const error = (!PasswordRegex.test(inputPassword) && AuthPageWords.invalidPassword) || '';
+        this.setState({ error });
     };
 
     signIn = async () => {
         const { navigation, setUser } = this.props;
         const { inputEmail, inputPassword } = this.state;
         if (!inputEmail) {
-            this.setError({ emailError: AuthPageWords.enterEmail });
+            this.setState({ error: AuthPageWords.enterEmail });
             return;
         }
         if (!inputPassword) {
-            this.setError({ passwordError: AuthPageWords.enterPassword });
+            this.setState({ error: AuthPageWords.enterPassword });
             return;
         }
         try {
@@ -222,39 +196,43 @@ class AuthScreen extends React.Component {
                 navigationReplace(navigation, PageName.tabs);
                 return;
             }
-            this.setError({ passwordError: AuthPageWords.invalidEmailOrPassword });
-        } catch (error) {
-            this.setError({ passwordError: AuthPageWords.errorOccurredDuringSignIn });
+            this.setState({ error: AuthPageWords.invalidEmailOrPassword });
+        } catch (e) {
+            genericErrorHandling(e);
+            this.setState({ error: AuthPageWords.errorOccurredDuringSignIn });
         }
     };
 
     signUp = async () => {
         const { inputEmail, inputPassword, inputLastName, inputFirstName } = this.state;
         if (!inputFirstName) {
-            this.setError({ firstNameError: AuthPageWords.enterFirstName });
+            this.setState({ error: AuthPageWords.enterFirstName });
             return;
         }
         if (!inputLastName) {
-            this.setError({ lastNameError: AuthPageWords.enterLastName });
+            this.setState({ error: AuthPageWords.enterLastName });
             return;
         }
         if (!inputEmail) {
-            this.setError({ emailError: AuthPageWords.enterEmail });
+            this.setState({ error: AuthPageWords.enterEmail });
             return;
         }
         if (!inputPassword) {
-            this.setError({ passwordError: AuthPageWords.enterPassword });
+            this.setState({ error: AuthPageWords.enterPassword });
             return;
         }
-        const { emailError, passwordError } = this.validateCredentials(inputEmail, inputPassword);
-        if (emailError || passwordError) {
-            this.setError({ emailError, passwordError });
+        if (!EmailRegex.test(inputEmail)) {
+            this.setState({ error: AuthPageWords.invalidEmailFormat });
+            return;
+        }
+        if (!PasswordRegex.test(inputPassword)) {
+            this.setState({ error: AuthPageWords.invalidPassword });
             return;
         }
         try {
             const data = await foundUser(inputEmail);
             if (data) {
-                this.setError({ emailError: AuthPageWords.accountAlreadyExists });
+                this.setState({ error: AuthPageWords.accountAlreadyExists });
                 return;
             }
             const { navigation, setUser } = this.props;
@@ -271,39 +249,21 @@ class AuthScreen extends React.Component {
             setUser(newUser);
             setItem(AsyncStorageKeys.users, users);
             navigationReplace(navigation, PageName.tabs);
-        } catch (error) {
-            this.setError({ passwordError: AuthPageWords.errorOccurredDuringSignUp });
+        } catch (e) {
+            genericErrorHandling(e);
+            this.setState({ error: AuthPageWords.errorOccurredDuringSignUp });
         }
-    };
-
-    setError = (error) => {
-        this.setState({
-            emailError: '',
-            passwordError: '',
-            lastNameError: '',
-            firstNameError: '',
-            ...error,
-        });
-    };
-
-    validateCredentials = (email, password) => {
-        const emailError = (!EmailRegex.test(email) && AuthPageWords.invalidEmailFormat) || '';
-        const passwordError =
-            (!PasswordRegex.test(password) && AuthPageWords.invalidPassword) || '';
-        return { emailError, passwordError };
     };
 
     handlePress = (buttonType) => {
         const { currentButton, isSignInMode } = this.state;
         if (currentButton === buttonType) return;
         this.setState({
+            error: '',
             inputEmail: '',
-            emailError: '',
-            lastNameError: '',
-            passwordError: '',
+            selected: false,
             inputLastName: '',
             inputPassword: '',
-            firstNameError: '',
             inputFirstName: '',
             currentButton: buttonType,
             isSignInMode: !isSignInMode,

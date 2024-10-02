@@ -8,18 +8,10 @@ const styles = StyleSheet.create({
         backgroundColor: Styles.white,
         paddingTop: DEVICE_SETTINGS.statusBarHeight,
     },
-    header: {
+    headerContainer: {
         padding: 16,
-        columnGap: 16,
-        alignItems: Styles.center,
         flexDirection: Styles.row,
-        backgroundColor: Styles.white,
-    },
-    title: {
-        fontSize: 18,
-        fontFamily: Styles.openSans,
-        color: Styles.appBackground,
-        fontWeight: Styles.fontWeightMedium,
+        alignItems: Styles.center,
     },
 });
 

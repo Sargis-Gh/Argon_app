@@ -8,13 +8,7 @@ import { Styles, LanguageLocalizationNSKey } from '../../constants/constants';
 
 class CustomCarousel extends React.Component {
     render() {
-        const {
-            data,
-            title,
-            renderItem,
-            navigation,
-            isStandard = true,
-        } = this.props;
+        const { data, title, renderItem, navigation, isStandard = true } = this.props;
         const baseOptions =
             (isStandard && styles.standardBaseOptions) || styles.nonStandardBaseOptions;
         if (!data?.length) return null;

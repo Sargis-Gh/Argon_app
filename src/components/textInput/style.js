@@ -4,8 +4,7 @@ import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
-        margin: 8,
-        height: 46,
+        height: 40,
         elevation: 3,
         columnGap: 8,
         borderRadius: 4,

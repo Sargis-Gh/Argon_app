@@ -4,12 +4,12 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
-import { favoritesFirst } from '../../utils/utils';
 import { getTVSerisData } from '../../providers/tvSeries';
 import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
 import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
+import { favoritesFirst, isItemFavorite } from '../../utils/utils';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
@@ -61,9 +61,14 @@ class SeriesScreen extends React.Component {
     };
 
     renderList = ({ item }) => {
-        const data = favoritesFirst(item.data, this.isItemFavorite);
+        const {
+            user: {
+                favorites: { tvSeries },
+            },
+        } = this.props;
+        const data = favoritesFirst(item.data, tvSeries);
         const renderItem =
-            (item.title === SeriesScreenDataTitles[0] && this.renderSmallItem) ||
+            (SeriesScreenDataTitles[0] === item.title && this.renderSmallItem) ||
             this.renderMovieItem;
         return (
             <>
@@ -96,9 +101,12 @@ class SeriesScreen extends React.Component {
         const {
             navigation,
             setFavorites,
-            user: { email },
+            user: {
+                email,
+                favorites: { tvSeries },
+            },
         } = this.props;
-        const isFavorite = this.isItemFavorite(item.id);
+        const isFavorite = isItemFavorite(tvSeries, item.id);
         return (
             <MovieItem
                 item={item}
@@ -109,13 +117,6 @@ class SeriesScreen extends React.Component {
                 setFavorites={setFavorites}
             />
         );
-    };
-
-    isItemFavorite = (id) => {
-        const {
-            user: { favorites },
-        } = this.props;
-        return !!favorites.tvSeries.find((item) => id === item.id);
     };
 
     openMovieDetails = (id) => {

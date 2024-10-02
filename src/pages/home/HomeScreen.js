@@ -11,7 +11,12 @@ import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import CustomCarousel from '../../components/customCarousel/CustomCarousel';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
-import { favoritesFirst, getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
+import {
+    favoritesFirst,
+    isItemFavorite,
+    getUniqueElements,
+    changeFavoriteStatus,
+} from '../../utils/utils';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     PageName,
@@ -69,9 +74,14 @@ class HomeScreen extends React.Component {
     );
 
     renderCarousel = ({ item }) => {
-        const { navigation } = this.props;
+        const {
+            navigation,
+            user: {
+                favorites: { movie },
+            },
+        } = this.props;
         const isStandard = HomeScreenDataTitles[1] !== item?.title;
-        const data = favoritesFirst(getUniqueElements(item?.data), this.isItemFavorite);
+        const data = favoritesFirst(getUniqueElements(item?.data), movie);
         const renderItem = (isStandard && this.renderStandardItem) || this.renderNonStandardItem;
         return (
             <CustomCarousel
@@ -85,7 +95,12 @@ class HomeScreen extends React.Component {
     };
 
     renderStandardItem = ({ item }) => {
-        const isFavorite = this.isItemFavorite(item?.id);
+        const {
+            user: {
+                favorites: { movie },
+            },
+        } = this.props;
+        const isFavorite = isItemFavorite(movie, item?.id);
         return (
             <TouchableOpacity
                 activeOpacity={1}
@@ -121,7 +136,12 @@ class HomeScreen extends React.Component {
     };
 
     renderNonStandardItem = ({ item }) => {
-        const isFavorite = this.isItemFavorite(item?.id);
+        const {
+            user: {
+                favorites: { movie },
+            },
+        } = this.props;
+        const isFavorite = isItemFavorite(movie, item?.id);
         return (
             <TouchableOpacity
                 activeOpacity={1}
@@ -161,19 +181,15 @@ class HomeScreen extends React.Component {
     };
 
     handleFavoriteButtonClick = (item) => {
-        const isFavorite = this.isItemFavorite(item?.id);
         const {
             setFavorites,
-            user: { email },
+            user: {
+                email,
+                favorites: { movie },
+            },
         } = this.props;
+        const isFavorite = isItemFavorite(movie, item?.id);
         changeFavoriteStatus(item, CreditType.movie, email, isFavorite, setFavorites);
-    };
-
-    isItemFavorite = (id) => {
-        const {
-            user: { favorites },
-        } = this.props;
-        return !!favorites.movie.find((item) => id === item.id);
     };
 
     openMovieDetails = (id, playing) => {
