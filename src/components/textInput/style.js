@@ -1,0 +1,34 @@
+import { StyleSheet } from 'react-native';
+
+import { Styles } from '../../constants/constants';
+
+const styles = StyleSheet.create({
+    container: {
+        height: 46,
+        padding: 8,
+        elevation: 3,
+        columnGap: 12,
+        borderRadius: 3,
+        shadowRadius: 3,
+        marginBottom: 20,
+        shadowOpacity: 0.4,
+        width: Styles.fullSize,
+        alignItems: Styles.center,
+        flexDirection: Styles.row,
+        color: Styles.textInputGrey,
+        backgroundColor: Styles.white,
+        shadowColor: Styles.textInputGrey,
+        shadowOffset: { width: 0, height: 2 },
+    },
+    textInput: {
+        fontSize: 14,
+        lineHeight: 19,
+        width: Styles.fullSize,
+        height: Styles.fullSize,
+        fontFamily: Styles.openSans,
+        color: Styles.textInputGrey,
+        backgroundColor: Styles.white,
+    },
+});
+
+export default styles;

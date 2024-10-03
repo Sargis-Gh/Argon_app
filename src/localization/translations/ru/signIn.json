@@ -1,0 +1,11 @@
+{
+    "title": "Войти",
+    "texts": {
+        "signIn": "Войти",
+        "email": "Эл. почта",
+        "password": "Пароль",
+        "signInWith": "Войти с",
+        "orSignInWithCredentials": "Или войдите с учетными данными",
+        "invalidEmailOrPassword": "Неправильный адрес электронной почты или пароль"
+    }
+}
