@@ -116,7 +116,6 @@ export const AppWords = {
     ended: 'ended',
     imdb: '(IMDB)',
     trailer: 'Trailer',
-    stringFormat: '%S %S',
 };
 
 export const LanguageLocalizationKey = {
@@ -192,6 +191,7 @@ export const WITH_GENRE = '&with_genres=%S';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 export const API_KEY = '?api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+export const PrivacyPolicyUrl = 'https://shortly.film/terms-and-conditions-filmmaker/';
 export const TermsAndConditionsUrl = 'https://shortly.film/terms-and-conditions-filmmaker/';
 
 export const Endpoints = {

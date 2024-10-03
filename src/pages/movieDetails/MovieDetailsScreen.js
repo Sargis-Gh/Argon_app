@@ -158,20 +158,12 @@ class MovieDetailsScreen extends React.Component {
                 {!!runtime &&
                     this.renderRuntimeOrVoteAverageItem(
                         <Icons.Schedule />,
-                        stringFormat(
-                            AppWords.stringFormat,
-                            runtime,
-                            t('minutes', LanguageLocalizationNSKey.common),
-                        ),
+                        stringFormat(t('minutes', LanguageLocalizationNSKey.common), [runtime]),
                     )}
                 {!!vote_average &&
                     this.renderRuntimeOrVoteAverageItem(
                         <Icons.WhiteStar />,
-                        stringFormat(
-                            AppWords.stringFormat,
-                            vote_average?.toFixed(1),
-                            AppWords.imdb,
-                        ),
+                        `${vote_average?.toFixed(1)} ${AppWords.imdb}`,
                     )}
             </View>
             <Divider />

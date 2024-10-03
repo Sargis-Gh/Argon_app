@@ -13,7 +13,7 @@ import {
     CarouselItemCountLimit,
 } from '../constants/constants';
 
-export const stringFormat = (string, ...values) => {
+export const stringFormat = (string, values) => {
     values = [].concat(values || []);
     for (const value of values) {
         string = string.replace('%S', value);

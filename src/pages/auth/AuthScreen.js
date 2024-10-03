@@ -1,6 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import {
+    Text,
+    View,
+    Keyboard,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+} from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
@@ -31,21 +38,24 @@ class AuthScreen extends React.Component {
         inputPassword: '',
         inputFirstName: '',
         isSignInMode: true,
+        fullCompleted: false,
         currentButton: AuthPageWords.signIn,
     };
 
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container} behavior={Styles.padding}>
-                <TouchableOpacity
-                    delayPressIn={100}
-                    activeOpacity={0.4}
-                    style={styles.closeButton}
-                    onPress={this.handleCloseButtonPress}>
-                    <Icons.FillClose />
-                </TouchableOpacity>
-                {this.renderBody()}
-            </KeyboardAvoidingView>
+            <TouchableWithoutFeedback onPress={this.handleWithoutFeedbackClick}>
+                <KeyboardAvoidingView style={styles.container} behavior={Styles.padding}>
+                    <TouchableOpacity
+                        delayPressIn={100}
+                        activeOpacity={0.4}
+                        style={styles.closeButton}
+                        onPress={this.handleCloseButtonPress}>
+                        <Icons.FillClose />
+                    </TouchableOpacity>
+                    {this.renderBody()}
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
         );
     }
 
@@ -61,7 +71,7 @@ class AuthScreen extends React.Component {
         </TouchableOpacity>
     );
 
-    renderAuthButton = ([value, authFunction, text]) => (
+    renderAuthButton = ([authFunction, value, text]) => (
         <TouchableOpacity
             disabled={!value}
             delayPressIn={100}
@@ -84,8 +94,16 @@ class AuthScreen extends React.Component {
     };
 
     renderBody = () => {
-        const { inputEmail, isSignInMode, inputLastName, inputPassword, inputFirstName, selected } =
-            this.state;
+        const {
+            selected,
+            inputEmail,
+            isSignInMode,
+            inputLastName,
+            inputPassword,
+            fullCompleted,
+            inputFirstName,
+        } = this.state;
+        const isAuthButtonActive = selected && fullCompleted;
         return (
             <View style={styles.body}>
                 <View style={styles.signInOrSignUp}>
@@ -132,9 +150,9 @@ class AuthScreen extends React.Component {
                 {!isSignInMode && <>{this.renderCheckBoxContainer()}</>}
                 {this.renderError()}
                 {this.renderAuthButton(
-                    (isSignInMode && [isSignInMode, this.signIn, AuthPageWords.signIn]) || [
-                        selected,
+                    (isSignInMode && [this.signIn, isSignInMode, AuthPageWords.signIn]) || [
                         this.signUp,
+                        isAuthButtonActive,
                         AuthPageWords.signUp,
                     ],
                 )}
@@ -178,17 +196,34 @@ class AuthScreen extends React.Component {
         this.setState({ error });
     };
 
+    fullValidation = () => {
+        const { inputEmail, inputPassword, inputLastName, inputFirstName, isSignInMode } =
+            this.state;
+        const error = isSignInMode
+            ? (!inputEmail && AuthPageWords.enterEmail) ||
+              (!inputPassword && AuthPageWords.enterPassword) ||
+              ''
+            : (!inputFirstName && AuthPageWords.enterFirstName) ||
+              (!inputLastName && AuthPageWords.enterLastName) ||
+              (!inputEmail && AuthPageWords.enterEmail) ||
+              (!inputPassword && AuthPageWords.enterPassword) ||
+              (!EmailRegex.test(inputEmail) && AuthPageWords.invalidEmailFormat) ||
+              (!PasswordRegex.test(inputPassword) && AuthPageWords.invalidPassword) ||
+              '';
+        this.setState({ error, fullCompleted: !error });
+        return { error, fullCompleted: !error };
+    };
+
+    handleWithoutFeedbackClick = () => {
+        Keyboard.dismiss();
+        this.fullValidation();
+    };
+
     signIn = async () => {
         const { navigation, setUser } = this.props;
         const { inputEmail, inputPassword } = this.state;
-        if (!inputEmail) {
-            this.setState({ error: AuthPageWords.enterEmail });
-            return;
-        }
-        if (!inputPassword) {
-            this.setState({ error: AuthPageWords.enterPassword });
-            return;
-        }
+        const { error } = this.fullValidation();
+        if (error) return;
         try {
             const user = await foundUser(inputEmail, inputPassword);
             if (user) {
@@ -205,30 +240,8 @@ class AuthScreen extends React.Component {
 
     signUp = async () => {
         const { inputEmail, inputPassword, inputLastName, inputFirstName } = this.state;
-        if (!inputFirstName) {
-            this.setState({ error: AuthPageWords.enterFirstName });
-            return;
-        }
-        if (!inputLastName) {
-            this.setState({ error: AuthPageWords.enterLastName });
-            return;
-        }
-        if (!inputEmail) {
-            this.setState({ error: AuthPageWords.enterEmail });
-            return;
-        }
-        if (!inputPassword) {
-            this.setState({ error: AuthPageWords.enterPassword });
-            return;
-        }
-        if (!EmailRegex.test(inputEmail)) {
-            this.setState({ error: AuthPageWords.invalidEmailFormat });
-            return;
-        }
-        if (!PasswordRegex.test(inputPassword)) {
-            this.setState({ error: AuthPageWords.invalidPassword });
-            return;
-        }
+        const { error, fullCompleted } = this.fullValidation();
+        if (error && !fullCompleted) return;
         try {
             const data = await foundUser(inputEmail);
             if (data) {
