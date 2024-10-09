@@ -40,7 +40,14 @@ class ResultItem extends React.Component {
 
     handleFavoriteButtonClick = () => {
         const { email, setFavorites, item, type, isFavorite } = this.props;
-        changeFavoriteStatus(item, type, email, isFavorite, setFavorites);
+        changeFavoriteStatus({
+            item,
+            type,
+            email,
+            isFavorite,
+            setFavorites,
+            pageName: PageName.movies,
+        });
     };
 
     openMovieDetails = () => {

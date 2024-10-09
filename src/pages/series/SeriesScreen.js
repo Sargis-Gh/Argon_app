@@ -7,7 +7,7 @@ import { t } from '../../localization/i18n';
 import { getTVSerisData } from '../../providers/tvSeries';
 import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
-import { genericErrorHandling } from '../../utils/errorHandlers';
+import { apiErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import { favoritesFirst, isItemFavorite } from '../../utils/utils';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
@@ -114,6 +114,7 @@ class SeriesScreen extends React.Component {
                 navigation={navigation}
                 isFavorite={isFavorite}
                 type={CreditType.tvSeries}
+                pageName={PageName.series}
                 setFavorites={setFavorites}
             />
         );
@@ -139,7 +140,7 @@ class SeriesScreen extends React.Component {
             });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.series);
         }
     };
 }

@@ -7,8 +7,15 @@ import styles from './style';
 import { t } from '../../localization/i18n';
 import { signOut } from '../../utils/utils';
 import { Icons } from '../../constants/Icons';
+import { analyticsLogEvent } from '../../analytics/analytics';
 import { performSignOut } from '../../redux/action/userAction';
-import { PageName, AuthPageWords, LanguageLocalizationNSKey } from '../../constants/constants';
+import {
+    PageName,
+    AuthPageWords,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
+    LanguageLocalizationNSKey,
+} from '../../constants/constants';
 
 import { navigationReplace } from '../../navigation/navigation';
 
@@ -50,7 +57,13 @@ class CustomDrawerContent extends React.Component {
             user: { email },
         } = this.props;
         navigationReplace(navigation, PageName.auth);
-        if (AuthPageWords.guest === email) return;
+        const isGuest = AuthPageWords.guest === email;
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.drawer,
+            description:
+                (isGuest && AnalyticsDescriptions.signIn) || AnalyticsDescriptions.createAccount,
+        });
+        if (isGuest) return;
         await signOut(email);
         performSignOut();
     };

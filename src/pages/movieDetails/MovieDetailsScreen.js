@@ -9,8 +9,8 @@ import { Icons } from '../../constants/Icons';
 import Divider from '../../components/divider/Divider';
 import PersonItem from './components/personItem/PersonItem';
 import { setFavorites } from '../../redux/action/userAction';
+import { apiErrorHandling } from '../../utils/errorHandlers';
 import SimilarItem from './components/similarItem/SimilarItem';
-import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import { getData, getSimilarMovies } from '../../providers/movieDetails';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
@@ -308,7 +308,14 @@ class MovieDetailsScreen extends React.Component {
             },
         } = this.props;
         const isFavorite = isItemFavorite(favorites[type], id);
-        changeFavoriteStatus(details, type, email, isFavorite, setFavorites);
+        changeFavoriteStatus({
+            type,
+            email,
+            isFavorite,
+            setFavorites,
+            item: details,
+            pageName: PageName.movieDetails,
+        });
     };
 
     initData = async () => {
@@ -333,7 +340,7 @@ class MovieDetailsScreen extends React.Component {
             });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.movieDetails);
         }
     };
 }
