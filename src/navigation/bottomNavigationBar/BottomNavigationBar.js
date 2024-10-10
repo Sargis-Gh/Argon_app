@@ -1,12 +1,11 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import DrawerNavigator from '../drawer/Drawer';
-import QRScreen from '../../pages/QR/QRScreen';
 import SeriesScreen from '../../pages/series/SeriesScreen';
 import MoviesScreen from '../../pages/movies/MoviesScreen';
 import FavoritesScreen from '../../pages/favorites/FavoritesScreen';
@@ -50,13 +49,6 @@ class BottomTabNavigator extends React.Component {
                     }}
                 />
                 <BottomTab.Screen
-                    name={PageName.qr}
-                    component={QRScreen}
-                    options={{
-                        tabBarButton: ({ onPress }) => this.renderQRButton(onPress),
-                    }}
-                />
-                <BottomTab.Screen
                     name={PageName.favorites}
                     component={FavoritesScreen}
                     options={{
@@ -87,16 +79,6 @@ class BottomTabNavigator extends React.Component {
     }
 
     renderTabBarBackground = () => <View style={styles.container} />;
-
-    renderQRButton = (onPress) => (
-        <TouchableOpacity
-            activeOpacity={1}
-            delayPressIn={100}
-            style={styles.touchableContent}
-            onPress={onPress}>
-            <Icons.QRIcon />
-        </TouchableOpacity>
-    );
 
     renderTabBarLabel = (pageName, focused) => (
         <Text

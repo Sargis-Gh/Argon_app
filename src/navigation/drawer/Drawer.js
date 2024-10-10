@@ -7,10 +7,16 @@ import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import HomeScreen from '../../pages/home/HomeScreen';
 import SettingsScreen from '../../pages/settings/SettingsScreen';
+import { analyticsLogEvent } from '../../analytics/analytics.js';
 import PrivacyPolicy from '../../pages/privacyPolicy/PrivacyPolicy.js';
 import TermsAndConditions from '../../pages/termsAndConditions/TermsAndConditions.js';
-import { LanguageLocalizationNSKey, PageName, Styles } from '../../constants/constants';
 import CustomDrawerContent from '../../components/customDrawerContent/CustomDrawerContent';
+import {
+    Styles,
+    PageName,
+    AnalyticsLogEventName,
+    LanguageLocalizationNSKey,
+} from '../../constants/constants';
 
 const Drawer = createDrawerNavigator();
 
@@ -41,13 +47,12 @@ class DrawerNavigator extends React.Component {
                 <Drawer.Screen
                     name={PageName.settings}
                     component={SettingsScreen}
+                    listeners={{
+                        drawerItemPress: () => this.handleItemPress(PageName.settings),
+                    }}
                     options={{
+                        headerTitle: t('title', LanguageLocalizationNSKey.settings),
                         title: ({ focused }) =>
-                            this.renderPageTitle(
-                                focused,
-                                t('title', LanguageLocalizationNSKey.settings),
-                            ),
-                        headerTitle: ({ focused }) =>
                             this.renderPageTitle(
                                 focused,
                                 t('title', LanguageLocalizationNSKey.settings),
@@ -58,6 +63,9 @@ class DrawerNavigator extends React.Component {
                 <Drawer.Screen
                     name={PageName.termsAndConditions}
                     component={TermsAndConditions}
+                    listeners={{
+                        drawerItemPress: () => this.handleItemPress(PageName.termsAndConditions),
+                    }}
                     options={{
                         headerShown: false,
                         title: ({ focused }) =>
@@ -72,6 +80,9 @@ class DrawerNavigator extends React.Component {
                 <Drawer.Screen
                     name={PageName.privacyPolicy}
                     component={PrivacyPolicy}
+                    listeners={{
+                        drawerItemPress: () => this.handleItemPress(PageName.privacyPolicy),
+                    }}
                     options={{
                         headerShown: false,
                         title: ({ focused }) =>
@@ -92,6 +103,13 @@ class DrawerNavigator extends React.Component {
     );
 
     renderPageTitle = (focused, title) => <Text style={styles.pageTitle(focused)}>{title}</Text>;
+
+    handleItemPress = (button) => {
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            description: button,
+            pageName: PageName.drawer,
+        });
+    };
 }
 
 export default DrawerNavigator;

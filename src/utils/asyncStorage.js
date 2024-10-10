@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { genericErrorHandling } from './errorHandlers';
+import { errorHandling } from './errorHandlers';
 
 /*
  * Function to save data to AsyncStorage
@@ -10,7 +10,7 @@ export const setItem = async (key, value) => {
         const jsonValue = JSON.stringify(value);
         await AsyncStorage.setItem(key, jsonValue);
     } catch (e) {
-        genericErrorHandling(e);
+        errorHandling(e);
     }
 };
 
@@ -22,7 +22,7 @@ export const getItem = async (key) => {
         const jsonValue = await AsyncStorage.getItem(key);
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
-        genericErrorHandling(e);
+        errorHandling(e);
     }
 };
 
@@ -33,6 +33,6 @@ export const removeItem = async (key) => {
     try {
         await AsyncStorage.removeItem(key);
     } catch (e) {
-        genericErrorHandling(e);
+        errorHandling(e);
     }
 };

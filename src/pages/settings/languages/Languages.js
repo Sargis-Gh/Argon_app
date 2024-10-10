@@ -4,10 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 import { Icons } from '../../../constants/Icons';
+import { stringFormat } from '../../../utils/utils';
+import { errorHandling } from '../../../utils/errorHandlers';
 import { changeLanguage, t } from '../../../localization/i18n';
-import { genericErrorHandling } from '../../../utils/errorHandlers';
+import { analyticsLogEvent } from '../../../analytics/analytics';
 import {
+    PageName,
     AsyncStorageKeys,
+    AnalyticsDescriptions,
+    AnalyticsLogEventName,
     LanguageLocalizationKey,
     LanguageLocalizationNSKey,
 } from '../../../constants/constants';
@@ -40,15 +45,23 @@ class Languages extends React.Component {
         const buttonsData = [
             {
                 icon: <Icons.USAflag />,
-                text: t('texts.english', LanguageLocalizationNSKey.settings),
                 isSelected: LanguageLocalizationKey.en === selectedLanguage,
-                selectLanguage: () => this.selectLanguage(LanguageLocalizationKey.en),
+                text: t('texts.english', LanguageLocalizationNSKey.settings),
+                selectLanguage: () =>
+                    this.selectLanguage(
+                        LanguageLocalizationKey.en,
+                        AnalyticsDescriptions.languageEn,
+                    ),
             },
             {
                 icon: <Icons.Russia />,
-                text: t('texts.russian', LanguageLocalizationNSKey.settings),
                 isSelected: LanguageLocalizationKey.ru === selectedLanguage,
-                selectLanguage: () => this.selectLanguage(LanguageLocalizationKey.ru),
+                text: t('texts.russian', LanguageLocalizationNSKey.settings),
+                selectLanguage: () =>
+                    this.selectLanguage(
+                        LanguageLocalizationKey.ru,
+                        AnalyticsDescriptions.languageRu,
+                    ),
             },
         ];
         return (
@@ -70,15 +83,24 @@ class Languages extends React.Component {
         );
     };
 
-    selectLanguage = (language) => {
+    selectLanguage = (language, description) => {
         try {
             AsyncStorage.setItem(AsyncStorageKeys.language, language);
             this.setState({ selectedLanguage: language });
             changeLanguage(language);
             navigationRefreshWithoutReload();
+            this.handleButtonClickForAnalytics(description);
         } catch (error) {
-            genericErrorHandling(error);
+            errorHandling(error);
         }
+    };
+
+    handleButtonClickForAnalytics = (description) => {
+        const { selectedLanguage } = this.state;
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.settings,
+            description: stringFormat(description, selectedLanguage.split('-')[0].toUpperCase()),
+        });
     };
 }
 

@@ -14,9 +14,11 @@ import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { foundUser } from '../../utils/utils';
 import { setUser } from '../../redux/action/userAction';
+import { errorHandling } from '../../utils/errorHandlers';
 import { getItem, setItem } from '../../utils/asyncStorage';
-import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomTextInput from '../../components/textInput/TextInput';
+import { crashlyticsSetUserId } from '../../crashlytics/crashlytics';
+import { analyticsLogEvent, analyticsSetUserId } from '../../analytics/analytics';
 import {
     Styles,
     PageName,
@@ -24,6 +26,8 @@ import {
     PasswordRegex,
     AuthPageWords,
     AsyncStorageKeys,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -41,6 +45,12 @@ class AuthScreen extends React.Component {
         fullCompleted: false,
         currentButton: AuthPageWords.signIn,
     };
+
+    componentDidMount() {
+        analyticsLogEvent(AnalyticsLogEventName.openPage, {
+            pageName: PageName.auth,
+        });
+    }
 
     render() {
         return (
@@ -79,7 +89,7 @@ class AuthScreen extends React.Component {
             style={styles.authButton(value)}
             onPress={authFunction}>
             <Text style={styles.authButtonText}>
-                {t(`texts.${text}`, LanguageLocalizationNSKey.auth)}
+                {t(`texts.${text}`, LanguageLocalizationNSKey.auth).toUpperCase()}
             </Text>
         </TouchableOpacity>
     );
@@ -153,7 +163,7 @@ class AuthScreen extends React.Component {
                     (isSignInMode && [this.signIn, isSignInMode, AuthPageWords.signIn]) || [
                         this.signUp,
                         isAuthButtonActive,
-                        AuthPageWords.signUp,
+                        AuthPageWords.createAccount,
                     ],
                 )}
             </View>
@@ -223,17 +233,23 @@ class AuthScreen extends React.Component {
         const { navigation, setUser } = this.props;
         const { inputEmail, inputPassword } = this.state;
         const { error } = this.fullValidation();
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.auth,
+            description: AnalyticsDescriptions.signIn,
+        });
         if (error) return;
         try {
             const user = await foundUser(inputEmail, inputPassword);
             if (user) {
                 setUser(user);
+                analyticsSetUserId(user.email);
+                crashlyticsSetUserId(user.email);
                 navigationReplace(navigation, PageName.tabs);
                 return;
             }
             this.setState({ error: AuthPageWords.invalidEmailOrPassword });
         } catch (e) {
-            genericErrorHandling(e);
+            errorHandling(e);
             this.setState({ error: AuthPageWords.errorOccurredDuringSignIn });
         }
     };
@@ -241,6 +257,10 @@ class AuthScreen extends React.Component {
     signUp = async () => {
         const { inputEmail, inputPassword, inputLastName, inputFirstName } = this.state;
         const { error, fullCompleted } = this.fullValidation();
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.auth,
+            description: AnalyticsDescriptions.createAccount,
+        });
         if (error && !fullCompleted) return;
         try {
             const data = await foundUser(inputEmail);
@@ -260,10 +280,12 @@ class AuthScreen extends React.Component {
             };
             users[inputEmail] = newUser;
             setUser(newUser);
+            analyticsSetUserId(newUser.email);
+            crashlyticsSetUserId(newUser.email);
             setItem(AsyncStorageKeys.users, users);
             navigationReplace(navigation, PageName.tabs);
         } catch (e) {
-            genericErrorHandling(e);
+            errorHandling(e);
             this.setState({ error: AuthPageWords.errorOccurredDuringSignUp });
         }
     };
@@ -286,6 +308,10 @@ class AuthScreen extends React.Component {
     handleCloseButtonPress = () => {
         const { navigation } = this.props;
         navigationReplace(navigation, PageName.tabs);
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.auth,
+            description: AnalyticsDescriptions.close,
+        });
     };
 }
 

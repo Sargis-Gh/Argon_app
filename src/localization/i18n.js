@@ -2,9 +2,9 @@ import i18n from 'i18next';
 import { NativeModules, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { errorHandling } from '../utils/errorHandlers';
 import { EnLanguageResources } from './translations/en';
 import { RuLanguageResources } from './translations/ru';
-import { genericErrorHandling } from '../utils/errorHandlers';
 import {
     Language,
     PlatformName,
@@ -47,7 +47,7 @@ const getDeviceLanguage = () => {
 
         return deviceLanguage.split('_')[0];
     } catch (error) {
-        genericErrorHandling(error);
+        errorHandling(error);
         return Language.en;
     }
 };

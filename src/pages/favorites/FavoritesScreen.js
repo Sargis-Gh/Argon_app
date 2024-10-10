@@ -7,6 +7,7 @@ import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { setFavorites } from '../../redux/action/userAction';
+import { analyticsLogEvent } from '../../analytics/analytics';
 import CustomImage from '../../components/customImage/CustomImage';
 import { setFavoriteViewType } from '../../redux/action/settingsAction';
 import { saveAppSettings, getUniqueElements, changeFavoriteStatus } from '../../utils/utils';
@@ -15,6 +16,8 @@ import {
     PageName,
     CreditType,
     FavoritePageWords,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -147,7 +150,7 @@ class FavoritesScreen extends React.Component {
                     {favoriteIsRowView && (
                         <View style={styles.genres}>
                             <Text>{item?.releaseDate}</Text>
-                            {this.renderButton(FavoritePageWords.viewDetails, item?.id)}
+                            {this.renderButton(FavoritePageWords.viewDetails, item)}
                         </View>
                     )}
                 </View>
@@ -237,6 +240,12 @@ class FavoritesScreen extends React.Component {
         this.setState({ display: false });
         setFavoriteViewType(!favoriteIsRowView);
         saveAppSettings({ favoriteIsRowView: !favoriteIsRowView });
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.favorites,
+            description:
+                (favoriteIsRowView && AnalyticsDescriptions.cardDisplayTypeColumn) ||
+                AnalyticsDescriptions.cardDisplayTypeRow,
+        });
     };
 
     removeItem = (item, type) => {
@@ -244,12 +253,23 @@ class FavoritesScreen extends React.Component {
             setFavorites,
             user: { email },
         } = this.props;
-        changeFavoriteStatus(item, type, email, true, setFavorites);
+        changeFavoriteStatus({
+            item,
+            type,
+            email,
+            setFavorites,
+            isFavorite: true,
+            pageName: PageName.favorites,
+        });
     };
 
     openMovieDetails = ({ id }, type) => {
         const { navigation } = this.props;
         navigationNavigate(navigation, PageName.movieDetails, { id, type });
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.favorites,
+            description: AnalyticsDescriptions.details,
+        });
     };
 }
 

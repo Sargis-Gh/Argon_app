@@ -6,22 +6,25 @@ import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { getHomeData } from '../../providers/home';
+import { apiErrorHandling } from '../../utils/errorHandlers';
 import { setFavorites } from '../../redux/action/userAction';
-import { genericErrorHandling } from '../../utils/errorHandlers';
+import { analyticsLogEvent } from '../../analytics/analytics';
 import CustomImage from '../../components/customImage/CustomImage';
 import CustomCarousel from '../../components/customCarousel/CustomCarousel';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
+import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     favoritesFirst,
     isItemFavorite,
     getUniqueElements,
     changeFavoriteStatus,
 } from '../../utils/utils';
-import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     PageName,
     CreditType,
     HomeScreenDataTitles,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -119,7 +122,7 @@ class HomeScreen extends React.Component {
                         delayPressIn={100}
                         activeOpacity={0.4}
                         style={styles.standardItemDetails}
-                        onPress={() => this.openMovieDetails(item?.id, true)}>
+                        onPress={() => this.openMovieDetailsAndPlay(item?.id, true)}>
                         <Icons.Play />
                         <View>
                             <Text style={styles.continue}>
@@ -189,7 +192,14 @@ class HomeScreen extends React.Component {
             },
         } = this.props;
         const isFavorite = isItemFavorite(movie, item?.id);
-        changeFavoriteStatus(item, CreditType.movie, email, isFavorite, setFavorites);
+        changeFavoriteStatus({
+            item,
+            email,
+            isFavorite,
+            setFavorites,
+            type: CreditType.movie,
+            pageName: PageName.home,
+        });
     };
 
     openMovieDetails = (id, playing) => {
@@ -202,13 +212,21 @@ class HomeScreen extends React.Component {
         });
     };
 
+    openMovieDetailsAndPlay = (id, playing) => {
+        this.openMovieDetails(id, playing);
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.home,
+            description: AnalyticsDescriptions.readeToPlay,
+        });
+    };
+
     initData = async () => {
         try {
             const data = await getHomeData();
             this.setState({ data, loading: false, wrongData: false });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.home);
         }
     };
 }

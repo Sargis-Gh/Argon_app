@@ -9,8 +9,9 @@ import { Icons } from '../../constants/Icons';
 import Divider from '../../components/divider/Divider';
 import PersonItem from './components/personItem/PersonItem';
 import { setFavorites } from '../../redux/action/userAction';
+import { apiErrorHandling } from '../../utils/errorHandlers';
+import { analyticsLogEvent } from '../../analytics/analytics';
 import SimilarItem from './components/similarItem/SimilarItem';
-import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import { getData, getSimilarMovies } from '../../providers/movieDetails';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
@@ -27,6 +28,8 @@ import {
     PageName,
     CreditType,
     KnownForDepartment,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -101,7 +104,7 @@ class MovieDetailsScreen extends React.Component {
                         delayPressIn={100}
                         activeOpacity={0.4}
                         style={styles.playButton}
-                        onPress={() => this.setState({ playing: true })}>
+                        onPress={this.handlePlayButtonClick}>
                         <Icons.PlayCircle />
                     </TouchableOpacity>
                 )}
@@ -281,10 +284,16 @@ class MovieDetailsScreen extends React.Component {
     };
 
     renderSimilarItem = ({ item }) => {
-        const { navigation } = this.props;
+        const {
+            navigation,
+            route: {
+                params: { type },
+            },
+        } = this.props;
         return (
             <SimilarItem
-                id={item?.id}
+                type={type}
+                id={item.id}
                 title={item?.title}
                 navigation={navigation}
                 date={item?.release_date}
@@ -308,7 +317,22 @@ class MovieDetailsScreen extends React.Component {
             },
         } = this.props;
         const isFavorite = isItemFavorite(favorites[type], id);
-        changeFavoriteStatus(details, type, email, isFavorite, setFavorites);
+        changeFavoriteStatus({
+            type,
+            email,
+            isFavorite,
+            setFavorites,
+            item: details,
+            pageName: PageName.movieDetails,
+        });
+    };
+
+    handlePlayButtonClick = () => {
+        this.setState({ playing: true });
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.movieDetails,
+            description: AnalyticsDescriptions.play,
+        });
     };
 
     initData = async () => {
@@ -333,7 +357,7 @@ class MovieDetailsScreen extends React.Component {
             });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.movieDetails);
         }
     };
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672997633312",
+    "project_id": "argon-7e239",
+    "storage_bucket": "argon-7e239.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672997633312:android:abffb62e58015ecb843b45",
+        "android_client_info": {
+          "package_name": "com.argon_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuISnfkq7ZLKQSVxNvm0rmJSXLiQrl5Ko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
