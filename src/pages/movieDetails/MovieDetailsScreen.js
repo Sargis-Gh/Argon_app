@@ -1,28 +1,36 @@
 import React from 'react';
-import FastImage from 'react-native-fast-image';
+import { connect } from 'react-redux';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
-import { buildImageUrl, getUniqueElements } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
-import { getData } from '../../providers/movieDetails';
+import PersonItem from './components/personItem/PersonItem';
+import { setFavorites } from '../../redux/action/userAction';
+import SimilarItem from './components/similarItem/SimilarItem';
 import { genericErrorHandling } from '../../utils/errorHandlers';
+import CustomImage from '../../components/customImage/CustomImage';
+import { getData, getSimilarMovies } from '../../providers/movieDetails';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
+import {
+    stringFormat,
+    isItemFavorite,
+    getUniqueElements,
+    changeFavoriteStatus,
+} from '../../utils/utils';
 import {
     Styles,
     AppWords,
     PageName,
-    DefaultSource,
+    CreditType,
     KnownForDepartment,
-    CarouselItemCountLimit,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
-import { navigationGoBack, navigationPush } from '../../navigation/navigation';
+import { navigationGoBack } from '../../navigation/navigation';
 
 class MovieDetailsScreen extends React.Component {
     state = {
@@ -32,16 +40,11 @@ class MovieDetailsScreen extends React.Component {
         loading: true,
         playing: false,
         wrongData: false,
+        similarMovies: [],
     };
 
     componentDidMount() {
-        this.focusListener = this.props.navigation.addListener(AppWords.focus, () => {
-            this.initData();
-        });
-    }
-
-    componentWillUnmount() {
-        this.focusListener?.();
+        this.initData();
     }
 
     render() {
@@ -73,13 +76,22 @@ class MovieDetailsScreen extends React.Component {
 
     renderHeader = (details, trailer, navigation) => {
         const { playing } = this.state;
+        const {
+            user: { favorites },
+            route: {
+                params: { id, type },
+            },
+        } = this.props;
+        const isFavorite = isItemFavorite(favorites[type], id);
         return (
             <View style={styles.headerContainer}>
                 {(playing && this.renderIframe(trailer?.key)) ||
-                    (!!details?.poster_path && this.renderImage(details?.backdrop_path))}
+                    (!!details?.poster_path && (
+                        <CustomImage source={details?.backdrop_path} style={styles.image} />
+                    ))}
                 <TouchableOpacity
                     delayPressIn={100}
-                    activeOpacity={0.8}
+                    activeOpacity={0.4}
                     style={styles.backIcon}
                     onPress={() => navigationGoBack(navigation)}>
                     <Icons.Left fill={Styles.white} />
@@ -87,12 +99,19 @@ class MovieDetailsScreen extends React.Component {
                 {!playing && !!trailer?.key && !!details?.poster_path && (
                     <TouchableOpacity
                         delayPressIn={100}
-                        activeOpacity={0.8}
+                        activeOpacity={0.4}
                         style={styles.playButton}
                         onPress={() => this.setState({ playing: true })}>
                         <Icons.PlayCircle />
                     </TouchableOpacity>
                 )}
+                <TouchableOpacity
+                    delayPressIn={100}
+                    activeOpacity={0.4}
+                    style={styles.favoriteButton}
+                    onPress={this.handleFavoriteButtonClick}>
+                    {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
+                </TouchableOpacity>
             </View>
         );
     };
@@ -106,15 +125,6 @@ class MovieDetailsScreen extends React.Component {
             onChangeState={(state) => {
                 AppWords.ended === state && this.setState({ playing: false });
             }}
-        />
-    );
-
-    renderImage = (url) => (
-        <FastImage
-            style={styles.image}
-            defaultSource={DefaultSource.film}
-            source={{ uri: buildImageUrl(url) }}
-            resizeMode={FastImage.resizeMode.cover}
         />
     );
 
@@ -136,6 +146,7 @@ class MovieDetailsScreen extends React.Component {
                         <Text style={styles.text}>{overview}</Text>,
                     )}
                 {this.renderCredits(cast, navigation)}
+                {this.renderSimilarMoviesContainer()}
                 <View style={styles.footer} />
             </View>
         );
@@ -147,12 +158,12 @@ class MovieDetailsScreen extends React.Component {
                 {!!runtime &&
                     this.renderRuntimeOrVoteAverageItem(
                         <Icons.Schedule />,
-                        runtime + t('minutes', LanguageLocalizationNSKey.common),
+                        stringFormat(t('minutes', LanguageLocalizationNSKey.common), [runtime]),
                     )}
                 {!!vote_average &&
                     this.renderRuntimeOrVoteAverageItem(
-                        <Icons.StarHalf />,
-                        vote_average?.toFixed(1),
+                        <Icons.WhiteStar />,
+                        `${vote_average?.toFixed(1)} ${AppWords.imdb}`,
                     )}
             </View>
             <Divider />
@@ -233,30 +244,14 @@ class MovieDetailsScreen extends React.Component {
             </>
         );
 
-    renderPerson = (person, title, navigation) => (
-        <TouchableOpacity
-            activeOpacity={1}
-            delayPressIn={100}
-            style={styles.personContainer}
-            onPress={() =>
-                navigationPush(navigation, PageName.personDetails, { id: person?.id, title })
-            }>
-            <View style={styles.personImageBackground}>
-                <FastImage
-                    style={styles.personImage}
-                    defaultSource={DefaultSource.person}
-                    resizeMode={FastImage.resizeMode.cover}
-                    source={{ uri: buildImageUrl(person?.profile_path) }}
-                />
-            </View>
-            {!!person?.name && (
-                <View style={styles.nameContainer}>
-                    <Text numberOfLines={3} style={styles.name}>
-                        {person?.name}
-                    </Text>
-                </View>
-            )}
-        </TouchableOpacity>
+    renderPerson = ({ id, name, profile_path }, title, navigation) => (
+        <PersonItem
+            id={id}
+            name={name}
+            title={title}
+            navigation={navigation}
+            profilePath={profile_path}
+        />
     );
 
     renderGenreItem = (genre) => (
@@ -265,24 +260,74 @@ class MovieDetailsScreen extends React.Component {
         </View>
     );
 
+    renderSimilarMoviesContainer = () => {
+        const { similarMovies } = this.state;
+        return (
+            !!similarMovies?.length && (
+                <>
+                    <Text style={styles.subTitle}>
+                        {t('relatedMovies', LanguageLocalizationNSKey.common)}
+                    </Text>
+                    <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={getUniqueElements(similarMovies)}
+                        keyExtractor={(item) => item?.id.toString()}
+                        renderItem={this.renderSimilarItem}
+                    />
+                </>
+            )
+        );
+    };
+
+    renderSimilarItem = ({ item }) => {
+        const { navigation } = this.props;
+        return (
+            <SimilarItem
+                id={item?.id}
+                title={item?.title}
+                navigation={navigation}
+                date={item?.release_date}
+                source={item?.backdrop_path}
+            />
+        );
+    };
+
     clickRetryButton = () => {
         this.setState({ loading: true });
         setTimeout(this.initData, 400);
     };
 
-    initData = async () => {
+    handleFavoriteButtonClick = () => {
+        const { details } = this.state;
         const {
+            setFavorites,
+            user: { email, favorites },
             route: {
                 params: { id, type },
             },
         } = this.props;
+        const isFavorite = isItemFavorite(favorites[type], id);
+        changeFavoriteStatus(details, type, email, isFavorite, setFavorites);
+    };
+
+    initData = async () => {
+        const {
+            route: {
+                params: { id, type, playing },
+            },
+        } = this.props;
+        const isMovie = CreditType.movie === type;
         try {
+            const similarMovies = await getSimilarMovies(id, isMovie);
             const { details, credits, videos } = await getData(id, type);
             const trailer = videos?.results?.find((video) => AppWords.trailer === video?.type);
             this.setState({
                 details,
                 credits,
                 trailer,
+                playing,
+                similarMovies,
                 loading: false,
                 wrongData: false,
             });
@@ -293,4 +338,12 @@ class MovieDetailsScreen extends React.Component {
     };
 }
 
-export default MovieDetailsScreen;
+const mapStateToProps = (state) => ({
+    user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    setFavorites: (updatedFavorites) => dispatch(setFavorites(updatedFavorites)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetailsScreen);

@@ -1,18 +1,7 @@
-import thunk from 'redux-thunk';
-import * as reduxModule from 'redux';
-import { applyMiddleware, compose, createStore } from 'redux';
+import { createStore } from 'redux';
 
-import reducers from '../reducer/index';
+import rootReducer from '../reducer';
 
-reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = '@@redux/INIT';
+const store = createStore(rootReducer);
 
-const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-        : compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-export default createStore(reducers, enhancer);
+export default store;

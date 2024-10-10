@@ -1,0 +1,9 @@
+{
+    "title": "Сериалы",
+    "texts": {
+        "onTheAir": "В эфире",
+        "airingToDay": "Сегодня в эфире",
+        "topRatedSeries": "Лучшие сериалы",
+        "popularTVSeries": "Популярные сериалы"
+    }
+}

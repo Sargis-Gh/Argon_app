@@ -22,3 +22,4 @@ export const navigationRefreshWithoutReload = (params) => {
 export const navigationGoBack = (navigation) => navigation.goBack();
 export const navigationReplace = (navigation, name) => navigation.replace(name);
 export const navigationPush = (navigation, name, params) => navigation.push(name, params);
+export const navigationNavigate = (navigation, name, params) => navigation.navigate(name, params);

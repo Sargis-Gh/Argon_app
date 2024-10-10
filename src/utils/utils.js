@@ -2,9 +2,12 @@ import { getItem, setItem } from './asyncStorage';
 import { getCurrentLanguage } from '../localization/i18n';
 import {
     PAGE,
+    QUERY,
+    Users,
     API_KEY,
     BASE_URL,
     LANGUAGE,
+    WITH_GENRE,
     IMAGE_BASE_URL,
     AsyncStorageKeys,
     CarouselItemCountLimit,
@@ -20,21 +23,116 @@ export const stringFormat = (string, values) => {
 
 export const buildImageUrl = (string) => IMAGE_BASE_URL + string;
 
+export const buildSearchUrl = (string, query) => buildApiUrl(string) + QUERY + query;
+
 export const buildApiUrl = (string, id) =>
-    BASE_URL + stringFormat(string, id) + LANGUAGE + getCurrentLanguage() + PAGE + API_KEY;
+    BASE_URL + stringFormat(string, id) + API_KEY + LANGUAGE + getCurrentLanguage() + PAGE;
 
-export const getIsFirstLaunch = async () => {
-    const hasLaunched = JSON.parse(await getItem(AsyncStorageKeys.isFirstLaunch));
-    if (hasLaunched) return true;
-    setItem(AsyncStorageKeys.isFirstLaunch, JSON.stringify(false));
-    return false;
-};
+export const buildMoviesUrl = (string, id) =>
+    buildApiUrl(string, id) + stringFormat(WITH_GENRE, id);
 
-export const getUniqueElements = (arr) => {
+export const getUniqueElements = (arr, limitCount = true) => {
     const uniqueObjects = new Map();
     arr.forEach((item) => {
         if (uniqueObjects.has(item.id)) return;
         uniqueObjects.set(item.id, item);
     });
-    return Array.from(uniqueObjects.values()).slice(0, CarouselItemCountLimit);
+    return (
+        (limitCount && Array.from(uniqueObjects.values()).slice(0, CarouselItemCountLimit)) ||
+        Array.from(uniqueObjects.values())
+    );
+};
+
+const mergeFavorites = (users, userKey) => {
+    const mergeUnique = (arr1, arr2) => {
+        return [...new Set([...arr1, ...arr2])];
+    };
+    const movie = mergeUnique(users?.guest?.favorites?.movie, users[userKey]?.favorites?.movie);
+    const tvSeries = mergeUnique(
+        users?.guest?.favorites?.tvSeries,
+        users[userKey]?.favorites?.tvSeries,
+    );
+    users[userKey].favorites = { movie, tvSeries };
+    users.guest.favorites = { movie: [], tvSeries: [] };
+    setItem(AsyncStorageKeys.users, users);
+};
+
+export const signOut = async (email) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    if (!users[email]) return;
+    users[email].isSignIn = false;
+    setItem(AsyncStorageKeys.users, users);
+};
+
+export const getLaunchDetails = async (setUser) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    if (!users) {
+        setUser(Users.guest);
+        setItem(AsyncStorageKeys.users, Users);
+        return { isFirstLaunch: true, isSignIn: false };
+    }
+    const user = Object.values(users)?.find((item) => item?.isSignIn);
+    if (!user) {
+        setUser(users.guest);
+        return { isFirstLaunch: false, isSignIn: false };
+    }
+    mergeFavorites(users, user.email);
+    setUser(user);
+    return { isFirstLaunch: false, isSignIn: true };
+};
+
+export const foundUser = async (email, password) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    const user = users[email];
+    const isRegistered = users[email] && (!password || user?.password === password);
+    if (!isRegistered) return false;
+    user.isSignIn = true;
+    mergeFavorites(users, email);
+    return user;
+};
+
+export const changeFavoriteStatus = async (item, type, email, isFavorite, setFavorites) => {
+    const users = await getItem(AsyncStorageKeys.users);
+    const favorites = users[email]?.favorites;
+    if (isFavorite) {
+        const index = favorites[type].findIndex((movie) => movie.id === item?.id);
+        favorites[type].splice(index, 1);
+    } else {
+        const newItem = {
+            id: item?.id,
+            name: item?.name,
+            title: item?.title,
+            img: item?.backdrop_path,
+            rating: item?.vote_average,
+            releaseDate: item?.release_date,
+        };
+        favorites[type].push(newItem);
+    }
+    setFavorites(favorites);
+    setItem(AsyncStorageKeys.users, users);
+};
+
+export const isItemFavorite = (data, id) => !!data.find((item) => id === item?.id);
+
+export const favoritesFirst = (data, favoritesData) => {
+    const favorites = [];
+    const nonFavorites = [];
+    data.forEach((item) => {
+        if (isItemFavorite(favoritesData, item?.id)) {
+            favorites.push(item);
+            return;
+        }
+        nonFavorites.push(item);
+    });
+    return [...favorites, ...nonFavorites];
+};
+
+export const setAppSettings = async (setFavoriteViewType) => {
+    const data = await getItem(AsyncStorageKeys.settings);
+    if (!data) return;
+    setFavoriteViewType(data?.favoriteIsRowView);
+};
+
+export const saveAppSettings = (settings) => {
+    setItem(AsyncStorageKeys.settings, settings);
 };

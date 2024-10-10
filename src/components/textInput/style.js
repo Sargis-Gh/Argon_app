@@ -4,14 +4,13 @@ import { Styles } from '../../constants/constants';
 
 const styles = StyleSheet.create({
     container: {
-        height: 46,
-        padding: 8,
+        height: 40,
         elevation: 3,
-        columnGap: 12,
-        borderRadius: 3,
+        columnGap: 8,
+        borderRadius: 4,
         shadowRadius: 3,
-        marginBottom: 20,
         shadowOpacity: 0.4,
+        paddingHorizontal: 8,
         width: Styles.fullSize,
         alignItems: Styles.center,
         flexDirection: Styles.row,
@@ -21,13 +20,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
     },
     textInput: {
+        flex: 1,
         fontSize: 14,
         lineHeight: 19,
-        width: Styles.fullSize,
         height: Styles.fullSize,
         fontFamily: Styles.openSans,
-        color: Styles.textInputGrey,
+        color: Styles.appBackground,
         backgroundColor: Styles.white,
+        fontWeight: Styles.fontWeightRegular,
     },
 });
 
