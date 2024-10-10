@@ -1,9 +1,17 @@
 import { Dimensions, NativeModules, Platform } from 'react-native';
 
+export const ReduxTypes = {
+    setUser: 'setUser',
+    signOut: 'signOutT',
+    setGenres: 'setGenres',
+    setFavorites: 'setFavorites',
+    setFavoriteViewType: 'setFavoriteViewType',
+};
+
 export const PageName = {
     qr: 'QR',
     home: 'Home',
-    signIn: 'SignIn',
+    auth: 'Auth',
     movies: 'Movies',
     drawer: 'Drawer',
     series: 'Series',
@@ -15,6 +23,8 @@ export const PageName = {
     onboarding: 'Onboarding',
     movieDetails: 'MovieDetails',
     personDetails: 'PersonDetails',
+    privacyPolicy: 'Privacy Policy',
+    termsAndConditions: 'TermsAndConditions',
 };
 
 export const Styles = {
@@ -39,24 +49,32 @@ export const Styles = {
     transparent: 'transparent',
 
     // Colors
-    green: '#77BB41',
     black: 'rgb(0, 0, 0)',
-    red: 'rgb(255, 0, 0)',
     blue: 'rgb(0,191,255)',
+    red: 'rgb(183, 28, 28)',
+    green: 'rgb(120, 187, 65)',
+    grey: 'rgb(188, 188, 188)',
+    darkBlue: 'rgb(33, 31, 48)',
     white: 'rgb(255, 255, 255)',
-    grey: 'rgba(188, 188, 188, 1)',
-    appBackground: 'rgb(35, 35, 35)',
-    lightGrey: 'rgba(202, 209, 215, 1)',
-    articleColor: 'rgba(94, 114, 228, 1)',
+    darkGrey: 'rgb(82, 95, 127)',
+    lightGrey: 'rgb(202, 209, 215)',
+    lightRed: 'rgba(235, 87, 87, 1)',
+    appBackground: 'rgb(23, 23, 23)',
+    articleColor: 'rgb(94, 114, 228)',
+    lightBackground: 'rgb(40, 40, 40)',
+    textInputGrey: 'rgb(173, 181, 189)',
+    signInButtonColor: 'rgb(27, 88, 135)',
     blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
-    textInputGrey: 'rgba(173, 181, 189, 1)',
     bottomContainerColor: 'rgb(244, 245, 247)',
-    greyWithOpacity: 'rgba(218, 218, 218, 0.2)',
+    greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
 
     // Positions
     row: 'row',
+    none: 'none',
+    flex: 'flex',
     large: 'large',
+    column: 'column',
     center: 'center',
     fullSize: '100%',
     padding: 'padding',
@@ -71,6 +89,11 @@ export const Styles = {
     contentCenter: {
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    contentFlexEnd: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
     },
 
     fontWeightFamilyColor: {
@@ -88,10 +111,10 @@ export const Styles = {
 };
 
 export const AppWords = {
+    guest: 'guest',
     focus: 'focus',
     ended: 'ended',
-    google: 'GOOGLE',
-    gitHub: 'GITHUB',
+    imdb: '(IMDB)',
     trailer: 'Trailer',
 };
 
@@ -106,9 +129,11 @@ export const Language = {
 
 export const LanguageLocalizationNSKey = {
     home: 'home',
-    signIn: 'signIn',
+    auth: 'auth',
+    movies: 'movies',
     common: 'common',
     profile: 'profile',
+    tvSeries: 'tvSeries',
     settings: 'settings',
     bottomTab: 'bottomTab',
     onboarding: 'onboarding',
@@ -146,9 +171,10 @@ export const BackHandlerEvents = {
 };
 
 export const AsyncStorageKeys = {
+    users: 'users',
+    genres: 'genres',
+    settings: 'settings',
     language: 'language',
-    favorites: 'favorites',
-    isFirstLaunch: 'isFirstLaunch',
 };
 
 export const DefaultSource = {
@@ -159,10 +185,14 @@ export const DefaultSource = {
 export const CarouselItemCountLimit = 20;
 
 export const PAGE = '&page=1';
-export const LANGUAGE = '?language=';
+export const QUERY = '&query=';
+export const LANGUAGE = '&language=';
+export const WITH_GENRE = '&with_genres=%S';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-export const API_KEY = '&api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+export const API_KEY = '?api_key=50b28e2f4f87a8e4935d3f87527e1e24';
+export const PrivacyPolicyUrl = 'https://shortly.film/terms-and-conditions-filmmaker/';
+export const TermsAndConditionsUrl = 'https://shortly.film/terms-and-conditions-filmmaker/';
 
 export const Endpoints = {
     // Home Page
@@ -176,8 +206,8 @@ export const Endpoints = {
     movieVideos: '/movie/%S/videos',
     movieCredits: '/movie/%S/credits',
 
-    // TV Shows Details
-    tvShowsDetails: '/tv/%S',
+    // TV Series Details
+    tvSeriesDetails: '/tv/%S',
     tvVideos: '/tv/%S/videos',
     tvCredits: '/tv/%S/credits',
 
@@ -185,6 +215,25 @@ export const Endpoints = {
     personDetails: '/person/%S',
     personTVCredits: '/person/%S/tv_credits',
     personMovieCredits: '/person/%S/movie_credits',
+
+    // Movie Page
+    movies: '/discover/movie',
+    searchMovie: '/search/movie',
+
+    // TV Series
+    onTheAir: '/tv/on_the_air',
+    popularTVSeries: '/tv/popular',
+    airingToDay: '/tv/airing_today',
+    topRatedSeries: '/tv/top_rated',
+
+    // Genres
+    genres: '/genre/movie/list',
+
+    // Similar Movies
+    similarMovies: '/movie/%S/similar',
+
+    // Similar TV Series
+    similarTVSeries: '/tv/%S/similar',
 };
 
 export const PromiseStatus = {
@@ -198,7 +247,65 @@ export const KnownForDepartment = {
 
 export const CreditType = {
     movie: 'movie',
-    tvShow: 'tvShow',
+    tvSeries: 'tvSeries',
 };
 
+export const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{9,})/;
+
 export const HomeScreenDataTitles = ['topRated', 'nowPlaying', 'popular', 'upcoming'];
+
+export const SeriesScreenDataTitles = [
+    'onTheAir',
+    'airingToDay',
+    'topRatedSeries',
+    'popularTVSeries',
+];
+
+export const Users = {
+    guest: {
+        email: 'guest',
+        isSignIn: false,
+        firstName: 'guest',
+        favorites: { movie: [], tvSeries: [] },
+    },
+};
+
+export const TextInputOptions = {
+    oneTimeCode: 'oneTimeCode',
+};
+
+export const AuthPageWords = {
+    guest: 'guest',
+    signIn: 'signIn',
+    signUp: 'signUp',
+    signOut: 'signOut',
+    enterEmail: 'enterEmail',
+    enterPassword: 'enterPassword',
+    enterLastName: 'enterLastName',
+    enterFirstName: 'enterFirstName',
+    invalidPassword: 'invalidPassword',
+    invalidEmailFormat: 'invalidEmailFormat',
+    accountAlreadyExists: 'accountAlreadyExists',
+    invalidEmailOrPassword: 'invalidEmailOrPassword',
+    errorOccurredDuringSignIn: 'errorOccurredDuringSignIn',
+    errorOccurredDuringSignUp: 'errorOccurredDuringSignUp',
+};
+
+export const FavoritePageWords = {
+    row: 'row',
+    keyOne: '-',
+    keyTwo: '+',
+    movie: 'movies',
+    remove: 'remove',
+    column: 'column',
+    series: 'series',
+    favorites: 'favorites',
+    viewDetails: 'viewDetails',
+    cardDisplayType: 'cardDisplayType',
+};
+
+export const ReturnKeyType = {
+    search: 'search',
+};

@@ -57,7 +57,7 @@ class Languages extends React.Component {
                     <View key={text} style={styles.languageButtonContent}>
                         <TouchableOpacity
                             delayPressIn={100}
-                            activeOpacity={0.5}
+                            activeOpacity={0.4}
                             style={styles.languageButton}
                             onPress={selectLanguage}>
                             {icon}

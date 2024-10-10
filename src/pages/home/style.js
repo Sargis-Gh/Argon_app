@@ -34,11 +34,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         backgroundColor: Styles.appBackground,
     },
+    standardFavoriteIcon: {
+        alignSelf: Styles.flexEnd,
+    },
     standardItem: {
         flex: 1,
         padding: 16,
         borderRadius: 28,
-        justifyContent: Styles.flexEnd,
+        justifyContent: Styles.spaceBetween,
     },
     nonStandardItem: {
         flex: 1,
@@ -62,6 +65,10 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
         backgroundColor: Styles.blackWithOpacity,
     },
+    nonStandardRatingFavorite: (hasRating) => ({
+        flexDirection: Styles.row,
+        justifyContent: (hasRating && Styles.spaceBetween) || Styles.flexEnd,
+    }),
     subTitle: {
         fontSize: 24,
         color: Styles.white,

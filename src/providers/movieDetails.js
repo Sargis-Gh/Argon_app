@@ -21,8 +21,14 @@ export const getData = async (id, type) => {
     }) || {
         videos: Endpoints.tvVideos,
         credits: Endpoints.tvCredits,
-        details: Endpoints.tvShowsDetails,
+        details: Endpoints.tvSeriesDetails,
     };
 
     return getDetails(endpoints, id);
+};
+
+export const getSimilarMovies = async (id, isMovie) => {
+    const endpoint = (isMovie && Endpoints.similarMovies) || Endpoints.similarTVSeries;
+    const response = await axios.get(buildApiUrl(endpoint, id));
+    return response?.data?.results;
 };
