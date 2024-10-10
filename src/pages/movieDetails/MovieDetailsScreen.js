@@ -284,10 +284,16 @@ class MovieDetailsScreen extends React.Component {
     };
 
     renderSimilarItem = ({ item }) => {
-        const { navigation } = this.props;
+        const {
+            navigation,
+            route: {
+                params: { type },
+            },
+        } = this.props;
         return (
             <SimilarItem
-                id={item?.id}
+                type={type}
+                id={item.id}
                 title={item?.title}
                 navigation={navigation}
                 date={item?.release_date}
