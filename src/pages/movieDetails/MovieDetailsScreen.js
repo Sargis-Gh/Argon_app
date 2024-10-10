@@ -10,6 +10,7 @@ import Divider from '../../components/divider/Divider';
 import PersonItem from './components/personItem/PersonItem';
 import { setFavorites } from '../../redux/action/userAction';
 import { apiErrorHandling } from '../../utils/errorHandlers';
+import { analyticsLogEvent } from '../../analytics/analytics';
 import SimilarItem from './components/similarItem/SimilarItem';
 import CustomImage from '../../components/customImage/CustomImage';
 import { getData, getSimilarMovies } from '../../providers/movieDetails';
@@ -27,6 +28,8 @@ import {
     PageName,
     CreditType,
     KnownForDepartment,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     LanguageLocalizationNSKey,
 } from '../../constants/constants';
 
@@ -101,7 +104,7 @@ class MovieDetailsScreen extends React.Component {
                         delayPressIn={100}
                         activeOpacity={0.4}
                         style={styles.playButton}
-                        onPress={() => this.setState({ playing: true })}>
+                        onPress={this.handlePlayButtonClick}>
                         <Icons.PlayCircle />
                     </TouchableOpacity>
                 )}
@@ -315,6 +318,14 @@ class MovieDetailsScreen extends React.Component {
             setFavorites,
             item: details,
             pageName: PageName.movieDetails,
+        });
+    };
+
+    handlePlayButtonClick = () => {
+        this.setState({ playing: true });
+        analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+            pageName: PageName.movieDetails,
+            description: AnalyticsDescriptions.play,
         });
     };
 
