@@ -34,16 +34,23 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         backgroundColor: Styles.appBackground,
     },
+    flatListItem: (isStandard) => ({
+        elevation: 5,
+        marginLeft: 16,
+        shadowRadius: 5,
+        borderRadius: 28,
+        shadowOpacity: 0.2,
+        marginVertical: 16,
+        shadowColor: Styles.white,
+        shadowOffset: { width: 0, height: 0 },
+        backgroundColor: Styles.appBackground,
+        width: DEVICE_SETTINGS.windowWidth - 64,
+        height: (isStandard && DEVICE_SETTINGS.windowWidth / 2) || 300,
+    }),
     standardFavoriteIcon: {
         alignSelf: Styles.flexEnd,
     },
-    standardItem: {
-        flex: 1,
-        padding: 16,
-        borderRadius: 28,
-        justifyContent: Styles.spaceBetween,
-    },
-    nonStandardItem: {
+    item: {
         flex: 1,
         padding: 16,
         borderRadius: 28,
@@ -71,8 +78,8 @@ const styles = StyleSheet.create({
     }),
     subTitle: {
         fontSize: 24,
+        paddingLeft: 16,
         color: Styles.white,
-        textAlign: Styles.center,
         fontFamily: Styles.openSans,
     },
     continue: {
@@ -103,6 +110,10 @@ const styles = StyleSheet.create({
     },
     listFooterComponent: {
         height: 50,
+    },
+    baseOptions: {
+        width: DEVICE_SETTINGS.windowWidth,
+        height: DEVICE_SETTINGS.windowWidth * 0.6,
     },
 });
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 
 import styles from './style';
-import { PageName } from '../../../../constants/constants';
 import CustomImage from '../../../../components/customImage/CustomImage';
+import { DefaultSource, PageName } from '../../../../constants/constants';
 
 import { navigationPush } from '../../../../navigation/navigation';
 
@@ -22,7 +22,11 @@ class PersonItem extends React.Component {
                 style={styles.personContainer}
                 onPress={() => navigationPush(navigation, PageName.personDetails, { id, title })}>
                 <View style={styles.personImageBackground}>
-                    <CustomImage style={styles.personImage} source={profilePath} />
+                    <CustomImage
+                        source={profilePath}
+                        style={styles.personImage}
+                        defaultSource={DefaultSource.person}
+                    />
                 </View>
                 {!!name && (
                     <View style={styles.nameContainer}>

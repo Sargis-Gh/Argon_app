@@ -9,14 +9,15 @@ import { getItem, setItem } from '../../utils/asyncStorage';
 import ResultItem from './components/resultItem/ResultItem';
 import { setFavorites } from '../../redux/action/userAction';
 import MovieItem from '../../components/movieItem/MovieItem';
+import { apiErrorHandling } from '../../utils/errorHandlers';
 import { getCurrentLanguage, t } from '../../localization/i18n';
-import { genericErrorHandling } from '../../utils/errorHandlers';
 import { favoritesFirst, isItemFavorite } from '../../utils/utils';
 import { getGenres, getMovies, searchMovies } from '../../providers/movies';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
     Styles,
+    PageName,
     AppWords,
     CreditType,
     ReturnKeyType,
@@ -47,7 +48,6 @@ class MoviesScreen extends React.Component {
 
     render() {
         const { loading, wrongData } = this.state;
-        if (loading) return <CustomActivityIndicator />;
         if (wrongData)
             return (
                 <WrongDataScreen navigationBar={false} clickRetryButton={this.clickRetryButton} />
@@ -57,7 +57,8 @@ class MoviesScreen extends React.Component {
             <View style={styles.container}>
                 {this.renderHeader()}
                 {!searchData.length && this.renderGenresList()}
-                {(searchData.length && this.renderResultContainer()) ||
+                {(loading && <CustomActivityIndicator />) ||
+                    (searchData.length && this.renderResultContainer()) ||
                     (notFound && this.renderNotFound()) ||
                     this.renderMovies()}
             </View>
@@ -98,16 +99,18 @@ class MoviesScreen extends React.Component {
             genres: { data },
         } = this.props;
         return (
-            <FlatList
-                horizontal
-                data={data}
-                style={styles.genresList}
-                key={FavoritePageWords.keyTwo}
-                keyExtractor={(item) => item.id}
-                showsHorizontalScrollIndicator={false}
-                ListFooterComponent={<View style={styles.lastElement} />}
-                renderItem={this.renderGenreItem}
-            />
+            <View style={styles.genresListContainer}>
+                <FlatList
+                    horizontal
+                    data={data}
+                    style={styles.genresList}
+                    key={FavoritePageWords.keyTwo}
+                    keyExtractor={(item) => item.id}
+                    showsHorizontalScrollIndicator={false}
+                    ListFooterComponent={<View style={styles.lastElement} />}
+                    renderItem={this.renderGenreItem}
+                />
+            </View>
         );
     };
 
@@ -164,6 +167,7 @@ class MoviesScreen extends React.Component {
                 navigation={navigation}
                 type={CreditType.movie}
                 isFavorite={isFavorite}
+                pageName={PageName.movies}
                 setFavorites={setFavorites}
             />
         );
@@ -241,7 +245,7 @@ class MoviesScreen extends React.Component {
             });
         } catch (error) {
             this.setState({ wrongData: true });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.movies);
         }
     };
 
@@ -263,7 +267,7 @@ class MoviesScreen extends React.Component {
             setItem(AsyncStorageKeys.genres, { data, language: currentLanguage });
             return data[0]?.id;
         } catch (error) {
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.movies);
         }
     };
 
@@ -281,7 +285,7 @@ class MoviesScreen extends React.Component {
             });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.movies);
         }
     };
 }

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     movieContainer: (isMovie) => ({
         marginTop: 4,
         elevation: 4,
-        shadowRadius: 4,
+        shadowRadius: 2,
         marginRight: 16,
         marginBottom: 12,
         borderRadius: 12,

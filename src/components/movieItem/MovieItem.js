@@ -48,8 +48,15 @@ class MovieItem extends React.Component {
     }
 
     handleFavoriteButtonClick = () => {
-        const { email, setFavorites, item, type, isFavorite } = this.props;
-        changeFavoriteStatus(item, type, email, isFavorite, setFavorites);
+        const { email, setFavorites, item, type, isFavorite, pageName } = this.props;
+        changeFavoriteStatus({
+            item,
+            type,
+            email,
+            pageName,
+            isFavorite,
+            setFavorites,
+        });
     };
 
     openMovieDetails = () => {
