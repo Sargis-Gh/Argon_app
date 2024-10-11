@@ -35,8 +35,10 @@ const styles = StyleSheet.create({
         fontFamily: Styles.openSans,
         fontWeight: Styles.fontWeightRegular,
     },
-    genresList: {
+    genresListContainer: {
         height: 40,
+    },
+    genresList: {
         marginBottom: 8,
         marginHorizontal: 16,
         backgroundColor: Styles.appBackground,
@@ -49,6 +51,7 @@ const styles = StyleSheet.create({
     },
     genreItem: {
         rowGap: 4,
+        height: 40,
         marginRight: 20,
     },
     genreItemText: (isCurrent) => ({

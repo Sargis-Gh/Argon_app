@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity, View, Text, FlatList } from 'react-native';
+import Carousel from 'react-native-reanimated-carousel';
+import { TouchableOpacity, View, Text, ScrollView, FlatList } from 'react-native';
 
 import styles from './style';
 import { t } from '../../localization/i18n';
@@ -8,9 +9,9 @@ import { Icons } from '../../constants/Icons';
 import { getHomeData } from '../../providers/home';
 import { apiErrorHandling } from '../../utils/errorHandlers';
 import { setFavorites } from '../../redux/action/userAction';
+import MovieItem from '../../components/movieItem/MovieItem';
 import { analyticsLogEvent } from '../../analytics/analytics';
 import CustomImage from '../../components/customImage/CustomImage';
-import CustomCarousel from '../../components/customCarousel/CustomCarousel';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
 import {
@@ -20,9 +21,9 @@ import {
     changeFavoriteStatus,
 } from '../../utils/utils';
 import {
+    Styles,
     PageName,
     CreditType,
-    HomeScreenDataTitles,
     AnalyticsLogEventName,
     AnalyticsDescriptions,
     LanguageLocalizationNSKey,
@@ -53,13 +54,14 @@ class HomeScreen extends React.Component {
         return (
             <View style={styles.container}>
                 {this.renderHeader(navigation)}
-                <FlatList
-                    data={data}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item?.title}
-                    ListFooterComponent={<View style={styles.listFooterComponent} />}
-                    renderItem={this.renderCarousel}
-                />
+                {data.length && (
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        {this.renderCarousel(data[0])}
+                        {data.slice(1, 4).map((item, index) => (
+                            <View key={item.id || index}>{this.renderFlatList(item)}</View>
+                        ))}
+                    </ScrollView>
+                )}
             </View>
         );
     }
@@ -76,41 +78,64 @@ class HomeScreen extends React.Component {
         </View>
     );
 
-    renderCarousel = ({ item }) => {
+    renderCarousel = (item) => {
         const {
             navigation,
             user: {
                 favorites: { movie },
             },
         } = this.props;
-        const isStandard = HomeScreenDataTitles[1] !== item?.title;
         const data = favoritesFirst(getUniqueElements(item?.data), movie);
-        const renderItem = (isStandard && this.renderStandardItem) || this.renderNonStandardItem;
         return (
-            <CustomCarousel
+            <Carousel
                 data={data}
-                title={item?.title}
-                navigation={navigation}
-                isStandard={isStandard}
-                renderItem={renderItem}
+                loop={false}
+                autoFillData={false}
+                pagingEnabled={true}
+                mode={Styles.parallax}
+                {...styles.baseOptions}
+                panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+                renderItem={this.renderStandardItem}
             />
         );
     };
 
-    renderStandardItem = ({ item }) => {
+    renderFlatList = (item) => {
+        const { data } = this.state;
+        const renderItem =
+            (item?.title === data[1]?.title && this.renderNonStandardItem) ||
+            this.renderStandardItem;
+        return (
+            <>
+                <Text style={styles.subTitle}>
+                    {t(item.title, LanguageLocalizationNSKey.common)}
+                </Text>
+                <FlatList
+                    horizontal
+                    data={getUniqueElements(item.data)}
+                    keyExtractor={(item) => item?.title}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={(item) => renderItem(item, true)}
+                />
+            </>
+        );
+    };
+
+    renderStandardItem = ({ item }, isFlatListItem) => {
         const {
             user: {
                 favorites: { movie },
             },
         } = this.props;
         const isFavorite = isItemFavorite(movie, item?.id);
+        const style = (isFlatListItem && styles.flatListItem(true)) || styles.carouselItem;
         return (
             <TouchableOpacity
+                style={style}
                 activeOpacity={1}
                 delayPressIn={100}
-                style={styles.carouselItem}
                 onPress={() => this.openMovieDetails(item?.id, false)}>
-                <CustomImage source={item?.backdrop_path} style={styles.standardItem}>
+                <CustomImage source={item?.backdrop_path} style={styles.item}>
                     <TouchableOpacity
                         delayPressIn={100}
                         activeOpacity={0.4}
@@ -149,9 +174,9 @@ class HomeScreen extends React.Component {
             <TouchableOpacity
                 activeOpacity={1}
                 delayPressIn={100}
-                style={styles.carouselItem}
+                style={styles.flatListItem(false)}
                 onPress={() => this.openMovieDetails(item?.id, false)}>
-                <CustomImage source={item?.backdrop_path} style={styles.nonStandardItem}>
+                <CustomImage source={item?.backdrop_path} style={styles.item}>
                     <View style={styles.nonStandardRatingFavorite(item?.vote_average)}>
                         {!!item?.vote_average && (
                             <View style={styles.rating}>

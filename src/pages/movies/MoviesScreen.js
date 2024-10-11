@@ -48,7 +48,6 @@ class MoviesScreen extends React.Component {
 
     render() {
         const { loading, wrongData } = this.state;
-        if (loading) return <CustomActivityIndicator />;
         if (wrongData)
             return (
                 <WrongDataScreen navigationBar={false} clickRetryButton={this.clickRetryButton} />
@@ -58,7 +57,8 @@ class MoviesScreen extends React.Component {
             <View style={styles.container}>
                 {this.renderHeader()}
                 {!searchData.length && this.renderGenresList()}
-                {(searchData.length && this.renderResultContainer()) ||
+                {(loading && <CustomActivityIndicator />) ||
+                    (searchData.length && this.renderResultContainer()) ||
                     (notFound && this.renderNotFound()) ||
                     this.renderMovies()}
             </View>
@@ -99,16 +99,18 @@ class MoviesScreen extends React.Component {
             genres: { data },
         } = this.props;
         return (
-            <FlatList
-                horizontal
-                data={data}
-                style={styles.genresList}
-                key={FavoritePageWords.keyTwo}
-                keyExtractor={(item) => item.id}
-                showsHorizontalScrollIndicator={false}
-                ListFooterComponent={<View style={styles.lastElement} />}
-                renderItem={this.renderGenreItem}
-            />
+            <View style={styles.genresListContainer}>
+                <FlatList
+                    horizontal
+                    data={data}
+                    style={styles.genresList}
+                    key={FavoritePageWords.keyTwo}
+                    keyExtractor={(item) => item.id}
+                    showsHorizontalScrollIndicator={false}
+                    ListFooterComponent={<View style={styles.lastElement} />}
+                    renderItem={this.renderGenreItem}
+                />
+            </View>
         );
     };
 

@@ -6,13 +6,13 @@ import { DefaultSource } from '../../constants/constants';
 
 class CustomImage extends React.Component {
     render() {
-        const { source, style, children } = this.props;
+        const { source, style, children, defaultSource } = this.props;
         return (
             <FastImage
                 style={style}
-                defaultSource={DefaultSource.film}
                 source={{ uri: buildImageUrl(source) }}
-                resizeMode={FastImage.resizeMode.cover}>
+                resizeMode={FastImage.resizeMode.cover}
+                defaultSource={(defaultSource && defaultSource) || DefaultSource.film}>
                 {children}
             </FastImage>
         );

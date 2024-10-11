@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         fontFamily: Styles.openSans,
     },
     footer: {
-        height: 100,
+        height: 50,
     },
     playButton: {
         width: 50,

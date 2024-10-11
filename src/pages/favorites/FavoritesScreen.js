@@ -198,16 +198,24 @@ class FavoritesScreen extends React.Component {
         const renderItem =
             (favoriteIsRowView && this.renderSwipeFavoriteItem) || this.renderFavoriteItem;
         return (
-            <FlatList
-                key={key}
-                numColumns={numColumns}
-                showsVerticalScrollIndicator={false}
-                data={getUniqueElements(data, false)}
-                keyExtractor={(item) => key + item.id}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.contentContainerStyle(favoriteIsRowView)}
-                renderItem={renderItem}
-            />
+            (data?.length && (
+                <FlatList
+                    key={key}
+                    numColumns={numColumns}
+                    showsVerticalScrollIndicator={false}
+                    data={getUniqueElements(data, false)}
+                    keyExtractor={(item) => key + item.id}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.contentContainerStyle(favoriteIsRowView)}
+                    renderItem={renderItem}
+                />
+            )) || (
+                <View style={styles.emptyFavoritesContainer}>
+                    <Text style={styles.noFavoritesText}>
+                        {t('noFavoritesYet', LanguageLocalizationNSKey.common)}
+                    </Text>
+                </View>
+            )
         );
     };
 
