@@ -1,5 +1,7 @@
 import { getItem, setItem } from './asyncStorage';
 import { getCurrentLanguage } from '../localization/i18n';
+import { crashlyticsSetUserId } from '../crashlytics/crashlytics';
+import { analyticsLogEvent, analyticsSetUserId } from '../analytics/analytics';
 import {
     PAGE,
     QUERY,
@@ -10,6 +12,8 @@ import {
     WITH_GENRE,
     IMAGE_BASE_URL,
     AsyncStorageKeys,
+    AnalyticsLogEventName,
+    AnalyticsDescriptions,
     CarouselItemCountLimit,
 } from '../constants/constants';
 
@@ -73,11 +77,15 @@ export const getLaunchDetails = async (setUser) => {
     }
     const user = Object.values(users)?.find((item) => item?.isSignIn);
     if (!user) {
-        setUser(users.guest);
+        setUser(users?.guest);
+        analyticsSetUserId(users?.guest?.email);
+        crashlyticsSetUserId(users?.guest?.email);
         return { isFirstLaunch: false, isSignIn: false };
     }
-    mergeFavorites(users, user.email);
+    mergeFavorites(users, user?.email);
     setUser(user);
+    analyticsSetUserId(user.email);
+    crashlyticsSetUserId(user?.email);
     return { isFirstLaunch: false, isSignIn: true };
 };
 
@@ -91,7 +99,14 @@ export const foundUser = async (email, password) => {
     return user;
 };
 
-export const changeFavoriteStatus = async (item, type, email, isFavorite, setFavorites) => {
+export const changeFavoriteStatus = async ({
+    item,
+    type,
+    email,
+    pageName,
+    isFavorite,
+    setFavorites,
+}) => {
     const users = await getItem(AsyncStorageKeys.users);
     const favorites = users[email]?.favorites;
     if (isFavorite) {
@@ -110,6 +125,12 @@ export const changeFavoriteStatus = async (item, type, email, isFavorite, setFav
     }
     setFavorites(favorites);
     setItem(AsyncStorageKeys.users, users);
+    analyticsLogEvent(AnalyticsLogEventName.buttonClick, {
+        pageName,
+        description:
+            (isFavorite && AnalyticsDescriptions.removeFavorite) ||
+            AnalyticsDescriptions.addFavorite,
+    });
 };
 
 export const isItemFavorite = (data, id) => !!data.find((item) => id === item?.id);

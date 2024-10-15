@@ -7,8 +7,8 @@ import { t } from '../../localization/i18n';
 import { Icons } from '../../constants/Icons';
 import { getUniqueElements } from '../../utils/utils';
 import Divider from '../../components/divider/Divider';
+import { apiErrorHandling } from '../../utils/errorHandlers';
 import { getPersonDetails } from '../../providers/personDetails';
-import { genericErrorHandling } from '../../utils/errorHandlers';
 import CustomImage from '../../components/customImage/CustomImage';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
 import CustomActivityIndicator from '../../components/activityIndicator/CustomActivityIndicator';
@@ -199,7 +199,7 @@ class PersonDetailsScreen extends React.Component {
             this.setState({ person, tvCredits, movieCredits, loading: false, wrongData: false });
         } catch (error) {
             this.setState({ wrongData: true, loading: false });
-            genericErrorHandling(error);
+            apiErrorHandling(error, PageName.personDetails);
         }
     };
 }

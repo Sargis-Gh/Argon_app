@@ -9,7 +9,6 @@ export const ReduxTypes = {
 };
 
 export const PageName = {
-    qr: 'QR',
     home: 'Home',
     auth: 'Auth',
     movies: 'Movies',
@@ -24,7 +23,7 @@ export const PageName = {
     movieDetails: 'MovieDetails',
     personDetails: 'PersonDetails',
     privacyPolicy: 'Privacy Policy',
-    termsAndConditions: 'TermsAndConditions',
+    termsAndConditions: 'Terms & Conditions',
 };
 
 export const Styles = {
@@ -64,7 +63,7 @@ export const Styles = {
     lightBackground: 'rgb(40, 40, 40)',
     textInputGrey: 'rgb(173, 181, 189)',
     signInButtonColor: 'rgb(27, 88, 135)',
-    blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
+    blackWithOpacity: 'rgba(0, 0, 0, 0.4)',
     bottomContainerColor: 'rgb(244, 245, 247)',
     greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
     containerBackgroundColor: 'rgb(240, 239, 244)',
@@ -111,6 +110,7 @@ export const Styles = {
 };
 
 export const AppWords = {
+    page: 'Page',
     guest: 'guest',
     focus: 'focus',
     ended: 'ended',
@@ -282,6 +282,7 @@ export const AuthPageWords = {
     signUp: 'signUp',
     signOut: 'signOut',
     enterEmail: 'enterEmail',
+    createAccount: 'createAccount',
     enterPassword: 'enterPassword',
     enterLastName: 'enterLastName',
     enterFirstName: 'enterFirstName',
@@ -308,4 +309,30 @@ export const FavoritePageWords = {
 
 export const ReturnKeyType = {
     search: 'search',
+};
+
+export const CrashlyticsErrorNames = {
+    apiError: 'api_error',
+    genericError: 'generic_error',
+    crashlyticsErrorBoundary: 'error_boundary',
+};
+
+export const AnalyticsLogEventName = {
+    openPage: 'open_page',
+    buttonClick: 'button_click',
+};
+
+export const AnalyticsDescriptions = {
+    play: 'Play',
+    close: 'Close',
+    signIn: 'Sign In',
+    details: 'Details',
+    addFavorite: 'Add Favorite',
+    readeToPlay: 'Ready To Play',
+    createAccount: 'Create Account',
+    removeFavorite: 'Remove Favorite',
+    languageRu: 'Language From %S To RU',
+    languageEn: 'Language From %S To EN',
+    cardDisplayTypeRow: 'Card Display Type Column To Row',
+    cardDisplayTypeColumn: 'Card Display Type Row To Column',
 };

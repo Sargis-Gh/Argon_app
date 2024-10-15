@@ -12,14 +12,21 @@ const styles = StyleSheet.create({
     headerContainer: {
         ...Styles.contentCenter,
     },
-    backIcon: {
-        top: 16,
-        left: 16,
-        width: 36,
-        aspectRatio: 1,
-        borderRadius: 20,
-        ...Styles.contentCenter,
+    headerButtonsContainer: {
+        top: 0,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        width: Styles.fullSize,
         position: Styles.absolute,
+        flexDirection: Styles.row,
+        alignItems: Styles.center,
+        justifyContent: Styles.spaceBetween,
+        backgroundColor: Styles.blackWithOpacity,
+    },
+    backIcon: {
+        padding: 8,
+        aspectRatio: 1,
+        ...Styles.contentCenter,
     },
     image: {
         height: 225,
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
         fontFamily: Styles.openSans,
     },
     footer: {
-        height: 100,
+        height: 50,
     },
     playButton: {
         width: 50,
@@ -110,11 +117,6 @@ const styles = StyleSheet.create({
         ...Styles.contentCenter,
         position: Styles.absolute,
         backgroundColor: Styles.blackWithOpacity,
-    },
-    favoriteButton: {
-        top: 16,
-        right: 16,
-        position: Styles.absolute,
     },
 });
 

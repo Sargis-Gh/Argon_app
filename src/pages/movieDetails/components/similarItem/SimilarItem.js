@@ -14,7 +14,7 @@ class SimilarItem extends React.Component {
     }
 
     render() {
-        const { navigation, id, source, title, date } = this.props;
+        const { navigation, id, source, title, date, type } = this.props;
         return (
             <TouchableOpacity
                 activeOpacity={1}
@@ -23,7 +23,7 @@ class SimilarItem extends React.Component {
                 onPress={() => {
                     navigationPush(navigation, PageName.movieDetails, {
                         id,
-                        type: CreditType.movie,
+                        type: type,
                     });
                 }}>
                 <CustomImage source={source} style={styles.image} />

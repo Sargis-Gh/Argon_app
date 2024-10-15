@@ -1,4 +1,3 @@
-import QRIcon from '../assets/icons/qr';
 import Mail from '../assets/icons/mail';
 import Apps from '../assets/icons/apps';
 import Play from '../assets/icons/play';
@@ -51,7 +50,6 @@ export const Icons = {
     Error,
     Right,
     LogOut,
-    QRIcon,
     Person,
     Search,
     Russia,

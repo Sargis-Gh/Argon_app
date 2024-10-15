@@ -19,6 +19,7 @@
     "nowPlaying": "Now Playing",
     "releaseDate": "Release Date",
     "relatedMovies": "Related Movies",
+    "noFavoritesYet": "No favorites yet.",
     "cardDisplayType": "Card display type",
     "termsAndConditions": "Terms & Condition",
     "errorMessageHeader": "Something went wrong",

@@ -172,6 +172,16 @@ const styles = StyleSheet.create({
     button: (isRow) => ({
         alignSelf: (isRow && Styles.flexEnd) || Styles.flexStart,
     }),
+    emptyFavoritesContainer: {
+        flex: 1,
+        ...Styles.contentCenter,
+    },
+    noFavoritesText: {
+        fontSize: 18,
+        lineHeight: 19,
+        color: Styles.white,
+        fontFamily: Styles.openSans,
+    },
 });
 
 export default styles;
