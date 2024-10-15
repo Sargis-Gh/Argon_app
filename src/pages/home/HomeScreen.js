@@ -9,7 +9,6 @@ import { Icons } from '../../constants/Icons';
 import { getHomeData } from '../../providers/home';
 import { apiErrorHandling } from '../../utils/errorHandlers';
 import { setFavorites } from '../../redux/action/userAction';
-import MovieItem from '../../components/movieItem/MovieItem';
 import { analyticsLogEvent } from '../../analytics/analytics';
 import CustomImage from '../../components/customImage/CustomImage';
 import WrongDataScreen from '../../components/wrongDataScreen/WrongDataScreen';
@@ -55,7 +54,9 @@ class HomeScreen extends React.Component {
             <View style={styles.container}>
                 {this.renderHeader(navigation)}
                 {data.length && (
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        disableScrollViewPanResponder={true}>
                         {this.renderCarousel(data[0])}
                         {data.slice(1, 4).map((item, index) => (
                             <View key={item.id || index}>{this.renderFlatList(item)}</View>

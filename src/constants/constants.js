@@ -63,7 +63,7 @@ export const Styles = {
     lightBackground: 'rgb(40, 40, 40)',
     textInputGrey: 'rgb(173, 181, 189)',
     signInButtonColor: 'rgb(27, 88, 135)',
-    blackWithOpacity: 'rgba(0, 0, 0, 0.5)',
+    blackWithOpacity: 'rgba(0, 0, 0, 0.4)',
     bottomContainerColor: 'rgb(244, 245, 247)',
     greyWithOpacity: 'rgba(218, 218, 218, 0.3)',
     containerBackgroundColor: 'rgb(240, 239, 244)',

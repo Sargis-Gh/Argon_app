@@ -54,6 +54,7 @@ class SeriesScreen extends React.Component {
                 data={data}
                 style={styles.tvSeriesContainer}
                 showsVerticalScrollIndicator={false}
+                disableScrollViewPanResponder={true}
                 ListFooterComponent={<View style={styles.footer} />}
                 renderItem={this.renderList}
             />
