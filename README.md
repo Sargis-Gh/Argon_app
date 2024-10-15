@@ -18,11 +18,6 @@ A mobile application built with React Native that allows users to explore movies
 - Multilingual support for a wider audience.
 - Smooth and responsive user interface.
 
-## Screenshots
-
-![Home Screen](path/to/home_screen.png)
-![Movie Details Screen](path/to/movie_details_screen.png)
-
 ## Installation
 
 To run this app locally, follow these steps:
