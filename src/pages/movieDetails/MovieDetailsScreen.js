@@ -70,16 +70,22 @@ class MovieDetailsScreen extends React.Component {
             );
         const { trailer, details, credits } = this.state;
         return (
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {this.renderHeader(details, trailer, navigation)}
-                {this.renderAboutMovie(credits, navigation, details)}
-            </ScrollView>
+            <>
+                <ScrollView
+                    style={styles.container}
+                    showsVerticalScrollIndicator={false}
+                    disableScrollViewPanResponder={true}>
+                    {this.renderHeader(details, trailer, navigation)}
+                    {this.renderAboutMovie(credits, navigation, details)}
+                </ScrollView>
+            </>
         );
     }
 
-    renderHeader = (details, trailer, navigation) => {
+    renderHeader = (details, trailer) => {
         const { playing } = this.state;
         const {
+            navigation,
             user: { favorites },
             route: {
                 params: { id, type },
@@ -92,13 +98,21 @@ class MovieDetailsScreen extends React.Component {
                     (!!details?.poster_path && (
                         <CustomImage source={details?.backdrop_path} style={styles.image} />
                     ))}
-                <TouchableOpacity
-                    delayPressIn={100}
-                    activeOpacity={0.4}
-                    style={styles.backIcon}
-                    onPress={() => navigationGoBack(navigation)}>
-                    <Icons.Left fill={Styles.white} />
-                </TouchableOpacity>
+                <View style={styles.headerButtonsContainer}>
+                    <TouchableOpacity
+                        delayPressIn={100}
+                        activeOpacity={0.4}
+                        style={styles.backIcon}
+                        onPress={() => navigationGoBack(navigation)}>
+                        <Icons.Left fill={Styles.white} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        delayPressIn={100}
+                        activeOpacity={0.4}
+                        onPress={this.handleFavoriteButtonClick}>
+                        {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
+                    </TouchableOpacity>
+                </View>
                 {!playing && !!trailer?.key && !!details?.poster_path && (
                     <TouchableOpacity
                         delayPressIn={100}
@@ -108,13 +122,6 @@ class MovieDetailsScreen extends React.Component {
                         <Icons.PlayCircle />
                     </TouchableOpacity>
                 )}
-                <TouchableOpacity
-                    delayPressIn={100}
-                    activeOpacity={0.4}
-                    style={styles.favoriteButton}
-                    onPress={this.handleFavoriteButtonClick}>
-                    {(isFavorite && <Icons.Favorite />) || <Icons.NotFavorite />}
-                </TouchableOpacity>
             </View>
         );
     };

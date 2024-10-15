@@ -19,11 +19,9 @@ const styles = StyleSheet.create({
         justifyContent: Styles.spaceBetween,
     },
     backIcon: {
-        width: 40,
-        margin: 16,
-        aspectRatio: 1,
-        borderRadius: 20,
-        ...Styles.contentCenter,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: Styles.blackWithOpacity,
     },
     name: {
         fontSize: 30,
