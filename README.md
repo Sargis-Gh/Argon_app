@@ -5,7 +5,6 @@ A mobile application built with React Native that allows users to explore movies
 ## Table of Contents
 
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Learn More](#learn-more)
